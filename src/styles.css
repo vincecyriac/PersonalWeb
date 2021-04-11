@@ -1,18 +1,40 @@
-*{
-    margin: 0;
-    box-sizing: border-box;
+* {
+  margin: 0;
+  box-sizing: border-box;
 }
-body{
-    background-color: #ffffff!important;
+
+body {
+  /* background-color: #ffffff !important; */
+  background-image: url(./assets/bg/bg1.png);
 }
-.RouteOutlet{
-    height: 100vh;  
+
+.RouteOutlet {
+  height: 92vh;
 }
-.row{
-    margin: 0 !important;
+
+.row {
+  margin: 0 !important;
 }
-.nav-bar{
-    z-index: 1000;
-    height: 5vh;
-    line-height: 5vh;
+
+.nav-bar {
+  height: 8vh;
+  line-height: 8vh;
+}
+
+.nav-bar a {
+
+  text-decoration: none !important;
+  padding: 0rem .7rem 0rem .7rem;
+  font-family: Poppins;
+  color: rgb(141, 141, 141);
+  text-transform: uppercase;
+  -webkit-transition: color  .6s ease-out;
+  -moz-transition: color .6s ease-out;
+  -o-transition: color .6s ease-out;
+  transition: color .6s ease-out
+  
+}
+
+.nav-bar a:hover {
+  color: rgb(255, 83, 83);
 }

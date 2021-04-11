@@ -1,5 +1,5 @@
 .page_404 {
-  background: #fff;
+  background: #ffffff;
   font-family: 'Arvo', serif;
   height: 95vh;
   display: flex;
@@ -13,6 +13,7 @@
 .four_zero_four_bg {
 
   background-image: url(https://cdn.dribbble.com/users/285475/screenshots/2083086/dribbble_1.gif);
+  /* background-image: url(../../assets/giphy.gif); */
   height: 50vh;
   background-position: center;
   background-repeat: no-repeat;
