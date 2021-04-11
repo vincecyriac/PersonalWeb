@@ -1,0 +1,18 @@
+*{
+    margin: 0;
+    box-sizing: border-box;
+}
+body{
+    background-color: #ffffff!important;
+}
+.RouteOutlet{
+    height: 100vh;  
+}
+.row{
+    margin: 0 !important;
+}
+.nav-bar{
+    z-index: 1000;
+    height: 5vh;
+    line-height: 5vh;
+}

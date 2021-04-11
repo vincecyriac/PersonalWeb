@@ -7,6 +7,7 @@ import { HomeComponent } from './home/home.component';
 import { AboutComponent } from './about/about.component';
 import { ContactComponent } from './contact/contact.component';
 import { NotfoundComponent } from './notfound/notfound.component';
+import { NgScrollbarModule, NG_SCROLLBAR_OPTIONS } from 'ngx-scrollbar';
 
 @NgModule({
   declarations: [
@@ -18,9 +19,19 @@ import { NotfoundComponent } from './notfound/notfound.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    NgScrollbarModule
   ],
-  providers: [],
+  providers: [
+    {
+     provide: NG_SCROLLBAR_OPTIONS,
+      useValue: {
+        scrollAuditTime: 20,
+        visibility: "hover",
+        compact: true
+      }
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -4,6 +4,7 @@
   "compilerOptions": {
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
+    "allowJs": true,
     "sourceMap": true,
     "declaration": false,
     "downlevelIteration": true,
