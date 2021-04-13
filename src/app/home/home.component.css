@@ -22,6 +22,8 @@
   margin-left: auto;
   margin-right: auto;
   height: 30vh;
+  animation: fadeIn;
+  animation-duration: 3s;
 }
 
 .home-content .name {
@@ -32,6 +34,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  animation: fadeIn;
+  animation-duration: 3s;
+  /* animation-delay: 2s; */
 }
 
 .home-content .designation {
@@ -42,12 +47,16 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  animation: fadeIn;
+  animation-duration: 3s;
 }
 .home-content .social{
-  margin: 13px 13px 30px 13px;
+  margin: 13px 13px 10vh 13px;
   display: flex;
   justify-content: center;
   align-items: center;
+  animation: fadeIn;
+  animation-duration: 3s;
 }
 
 i {
@@ -164,6 +173,8 @@ span {
   border-radius: 25px;
   max-width: 850px;
   border: 1px solid #F1F1F1;
+  animation: fadeIn;
+  animation-duration: 3s;
 }
 
 
