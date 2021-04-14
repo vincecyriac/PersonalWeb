@@ -10,7 +10,9 @@
 
 body {
   /* background-color: #ffffff !important; */
-  background-image: url(./assets/bg/bg1.png);
+  background-image: url(./assets/bg/bg2.png); 
+  background-size: cover;
+  background-position-x: left;
 }
 
 .RouteOutlet {
