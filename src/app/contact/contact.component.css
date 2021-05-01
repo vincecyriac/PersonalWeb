@@ -1,4 +1,72 @@
-#contact{
-    height: 100%;
-    margin: 0;
+#contact {
+  margin: 0;
+  height: calc(100vh - 70px);
 }
+
+.contact-content{
+  min-height: calc(100vh - 70px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.contact-elem{
+  padding: 20px;
+  width: 100%;
+}
+.celem-data{
+  padding: 15px;
+  font-family: "poppins";
+  box-shadow: 0px 7px 16px rgb(0 0 0 / 12%);
+  background-color: #fff;
+  border-radius: 25px;
+  border: 1px solid #F1F1F1;
+  height: auto;
+  letter-spacing: 1px;
+}
+.celem-data-icon{
+  padding: 10px;
+}
+.celem-data-title{
+  padding: 7px;
+}
+.celem-data-detail{
+  padding: 0px;  
+}
+.celem-data-icon i{
+  background-color: #e9204f;
+  height: 70px;
+  width: 70px;
+  font-size: 35px;
+  color: #fff;
+  line-height: 70px;
+  border-radius: 50%;
+}
+
+.celem-data-title span{
+  font-size: large;
+  font-weight: bold;
+  color: rgb(141, 141, 141);
+}
+
+.celem-data-detail span{
+  font-size: large;
+  font-weight: bold;
+  color: rgb(87, 87, 87);
+}
+
+
+.form-field input{
+  width: 100%;
+  height: 50px;
+  margin: 10px 0 10px 0;
+}
+
+.form-field textarea{
+  width: 100%;
+  height: 200px;
+  margin: 10px 0 10px 0;
+}
+
+/* .form-field input:focus{
+  border: none !important;
+} */

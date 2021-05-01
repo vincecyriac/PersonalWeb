@@ -1,5 +1,5 @@
 #home {
-  height: 100%;
+  height: calc(100vh - 70px);
   background-repeat: no-repeat;
   background-position: center;
   background-clip: content-box;

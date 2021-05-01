@@ -10,6 +10,10 @@ export class HomeComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    document.getElementById('HOME-BTN').style.color="#e9204f";
+  }
+  ngOnDestroy(){
+    document.getElementById('HOME-BTN').style.color="rgb(141, 141, 141)";
   }
 
 }
