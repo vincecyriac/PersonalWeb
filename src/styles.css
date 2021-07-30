@@ -9,8 +9,9 @@
 }
 
 body {
-  background-image: url(./assets/bg/bg2.png); 
-  background-size: cover;
+  background-image: url(./assets/bg/bg2.png);
+  background-repeat: repeat; 
+  background-size:50%;
   background-position-x: left;
 }
 /* .loader{
