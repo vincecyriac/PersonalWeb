@@ -1,9 +1,32 @@
 {
-   "posts": [
-     { "id": 1, "title": "json-server", "author": "typicode" }
-   ],
-   "comments": [
-     { "id": 1, "body": "some comment", "postId": 1 }
-   ],
-   "profile": { "name": "typicode" }
- }
+   "news" : [
+    {
+       "update": "Mioram:\n220 new recoveries\n\nNagaland:\n5 new confirmed cases\n12 new recoveries\n\nOdisha:\n410 new recoveries\n\nRajasthan:\n2 new confirmed cases\n3 new recoveries\n\nUttar Pradesh:\n1 new recoveries\n\n",
+       "timestamp": 1635103034
+    },
+    {
+       "update": "Uttar Pradesh:\n13 new confirmed cases\n1 new recoveries\n\n",
+       "timestamp": 1635106860
+    },
+    {
+       "update": "Himachal Pradesh:\n3 new confirmed cases\n104 new recoveries\n\nUttar Pradesh:\n2 new confirmed cases\n2 new recoveries\n\n",
+       "timestamp": 1635107763
+    },
+    {
+       "update": "Himachal Pradesh:\n66 new confirmed cases\n45 new recoveries\n2 new deaths\n\nJharkhand:\n35 new confirmed cases\n13 new recoveries\n\nLadakh:\n5 new confirmed cases\n6 new recoveries\n\nPunjab:\n20 new confirmed cases\n22 new recoveries\n\n",
+       "timestamp": 1635146482
+    },
+    {
+       "update": "Andhra Pradesh:\n295 new confirmed cases\n560 new recoveries\n7 new deaths\n\nWest Bengal:\n805 new confirmed cases\n807 new recoveries\n11 new deaths\n\n",
+       "timestamp": 1635169217
+    },
+    {
+       "update": "Kerala:\n6664 new confirmed cases\n9010 new recoveries\n281 new deaths\n\nTamil Nadu:\n1112 new confirmed cases\n1341 new recoveries\n14 new deaths\n\nTelangana:\n179 new confirmed cases\n104 new recoveries\n2 new deaths\n\nTripura:\n5 new confirmed cases\n8 new recoveries\n\nUttarakhand:\n11 new confirmed cases\n16 new recoveries\n\n",
+       "timestamp": 1635169884
+    },
+    {
+       "update": "Delhi:\n27 new confirmed cases\n40 new recoveries\n\nGoa:\n29 new confirmed cases\n59 new recoveries\n\nJammu and Kashmir:\n60 new confirmed cases\n90 new recoveries\n1 new deaths\n\nManipur:\n41 new confirmed cases\n84 new recoveries\n2 new deaths\n\nMeghalaya:\n13 new confirmed cases\n65 new recoveries\n\nMizoram:\n158 new confirmed cases\n469 new recoveries\n1 new deaths\n\nOdisha:\n425 new confirmed cases\n360 new recoveries\n3 new deaths\n\nPuducherry:\n30 new confirmed cases\n43 new recoveries\n\nSikkim:\n4 new confirmed cases\n23 new recoveries\n\n",
+       "timestamp": 1635171821
+    }
+ ]
+}
