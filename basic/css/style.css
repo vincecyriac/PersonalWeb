@@ -292,7 +292,7 @@ h6{
 .profile-image {
     margin-top: -18px;
     -webkit-clip-path: polygon(0 9%, 100% 0, 100% 94%, 0% 100%);
-    clip-path: polygon(0 9%, 100% 0, 100% 94%, 0% 100%);
+    clip-path: polygon(0 9%, 100% 0, 100% 91%, 0% 100%);
 }
 
 .profile-image img{
@@ -890,8 +890,8 @@ footer .footer .copyright a:hover{
 .shadow-section{
     background-color: #ffffff;
     border-radius: 10px;
-    margin: 0 0 10px 0;
-    box-shadow: 0px 7px 16px rgb(0 0 0 / 12%);
+    margin: 0 0 13px 0;
+    box-shadow: 0px 7px 16px rgb(0 0 0 / 35%);
 }
 
 .social-icons a{
