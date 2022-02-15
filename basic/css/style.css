@@ -389,7 +389,7 @@ ul.profile-information li:first-child:after{
 
 .social-icons a {
     color: #000;
-    font-size: 12px;
+    font-size: 15px;
     transition: all ease 0.2s;
     width: 24px;
     height: 18px;
@@ -892,4 +892,13 @@ footer .footer .copyright a:hover{
     border-radius: 10px;
     margin: 0 0 10px 0;
     box-shadow: 0px 7px 16px rgb(0 0 0 / 12%);
+}
+
+.social-icons a{
+    margin: 0px 10px;
+}
+.prof-quote{
+    font-style: italic;
+    font-size: 13px;
+    font-weight: 700;
 }
