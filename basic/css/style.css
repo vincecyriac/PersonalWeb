@@ -3,7 +3,7 @@ body{
     background:#fafafa;
     overflow-x: hidden;
     position: relative;
-    background: url(../images/bg.png) #fafafa;
+    /* background: url(../images/bg.png) #fafafa; */
 }
 
 .geometric-shapes{
@@ -901,4 +901,16 @@ footer .footer .copyright a:hover{
     font-style: italic;
     font-size: 13px;
     font-weight: 700;
+}
+
+.parallax{
+    position: fixed;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    /* background-color: #1769ff; */
+    width: 100%;
+    z-index: -1;
+}
+.parallax img{
 }
