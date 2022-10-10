@@ -590,7 +590,7 @@ blockquote {
 
 /* Animations */
 /* Glitch Animations */
-@media (min-width: 580px) {
+@media (min-width: 600px) {
 	.glitch-effect,
 	.glitch-effect-white {
 		position: relative;
