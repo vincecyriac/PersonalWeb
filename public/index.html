@@ -1,44 +1,53 @@
 <!doctype html>
 <html lang="en">
-	
-<!-- Mirrored from gray.flatheme.net/index-dark.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 24 Nov 2023 13:39:13 GMT -->
+
 <head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-		<meta name="description" content="Vince's personal profile">
-        <meta name="keywords" content="">
-		<title>Vince Cyriac</title>
-		<!-- Favicon -->
-        <link href="assets/images/favicon.ico" rel="shortcut icon">
-		<!-- CSS -->
-		<link href="assets/plugins/bootstrap/bootstrap.min.css" rel="stylesheet">
-		<link href="assets/css/theme.css" rel="stylesheet">
-		<!-- Fonts/Icons -->
-		<link href="assets/plugins/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-	</head>
-	<body class="theme-dark" data-preloader="true">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="Vince's personal profile">
+	<meta name="keywords" content="">
+	<title>Vince Cyriac</title>
+	<!-- Favicon -->
+	<link href="assets/images/favicon.ico" rel="shortcut icon">
+	<!-- CSS -->
+	<link href="assets/plugins/bootstrap/bootstrap.min.css" rel="stylesheet">
+	<link href="assets/css/theme.css" rel="stylesheet">
+	<!-- Fonts/Icons -->
+	<link href="assets/plugins/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+</head>
 
-		<!-- Background Vertical lines -->
-		<div class="bg-lines">
-			<div class="bg-line-1"></div>
-			<div class="bg-line-2"></div>
-			<div class="bg-line-3"></div>
-			<div class="bg-line-4"></div>
+<body class="theme-dark" data-preloader="true">
+
+	<!-- Background Vertical lines -->
+	<div class="bg-lines">
+		<div class="bg-line-1"></div>
+		<div class="bg-line-2"></div>
+		<div class="bg-line-3"></div>
+		<div class="bg-line-4"></div>
+	</div>
+	<!-- end Background Vertical lines -->
+
+	<div class="container">
+
+		<!-- Toggle Button -->
+		<div class="mode-toggle-wrapper">
+			<button id="mode-toggle" class="mode-toggle">
+				<span class="toggle-text-desktop">Weekend Mode</span>
+				<span class="toggle-icon"><i class="bi bi-toggle-off"></i></span>
+			</button>
 		</div>
-		<!-- end Background Vertical lines -->
 
-		<div class="container">
-
+		<div id="weekday-mode">
 			<div id="header">
 				<div class="row"><!-- end col -->
 					<div class="col-12 col-lg-8 order-lg-1 col-xl-9">
 						<div class="py-4">
-							<h1 class="display-2 fw-semi-bold m-0">Vince <span class="stroke-text">Cyriac</span></h1>
+							<h1 class="display-2 fw-semi-bold m-0" id="profile-name"></h1>
 						</div>
 					</div><!-- end col -->
 				</div><!-- end row -->
 			</div>
-			
+
 			<div class="row g-4 g-lg-5">
 
 				<div class="col-12 col-lg-4 col-xl-3">
@@ -75,6 +84,13 @@
 									</a>
 								</li>
 								<li class="nav-item">
+									<a class="nav-link" href="#projects">
+										<span class="nav-link-desktop">Projects</span>
+										<span class="nav-link-mobile">PR</span>
+										<span class="nav-circle"></span>
+									</a>
+								</li>
+								<li class="nav-item">
 									<a class="nav-link" href="#contact">
 										<span class="nav-link-desktop">Contact</span>
 										<span class="nav-link-mobile">CO</span>
@@ -95,55 +111,24 @@
 								<div class="col-12 col-xl-4 d-flex align-items-center justify-content-center">
 									<!-- Hero Avatar -->
 									<div class="hero-avatar">
-										<img src="assets/images/vince-photo-3.png" alt="" data-rjs="2">
+										<img src="" alt="" data-rjs="2" id="profile-avatar">
 										<div class="hero-avatar-text">
-											<span class="typer" id="typer1" data-words="Hi There!, I'm Vince, Based in Kerala" data-delay="50" data-deleteDelay="1500"></span><span class="cursor" data-owner="typer1"></span>
+											<span id="profile-typer"></span><span class="cursor"></span>
 										</div>
 									</div>
 									<!-- end Hero Avatar -->
 								</div>
 								<div class="col-12 col-xl-8">
-									<h6 class="title-heading mb-4" data-backdrop-text="About Me">About Me</h6>
-									<h1>Senior Software Engineer</h1>
-									
-									<p class="mt-1">As a seasoned Senior Software Engineer and Graphic Designer, my primary expertise lies in front-end development. I bring a dynamic blend of technical prowess and creative flair to deliver visually compelling and user-centric digital experiences.</p>
-									<a class="button button-sm button-outline mt-4" href="https://drive.google.com/file/d/1-eHd687Q2PuiG9x_xe3r6_onruUqB-RZ/view" target="_blank">Download resume</a>
+									<h6 class="title-heading mb-4" data-backdrop-text="About Me" id="about-title"></h6>
+									<h1 id="about-heading"></h1>
+
+									<p class="mt-1" id="about-description"></p>
+									<a class="button button-sm button-outline" href="" target="_blank"
+										id="resume-button">Download resume</a>
 								</div>
 							</div><!-- end row -->
-							<div class="row g-4 mt-1">
-								<div class="col-12 col-xl-4">
-									<div class="d-flex align-items-center">
-										<div class="d-inline-block">
-											<h1 class="font-family-mono fw-semi-bold stroke-text display-4"><span class="counter">5</span></h1>
-										</div>
-										<div class="d-inline-block ps-2">
-											<h4 class="line-height-100 fw-normal mb-0">+</h4>
-											<p class="mono-heading">Years of Experience</p>
-										</div>
-									</div>
-								</div>
-								<div class="col-12 col-xl-4">
-									<div class="d-flex align-items-center">
-										<div class="d-inline-block">
-											<h1 class="font-family-mono fw-semi-bold stroke-text display-4"><span class="counter">6</span></h1>
-										</div>
-										<div class="d-inline-block ps-2">
-											<h4 class="line-height-100 fw-normal mb-0">k</h4>
-											<p class="mono-heading">Hours of Working</p>
-										</div>
-									</div>
-								</div>
-								<div class="col-12 col-xl-4">
-									<div class="d-flex align-items-center">
-										<div class="d-inline-block">
-											<h1 class="font-family-mono fw-semi-bold stroke-text display-4"><span class="counter">15</span></h1>
-										</div>
-										<div class="d-inline-block ps-2">
-											<h4 class="line-height-100 fw-normal mb-0">+</h4>
-											<p class="mono-heading">Projects Done</p>
-										</div>
-									</div>
-								</div>
+							<div class="row g-4 mt-1" id="stats-row">
+								<!-- Stats will be injected here -->
 							</div><!-- end row -->
 						</div><!-- end section-box -->
 						<!-- end About section -->
@@ -157,33 +142,8 @@
 								</div>
 							</div>
 							<div class="mt-4 mt-lg-5">
-								<ul class="services-list">
-									<!-- Services Item 1 -->
-									<li class="services-item">
-										<div class="services-number">
-											<h1 class="font-family-mono fw-semi-bold stroke-text display-4">01</h1>
-										</div>
-										<div class="services-title icon-xl">
-											<i class="bi bi-globe2"></i>
-											<h6 class="mono-heading">Web development</h6>
-										</div>
-										<div>
-											<p>Crafting dynamic and responsive websites tailored to your needs, delivering seamless user experiences in the world of web development.</p>
-										</div>
-									</li>
-									<!-- Services Item 2 -->
-									<li class="services-item">
-										<div class="services-number">
-											<h1 class="font-family-mono fw-semi-bold stroke-text display-4">02</h1>
-										</div>
-										<div class="services-title icon-xl">
-											<i class="bi bi-vector-pen"></i>
-											<h6 class="mono-heading">Graphic designing</h6>
-										</div>
-										<div>
-											<p>Crafting eye-catching graphics to elevate your digital presence and captivate your audience.</p>
-										</div>
-									</li>
+								<ul class="services-list" id="services-list">
+									<!-- Services will be injected here -->
 								</ul>
 							</div>
 						</div><!-- end section-box -->
@@ -203,11 +163,8 @@
 										<div class="icon-2xl mb-3">
 											<i class="bi bi-mortarboard line-height-100"></i>
 										</div>
-										<!-- Education box 1 -->
-										<div class="resume-box">
-											<span class="resume-date">2016 - 2020</span>
-											<h5 class="fw-medium">B.Tech in Computer Science and Engineering</h5>
-											<span>@ <a href="https://icet.ac.in" target="_blank">ICET Muvattupuzha</a></span>
+										<div id="education-list">
+											<!-- Education will be injected here -->
 										</div>
 									</div>
 								</div>
@@ -216,17 +173,8 @@
 										<div class="icon-2xl mb-3">
 											<i class="bi bi-briefcase line-height-100"></i>
 										</div>
-										<!-- Employment box 1 -->
-										<div class="resume-box">
-											<span class="resume-date">2023 June - Present</span>
-											<h5 class="fw-medium">Senior Software Engineer</h5>
-											<span>@ <a href="https://litebreeze.com" target="_blank">LiteBreeze AB</a></span>
-										</div>
-										<!-- Employment box 2 -->
-										<div class="resume-box">
-											<span class="resume-date">2020 Aug - 2023 May</span>
-											<h5 class="fw-medium">Software engineer</h5>
-											<span>@ <a href="https://innovature.ai" target="_blank">Innovature</a></span>
+										<div id="experience-list">
+											<!-- Experience will be injected here -->
 										</div>
 									</div>
 								</div>
@@ -234,74 +182,31 @@
 						</div><!-- end section-box -->
 						<!-- end Resume section -->
 
-						<!-- Clients section -->
+						<!-- Skills section -->
 						<div class="section-box mt-4" id="skills">
 							<h6 class="title-heading mb-3" data-backdrop-text="Skills">Skills</h6>
-							<h1>My expertize lies in</h1>
-							<ul class="list-inline-pills mt-4">
-								<li>
-									Google at work 
-									<div class="d-inline-block font-family-mono font-small">(<span class="counter">100</span>%)</div>
-								</li>
-								<li>
-									HTML 
-									<div class="d-inline-block font-family-mono font-small">(<span class="counter">90</span>%)</div>
-								</li>
-								<li>
-									CSS 
-									<div class="d-inline-block font-family-mono font-small">(<span class="counter">90</span>%)</div>
-								</li>
-								<li>
-									Angular 
-									<div class="d-inline-block font-family-mono font-small">(<span class="counter">80</span>%)</div>
-								</li>
-								<li>
-									Bootstrap 
-									<div class="d-inline-block font-family-mono font-small">(<span class="counter">80</span>%)</div>
-								</li>
-								<li>
-									Git 
-									<div class="d-inline-block font-family-mono font-small">(<span class="counter">70</span>%)</div>
-								</li>
-								<li>
-									Node JS 
-									<div class="d-inline-block font-family-mono font-small">(<span class="counter">70</span>%)</div>
-								</li>
-								<li>
-									Javascript 
-									<div class="d-inline-block font-family-mono font-small">(<span class="counter">70</span>%)</div>
-								</li>
-								<li>
-									Typescript 
-									<div class="d-inline-block font-family-mono font-small">(<span class="counter">70</span>%)</div>
-								</li>
-								<li>
-									Illustrator 
-									<div class="d-inline-block font-family-mono font-small">(<span class="counter">60</span>%)</div>
-								</li>
-								<li>
-									Firebase 
-									<div class="d-inline-block font-family-mono font-small">(<span class="counter">50</span>%)</div>
-								</li>
-								<li>
-									Tailwind 
-									<div class="d-inline-block font-family-mono font-small">(<span class="counter">50</span>%)</div>
-								</li>
-								<li>
-									Ionic 
-									<div class="d-inline-block font-family-mono font-small">(<span class="counter">40</span>%)</div>
-								</li>
-								<li>
-									Hosting 
-									<div class="d-inline-block font-family-mono font-small">(<span class="counter">40</span>%)</div>
-								</li>
-								<li>
-									Vue 
-									<div class="d-inline-block font-family-mono font-small">(<span class="counter">50</span>%)</div>
-								</li>
-							</ul>
+							<h1 class="mb-5">My expertize lies in</h1>
+							<div class="row g-4" id="skills-list">
+								<!-- Skills will be injected here -->
+							</div>
 						</div><!-- end section-box -->
-						<!-- end Clients section -->
+						<!-- end Skills section -->
+
+						<!-- Projects section -->
+						<div class="section-box mt-4" id="projects">
+							<div class="row">
+								<div class="col-12 col-md-10 col-xl-8">
+									<h6 class="title-heading mb-3" data-backdrop-text="Projects">Projects</h6>
+									<h1>Featured Projects</h1>
+								</div>
+							</div>
+							<div class="mt-4 mt-lg-5">
+								<ul class="services-list" id="projects-list">
+									<!-- Projects will be injected here -->
+								</ul>
+							</div>
+						</div><!-- end section-box -->
+						<!-- end Projects section -->
 
 						<!-- Contact section -->
 						<div class="section-box mt-4" id="contact">
@@ -309,9 +214,8 @@
 								<div class="col-12 col-md-10 col-xl-8">
 									<h6 class="title-heading mb-3" data-backdrop-text="Contact">Get In Touch</h6>
 									<h1>Let's Connect</h1>
-									<ul class="list-inline-pills mt-4">
-										<li>Email: mail@vincecyriac.dev</li>
-										<li>Address: Orappankal (H), Mankulam P.O., Idukki, Kerala</li>
+									<ul class="list-inline-pills mt-4" id="contact-list">
+										<!-- Contact info will be injected here -->
 									</ul>
 								</div>
 							</div><!-- end row -->
@@ -321,12 +225,21 @@
 					</div><!-- end tab-content -->
 				</div><!-- end col -->
 			</div><!-- end main row -->
+		</div><!-- end weekday-mode -->
 
-		</div><!-- end main container -->
+		<!-- Weekend Mode Container -->
+		<div id="weekend-mode" style="display: none;">
+			<div class="weekend-content">
+				<!-- Weekend content injected here -->
+			</div>
+		</div>
 
-		<!-- JavaScripts -->
-		<script src="assets/plugins/jquery.min.js"></script>
-		<script src="assets/plugins/plugins.js"></script>
-		<script src="assets/js/functions.js"></script>
-	</body>
+	</div><!-- end main container -->
+
+	<!-- JavaScripts -->
+	<script src="assets/plugins/jquery.min.js"></script>
+	<script src="assets/plugins/plugins.js"></script>
+	<script src="assets/js/functions.js"></script>
+</body>
+
 </html>

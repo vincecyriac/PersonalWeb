@@ -1,0 +1,248 @@
+{
+  "profile": {
+    "name": "Vince",
+    "surname": "Cyriac",
+    "role": "Senior Software Engineer",
+    "location": "Kerala",
+    "avatar": "assets/images/vince-photo-3.png",
+    "typerText": "Hi There!, I'm Vince, Based in Kerala, A passionate developer",
+    "resumeLink": "https://drive.google.com/file/d/1lC7SGcMdrYPDUaRAKG8TeUbTrLu3JsUZ/view?usp=sharing",
+    "socials": {
+      "linkedin": "https://www.linkedin.com/in/vincecyriac/"
+    },
+    "startDate": "2020-08-10"
+  },
+  "about": {
+    "title": "About Me",
+    "heading": "Senior Software Engineer",
+    "description": "As a seasoned Senior Software Engineer and Graphic Designer, my primary expertise lies in front-end development. I bring a dynamic blend of technical prowess and creative flair to deliver visually compelling and user-centric digital experiences."
+  },
+  "stats": [
+    {
+      "value": "5",
+      "suffix": "+",
+      "label": "Years of Experience",
+      "id": "experience-counter"
+    },
+    {
+      "value": "6",
+      "suffix": "k",
+      "label": "Hours of Working"
+    },
+    {
+      "value": "15",
+      "suffix": "+",
+      "label": "Projects Done"
+    }
+  ],
+  "services": [
+    {
+      "id": "01",
+      "icon": "bi bi-globe2",
+      "title": "Web development",
+      "description": "Crafting dynamic and responsive websites tailored to your needs, delivering seamless user experiences in the world of web development."
+    },
+    {
+      "id": "02",
+      "icon": "bi bi-vector-pen",
+      "title": "Graphic designing",
+      "description": "Crafting eye-catching graphics to elevate your digital presence and captivate your audience."
+    }
+  ],
+  "resume": {
+    "education": [
+      {
+        "date": "2016 - 2020",
+        "title": "B.Tech in Computer Science and Engineering",
+        "place": "ICET Muvattupuzha",
+        "link": "https://icet.ac.in"
+      }
+    ],
+    "experience": [
+      {
+        "date": "2023 June - Present",
+        "title": "Senior Software Engineer",
+        "place": "LiteBreeze AB",
+        "link": "https://litebreeze.com"
+      },
+      {
+        "date": "2020 Aug - 2023 May",
+        "title": "Software engineer",
+        "place": "Innovature",
+        "link": "https://innovature.ai"
+      }
+    ]
+  },
+  "skills": [
+    {
+      "name": "Google at work",
+      "percentage": 100
+    },
+    {
+      "name": "HTML",
+      "percentage": 90
+    },
+    {
+      "name": "CSS",
+      "percentage": 90
+    },
+    {
+      "name": "Angular",
+      "percentage": 80
+    },
+    {
+      "name": "Bootstrap",
+      "percentage": 80
+    },
+    {
+      "name": "Material",
+      "percentage": 80
+    },
+    {
+      "name": "Git",
+      "percentage": 70
+    },
+    {
+      "name": "Node JS",
+      "percentage": 70
+    },
+    {
+      "name": "Javascript",
+      "percentage": 70
+    },
+    {
+      "name": "Typescript",
+      "percentage": 70
+    },
+    {
+      "name": "AI tools",
+      "percentage": 60
+    },
+    {
+      "name": "Illustrator",
+      "percentage": 60
+    },
+    {
+      "name": "Firebase",
+      "percentage": 50
+    },
+    {
+      "name": "Tailwind",
+      "percentage": 50
+    },
+    {
+      "name": "Ionic",
+      "percentage": 40
+    },
+    {
+      "name": "Hosting",
+      "percentage": 40
+    },
+    {
+      "name": "Vue",
+      "percentage": 50
+    }
+  ],
+  "projects": [
+    {
+      "title": "Financial Market Solutions Platform",
+      "description": "Applications used by a leading provider of financial market solutions in Europe. Financial professionals like traders, banks, companies, and newspapers interested in European markets rely on this to provide global real-time market data, stock prices, stock market indices, trading, news, and other related information.",
+      "technologies": "Angular"
+    },
+    {
+      "title": "Data-Driven Recruitment Platform",
+      "description": "A data-driven recruitment platform that enables companies to hire based on skill, experience, and potential, without the interference of unconscious bias. Built with modern technologies, the platform delivers a fast, efficient, and inclusive hiring experience for both employers and candidates.",
+      "technologies": "Vue"
+    },
+    {
+      "title": "Employee Assessment & Performance Platform",
+      "description": "An integrated platform, crafted to focus on employee assessments. It simplifies the administration of tests, the interpretation of results, and the conduct of performance evaluations within a company.",
+      "technologies": "Angular"
+    },
+    {
+      "title": "B2B Client & Product Management Solution",
+      "description": "A business-to-business web solution for managing clients and products efficiently. It provides a user-friendly interface that facilitates efficient management of clients and products. It allows businesses to create reports, manage inventory, and communicate through email, thereby improving their day-to-day operations.",
+      "technologies": "Angular"
+    },
+    {
+      "title": "Hotel Reservation System",
+      "description": "A user-friendly hotel reservation system that simplifies booking rooms in Japan. Its design streamlines the reservation process, making it more convenient for users planning their stays.",
+      "technologies": "Angular"
+    },
+    {
+      "title": "Marine Activity Booking Portal",
+      "description": "An easy-to-navigate portal for those looking to explore and book marine activities in Japan. Its user-friendly interface enhances the process of discovering and securing marine experiences.",
+      "technologies": "Angular"
+    },
+    {
+      "title": "SIM Card Service Feature Enhancement",
+      "description": "The project involved adding a new feature to existing offerings, enhancing services for foreigners in Japan. This feature improves the functionality for users seeking SIM solutions.",
+      "technologies": "HTML, CSS, JS"
+    },
+    {
+      "title": "Frontend Verification Tool",
+      "description": "A front-end application created for the trial and verification of an emerging backend tool. It's instrumental in the validation stage, confirming the tool's integration and function. The application is key to ensuring quality and compatibility, aiding in the backend tool's ongoing enhancement.",
+      "technologies": "Angular"
+    },
+    {
+      "title": "COVITRACK",
+      "description": "A personal project developed to track the global status of COVID-19. This project serves as a comprehensive tool to monitor and analyze the worldwide COVID-19 situation, providing real-time updates and statistics.",
+      "technologies": "Angular",
+      "link": "https://covitrack.vincecyriac.dev"
+    }
+  ],
+  "contact": {
+    "email": "mail@vincecyriac.dev",
+    "address": "Orappankal (H), Mankulam P.O., Idukki, Kerala"
+  },
+  "weekend": {
+    "intro": {
+      "title": "Weekend Vibes",
+      "heading": "Born to Ride, Explore, & Dream",
+      "description": "When the laptop closes, the helmet goes on. I'm a driving enthusiast who finds peace on the road. Mountains over beaches, sunrise over sunset, and the rhythm of the engine over everything else."
+    },
+    "about": {
+      "title": "About My Weekends",
+      "heading": "Living for the Open Road",
+      "description": "Weekends are when I truly come alive. You'll find me on my Yamaha FZ, chasing sunrises in the mountains, exploring winding roads, and discovering hidden gems. Every ride is a story, every destination a dream. From short weekend getaways to long-distance adventures, I believe the journey matters more than the destination. The mountains call, and I must go."
+    },
+    "socials": {
+      "instagram": "https://www.instagram.com/vincecyriac/"
+    },
+    "vehicles": [
+      {
+        "name": "Yamaha FZ",
+        "type": "Motorcycle",
+        "description": "149cc Daily Commuter turned Adventure Tourer",
+        "icon": "bi-bicycle"
+      },
+      {
+        "name": "Kia Sonet",
+        "type": "Car",
+        "description": "1L Turbo Petrol Family Beast",
+        "icon": "bi-car-front"
+      }
+    ],
+    "stats": [
+      {
+        "value": "2200",
+        "label": "KM Longest Ride",
+        "suffix": "+"
+      },
+      {
+        "value": "7",
+        "label": "Days on Road",
+        "suffix": ""
+      }
+    ],
+    "dreams": [
+      "Visit Antarctica",
+      "Ride in Switzerland"
+    ],
+    "favorites": [
+      "Mountains",
+      "Sunrise",
+      "Long Rides"
+    ]
+  }
+}

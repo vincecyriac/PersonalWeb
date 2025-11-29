@@ -2584,3 +2584,464 @@ body.loaded:after {
     -webkit-text-fill-color: transparent;
     -webkit-text-stroke-color: white
 }
+/* Custom Progress Bars */
+.progress-custom {
+    margin-bottom: 10px;
+}
+
+.progress-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.progress-info h6 {
+    margin: 0;
+    font-family: "Roboto Mono", monospace;
+    font-size: 0.9em;
+}
+
+.progress-info .percentage {
+    font-family: "Roboto Mono", monospace;
+    font-size: 0.8em;
+    opacity: 0.8;
+}
+
+.progress {
+    height: 6px;
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.theme-dark .progress {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.progress-bar-custom {
+    height: 100%;
+    background-color: black;
+    border-radius: 3px;
+    transition: width 1.5s ease-in-out;
+}
+
+.theme-dark .progress-bar-custom {
+    background-color: white;
+}
+
+.progress-custom:hover .progress-bar-custom {
+    opacity: 0.8;
+}
+
+/* Weekend Mode Toggle */
+.mode-toggle-wrapper {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.mode-toggle {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 30px;
+    padding: 8px 16px;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.mode-toggle:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.mode-toggle .toggle-icon i {
+    font-size: 1.5em;
+}
+
+/* Weekend Mode Styles */
+.weekend-mode {
+    background: #0f0f0f; /* Darker background for weekend */
+}
+
+.weekend-mode .bg-lines .bg-line-1,
+.weekend-mode .bg-lines .bg-line-2,
+.weekend-mode .bg-lines .bg-line-3,
+.weekend-mode .bg-lines .bg-line-4 {
+    border-color: rgba(255, 165, 0, 0.1); /* Orange tint for adventure */
+}
+
+.weekend-mode .bg-lines .bg-line-1:before,
+.weekend-mode .bg-lines .bg-line-2:before,
+.weekend-mode .bg-lines .bg-line-3:before,
+.weekend-mode .bg-lines .bg-line-4:before {
+    background: linear-gradient(transparent, rgba(255, 165, 0, 0.5));
+}
+
+.weekend-content {
+    padding: 100px 0;
+    color: white;
+}
+
+.weekend-hero h1 {
+    color: #FFA500; /* Orange for emphasis */
+}
+
+.vehicle-card, .stat-card, .dream-card, .fav-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.vehicle-card:hover, .stat-card:hover, .dream-card:hover, .fav-card:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.08);
+    border-color: #FFA500;
+}
+
+.vehicle-card .icon-xl i {
+    color: #FFA500;
+}
+
+.stat-card .stroke-text {
+    -webkit-text-stroke-color: #FFA500;
+}
+
+.dream-card i, .fav-card i {
+    color: #FFA500;
+}
+
+/* Mobile Toggle Button Fix */
+@media (max-width: 991px) {
+    .mode-toggle-wrapper {
+        top: auto;
+        bottom: 20px;
+        right: 20px;
+    }
+}
+
+/* Weekend Mode Animations */
+.road-animation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 0;
+    opacity: 0.3;
+    pointer-events: none; /* Allow clicks to pass through */
+}
+
+.road-line {
+    position: absolute;
+    width: 4px;
+    height: 100px;
+    background: linear-gradient(to bottom, transparent, #FFA500, transparent);
+    left: 50%;
+    animation: roadMove 2s linear infinite;
+}
+
+.road-line:nth-child(1) {
+    animation-delay: 0s;
+}
+
+.road-line:nth-child(2) {
+    animation-delay: 0.7s;
+}
+
+.road-line:nth-child(3) {
+    animation-delay: 1.4s;
+}
+
+@keyframes roadMove {
+    0% {
+        top: -100px;
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        top: 100%;
+        opacity: 0;
+    }
+}
+
+/* Bike Icon Animation */
+.bike-icon-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.bike-icon {
+    font-size: 4rem;
+    color: #FFA500;
+    animation: bikeFloat 3s ease-in-out infinite;
+}
+
+@keyframes bikeFloat {
+    0%, 100% {
+        transform: translateY(0px) rotate(-2deg);
+    }
+    50% {
+        transform: translateY(-20px) rotate(2deg);
+    }
+}
+
+/* Weekend Cards */
+.weekend-card {
+    background: rgba(255, 165, 0, 0.05);
+    border: 1px solid rgba(255, 165, 0, 0.2);
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.weekend-card:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 165, 0, 0.1);
+    border-color: #FFA500;
+    box-shadow: 0 10px 30px rgba(255, 165, 0, 0.2);
+}
+
+.weekend-card h3 {
+    color: #FFA500;
+    font-size: 1.5rem;
+}
+
+.weekend-card i {
+    color: #FFA500;
+}
+
+/* Favorites Grid */
+.favorites-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+}
+
+.favorite-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.favorite-item:hover {
+    background: rgba(255, 165, 0, 0.1);
+    transform: translateX(5px);
+}
+
+.favorite-item i {
+    font-size: 1.2rem;
+}
+
+/* Weekend Quote */
+.weekend-quote {
+    margin-top: 60px;
+    padding: 40px 20px;
+}
+
+.weekend-quote blockquote {
+    font-size: 1.8rem;
+    font-style: italic;
+    color: #FFA500;
+    font-weight: 300;
+}
+
+/* Social Links */
+.social-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background: rgba(255, 165, 0, 0.1);
+    border: 1px solid #FFA500;
+    border-radius: 30px;
+    color: #FFA500;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.social-link:hover {
+    background: #FFA500;
+    color: #000;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 165, 0, 0.3);
+}
+
+.social-link i {
+    font-size: 1.2rem;
+}
+
+.social-link-weekday {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    color: white;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.social-link-weekday:hover {
+    background: white;
+    color: #000;
+    transform: translateY(-2px);
+}
+
+.social-link-weekday i {
+    font-size: 1.2rem;
+}
+
+/* Weekend Content Positioning */
+.weekend-content {
+    position: relative;
+    z-index: 1;
+    padding: 100px 20px;
+}
+
+/* Weekend About Section */
+.weekend-about-section {
+    margin: 60px 0;
+}
+
+.weekend-about-card {
+    background: rgba(255, 165, 0, 0.05);
+    border: 1px solid rgba(255, 165, 0, 0.2);
+    border-radius: 16px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.weekend-about-card:hover {
+    background: rgba(255, 165, 0, 0.08);
+    border-color: rgba(255, 165, 0, 0.4);
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(255, 165, 0, 0.15);
+}
+
+.weekend-about-card h2 {
+    color: #FFA500;
+    font-size: 2rem;
+}
+
+.weekend-about-card .lead {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* Weekend Warning Banner */
+.weekend-warning-banner {
+    position: relative;
+    z-index: 10;
+    margin-bottom: 40px;
+    animation: slideDown 0.5s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.warning-content {
+    background: linear-gradient(135deg, rgba(255, 165, 0, 0.15) 0%, rgba(255, 165, 0, 0.05) 100%);
+    border: 2px solid rgba(255, 165, 0, 0.4);
+    border-radius: 12px;
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 15px rgba(255, 165, 0, 0.2);
+}
+
+.warning-content i {
+    font-size: 1.5rem;
+    color: #FFA500;
+    flex-shrink: 0;
+}
+
+.warning-content span {
+    color: rgba(255, 255, 255, 0.95);
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.warning-content strong {
+    color: #FFA500;
+    font-weight: 600;
+}
+
+@media (max-width: 768px) {
+    .warning-content {
+        flex-direction: column;
+        gap: 10px;
+        padding: 20px 16px;
+    }
+    
+    .warning-content i {
+        margin-right: 0 !important;
+    }
+    
+    .warning-content span {
+        font-size: 0.9rem;
+    }
+}
+
+/* Toggle Button Mobile Optimization */
+@media (max-width: 768px) {
+    .mode-toggle {
+        padding: 10px;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .toggle-text-desktop {
+        display: none;
+    }
+    
+    .mode-toggle .toggle-icon {
+        margin: 0;
+    }
+}
+
+@media (min-width: 769px) {
+    .toggle-text-desktop {
+        display: inline;
+    }
+}
+
+/* Social Links Container */
+.social-links-container {
+    margin-top: 1.5rem;
+}
+
+.social-links-container .button {
+    margin: 0;
+}
