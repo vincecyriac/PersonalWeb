@@ -55,6 +55,7 @@ $(document).ready(function() {
                 weekendContainer.hide();
                 toggleIcon.removeClass('bi-toggle-on').addClass('bi-toggle-off');
                 toggleText.text('Weekend Mode');
+                reinitScrollSpy();
             } else {
                 // Force Weekend (Initial Load)
                 body.addClass('weekend-mode');
@@ -94,6 +95,15 @@ $(document).ready(function() {
         renderProjects(data.projects);
         renderContact(data.contact);
         renderWeekend(data.weekend);
+        
+        // Initialize Bootstrap ScrollSpy after content is loaded
+        setTimeout(function() {
+            if (typeof bootstrap !== 'undefined') {
+                new bootstrap.ScrollSpy(document.body, {
+                    target: '.section-nav'
+                });
+            }
+        }, 500);
         
         // Re-initialize plugins if needed (like typer)
         // Note: Typer might need re-init if it scans DOM on load. 
@@ -419,4 +429,21 @@ function renderWeekend(weekend) {
         </div>
     `;
     container.html(html);
+}
+
+// Re-initialize Bootstrap ScrollSpy after mode toggle
+function reinitScrollSpy() {
+    if (typeof bootstrap !== 'undefined') {
+        const scrollSpyEl = document.querySelector('[data-bs-spy="scroll"]');
+        if (scrollSpyEl) {
+            const instance = bootstrap.ScrollSpy.getInstance(scrollSpyEl);
+            if (instance) {
+                instance.refresh();
+            } else {
+                new bootstrap.ScrollSpy(document.body, {
+                    target: '.section-nav'
+                });
+            }
+        }
+    }
 }
