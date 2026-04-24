@@ -15,6 +15,15 @@
 
 <body>
 
+  <!-- PRELOADER -->
+  <div class="preloader" id="preloader">
+    <div class="boot-term" id="boot-term"></div>
+  </div>
+
+  <!-- SCROLL PROGRESS -->
+  <div class="scroll-progress" id="scroll-progress"></div>
+
+
   <nav>
     <a class="nav-logo" href="#hero" id="nav-logo">VC<span id="nav-suffix">://PORTFOLIO</span></a>
     <ul class="nav-links">
@@ -27,7 +36,7 @@
     </ul>
     <div class="nav-r">
       <button class="wk-toggle" onclick="toggleWeekend()" id="wk-btn">
-        <div class="t-dot" id="wk-dot"></div>
+        <i class="bi bi-sun" id="wk-icon"></i>
         <span id="wk-lbl">WEEKEND_MODE</span>
       </button>
       <button class="hburg" onclick="toggleMob()" aria-label="Menu">

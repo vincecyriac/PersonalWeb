@@ -117,9 +117,14 @@ let wk = false;
 function toggleWeekend() {
   wk = !wk;
   document.body.classList.toggle('weekend', wk);
-  document.getElementById('wk-dot').classList.toggle('on', wk);
-  document.getElementById('wk-lbl').textContent = wk ? 'WEEKEND_ON' : 'WEEKEND_OFF';
+  const icon = document.getElementById('wk-icon');
+  if (icon) {
+    icon.className = wk ? 'bi bi-laptop' : 'bi bi-sun';
+  }
+  document.getElementById('wk-lbl').textContent = wk ? 'WORK_MODE' : 'WEEKEND_MODE';
   document.getElementById('nav-suffix').textContent = wk ? '://WEEKEND' : '://PORTFOLIO';
+  // Close mobile nav when switching
+  closeMob();
   if (wk) {
     document.querySelectorAll('#weekend .rv').forEach((el) => {
       el.classList.remove('vis');
@@ -147,13 +152,18 @@ const ro = new IntersectionObserver(
 );
 document.querySelectorAll('#main-content .rv').forEach((el) => ro.observe(el));
 
-// ── Skill Bars ──
+// ── Skill Bars (Staggered Animation) ──
 const sko = new IntersectionObserver(
   (ens) => {
     ens.forEach((e) => {
       if (e.isIntersecting) {
-        e.target.querySelectorAll('.skf').forEach((b) => {
-          b.style.width = b.dataset.w + '%';
+        const bars = e.target.querySelectorAll('.skr');
+        bars.forEach((bar, i) => {
+          setTimeout(() => {
+            bar.classList.add('sk-vis');
+            const fill = bar.querySelector('.skf');
+            if (fill) fill.style.width = fill.dataset.w + '%';
+          }, i * 60);
         });
         sko.unobserve(e.target);
       }
@@ -239,3 +249,153 @@ function showStatus(el, type, msg) {
 function isValidEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
+
+// ═══════════════════════════════════════════════
+// ENHANCEMENTS
+// ═══════════════════════════════════════════════
+
+// ── 1. Boot Sequence Preloader ──
+(function bootSequence() {
+  const preloader = document.getElementById('preloader');
+  const term = document.getElementById('boot-term');
+  if (!preloader || !term) return;
+
+  const lines = [
+    { text: '> INITIALIZING SYSTEM...', cls: '' },
+    { text: '> LOADING CORE_MODULES...', cls: 'dim' },
+    { text: '> FONTS: Share Tech Mono, Orbitron, Space Mono ✓', cls: 'dim' },
+    { text: '> STYLESHEET: style.css ✓', cls: 'dim' },
+    { text: '> PARTICLE_ENGINE: online ✓', cls: 'dim' },
+    { text: '', cls: 'bar' },
+    { text: '> CONNECTING TO NODE: VC-' + CURRENT_YEAR + '...', cls: 'warn' },
+    { text: '> PORTFOLIO_STATUS: ONLINE', cls: 'ok' },
+    { text: '> LAUNCHING INTERFACE...', cls: 'ok' }
+  ];
+
+  let i = 0;
+  const interval = setInterval(() => {
+    if (i >= lines.length) {
+      clearInterval(interval);
+      setTimeout(() => {
+        preloader.classList.add('done');
+        // Re-trigger hero animations
+        document.querySelectorAll('#hero .h-pre, #hero .h-name, #hero .h-sub, #hero .h-cta, #hero .h-stat').forEach(el => {
+          el.style.animation = 'none';
+          el.offsetHeight; // reflow
+          el.style.animation = '';
+        });
+      }, 400);
+      return;
+    }
+
+    const line = lines[i];
+    if (line.cls === 'bar') {
+      const barHtml = '<div class="line" style="animation-delay:0s"><div class="boot-bar"><div class="boot-fill" id="boot-fill"></div></div></div>';
+      term.insertAdjacentHTML('beforeend', barHtml);
+      setTimeout(() => {
+        const fill = document.getElementById('boot-fill');
+        if (fill) fill.style.width = '100%';
+      }, 50);
+    } else {
+      const div = document.createElement('div');
+      div.className = 'line ' + line.cls;
+      div.textContent = line.text;
+      div.style.animationDelay = '0s';
+      term.appendChild(div);
+    }
+    i++;
+  }, 180);
+})();
+
+// ── 3. Scroll Progress Indicator ──
+(function initScrollProgress() {
+  const bar = document.getElementById('scroll-progress');
+  if (!bar) return;
+
+  window.addEventListener('scroll', () => {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+    bar.style.width = progress + '%';
+  }, { passive: true });
+})();
+
+// ── 4. Active Nav Highlighting ──
+(function initActiveNav() {
+  const sections = document.querySelectorAll('#main-content section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  const mobLinks = document.querySelectorAll('.mob-nav a');
+
+  if (!sections.length || !navLinks.length) return;
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const id = entry.target.getAttribute('id');
+          navLinks.forEach((link) => {
+            link.classList.toggle('active', link.getAttribute('href') === '#' + id);
+          });
+          mobLinks.forEach((link) => {
+            link.classList.toggle('active', link.getAttribute('href') === '#' + id);
+          });
+        }
+      });
+    },
+    { rootMargin: '-30% 0px -60% 0px' }
+  );
+
+  sections.forEach((section) => observer.observe(section));
+})();
+
+// ── 65. Typed Terminal Effect on Hero ──
+(function initTypedEffect() {
+  const heroSub = document.querySelector('.h-sub');
+  if (!heroSub) return;
+
+  const lines = heroSub.querySelectorAll('.ln');
+  if (!lines.length) return;
+
+  // Store original content and clear
+  const originals = [];
+  lines.forEach((ln) => {
+    originals.push(ln.innerHTML);
+    // Keep the ::before pseudo but clear text
+    ln.textContent = '';
+  });
+
+  // Wait for preloader to finish
+  const startDelay = 2200;
+
+  function typeText(element, html, speed, callback) {
+    // Extract plain text (skip the cursor span in the last line)
+    const temp = document.createElement('div');
+    temp.innerHTML = html;
+    const text = temp.textContent || temp.innerText || '';
+    
+    let i = 0;
+    element.textContent = '';
+    const iv = setInterval(() => {
+      element.textContent = text.substring(0, i + 1);
+      i++;
+      if (i >= text.length) {
+        clearInterval(iv);
+        // Restore full HTML (for cursor span etc)
+        element.innerHTML = html;
+        if (callback) callback();
+      }
+    }, speed);
+  }
+
+  setTimeout(() => {
+    let lineIdx = 0;
+    function typeLine() {
+      if (lineIdx >= lines.length) return;
+      typeText(lines[lineIdx], originals[lineIdx], 22, () => {
+        lineIdx++;
+        setTimeout(typeLine, 100);
+      });
+    }
+    typeLine();
+  }, startDelay);
+})();
