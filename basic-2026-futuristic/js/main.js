@@ -265,7 +265,6 @@ function isValidEmail(email) {
     { text: '> LOADING CORE_MODULES...', cls: 'dim' },
     { text: '> FONTS: Share Tech Mono, Orbitron, Space Mono ✓', cls: 'dim' },
     { text: '> STYLESHEET: style.css ✓', cls: 'dim' },
-    { text: '> PARTICLE_ENGINE: online ✓', cls: 'dim' },
     { text: '', cls: 'bar' },
     { text: '> CONNECTING TO NODE: VC-' + CURRENT_YEAR + '...', cls: 'warn' },
     { text: '> PORTFOLIO_STATUS: ONLINE', cls: 'ok' },
