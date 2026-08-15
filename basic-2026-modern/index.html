@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Primary Meta Tags -->
+  <title>Vince Cyriac | Full-Stack AI & Frontend Engineer</title>
+  <meta name="title" content="Vince Cyriac | Full-Stack AI & Frontend Engineer">
+  <meta name="description" content="Portfolio of Vince Cyriac, an expert Full-Stack Engineer specializing in AI integration, modern frontend architecture, and high-performance web systems.">
+  <meta name="keywords" content="Vince Cyriac, Full-Stack Engineer, AI Integration, Frontend Development, Angular, Vue, Node.js, Software Engineer, Portfolio">
+  <meta name="author" content="Vince Cyriac">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://vincecyriac.dev/">
+  <meta property="og:title" content="Vince Cyriac | Full-Stack AI & Frontend Engineer">
+  <meta property="og:description" content="Portfolio of Vince Cyriac, an expert Full-Stack Engineer specializing in AI integration, modern frontend architecture, and high-performance web systems.">
+  <meta property="og:image" content="https://vincecyriac.dev/assets/favicon.jpg">
+  
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://vincecyriac.dev/">
+  <meta property="twitter:title" content="Vince Cyriac | Full-Stack AI & Frontend Engineer">
+  <meta property="twitter:description" content="Portfolio of Vince Cyriac, an expert Full-Stack Engineer specializing in AI integration, modern frontend architecture, and high-performance web systems.">
+  <meta property="twitter:image" content="https://vincecyriac.dev/assets/favicon.jpg">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/jpeg" href="assets/favicon.jpg">
+  <link rel="apple-touch-icon" href="assets/favicon.jpg">
+  
+  <!-- Canonical -->
+  <link rel="canonical" href="https://vincecyriac.dev/">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  
+  <nav class="navbar" id="navbar">
+    <div class="container nav-container">
+      <a href="#hero" class="brand">VINCE <div class="brand-dot"></div> CYRIAC</a>
+      
+      <div class="nav-links">
+        <a href="#about">About</a>
+        <a href="#services">Services</a>
+        <a href="#resume">Resume</a>
+        <a href="#skills">Skills</a>
+        <a href="#projects">Work</a>
+      </div>
+
+      <div class="nav-actions">
+        <a href="#contact" class="btn btn-outline btn-small hidden md:flex" style="display:none;">Let's Talk</a>
+        <button class="hburg" id="mob-menu-btn" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="mob-nav" id="mob-nav">
+    <a href="#about">About</a>
+    <a href="#services">Services</a>
+    <a href="#resume">Resume</a>
+    <a href="#skills">Skills</a>
+    <a href="#projects">Work</a>
+    <a href="#contact">Contact</a>
+  </div>
+
+  <main id="main-content">
+    
+    <!-- Marquee Banner -->
+    <div class="marquee-wrapper">
+      <div class="marquee-content">
+        <span>Software Engineer</span>
+        <span>Frontend Specialist</span>
+        <span>Digital Craftsman</span>
+        <span>Based in Kerala</span>
+        <span>Software Engineer</span>
+        <span>Frontend Specialist</span>
+        <span>Digital Craftsman</span>
+        <span>Based in Kerala</span>
+      </div>
+    </div>
+
+    <!-- HERO -->
+    <section id="hero" class="hero-wrap brutal-border-b section-y">
+      <div class="hero-bg-shapes">
+        <div class="hero-shape-1"></div>
+        <div class="hero-shape-2"></div>
+      </div>
+      
+      <div class="container">
+        <div class="hero-content rv-fade">
+          <div class="hero-text">
+            <h1 class="text-h1">HELLO, I'M <br><span class="highlight">VINCE</span> CYRIAC.</h1>
+            <p class="hero-subtitle">
+              Building interfaces between humans & machines.<br>
+              Specializing in pixel-perfect, performant frontend experiences.
+            </p>
+            <div class="hero-cta">
+              <a href="https://drive.google.com/file/d/1lC7SGcMdrYPDUaRAKG8TeUbTrLu3JsUZ/view?usp=sharing" target="_blank" class="btn btn-primary">Download Resume <i class="bi bi-download"></i></a>
+              <a href="#contact" class="btn btn-outline">Initiate Contact <i class="bi bi-arrow-right"></i></a>
+            </div>
+          </div>
+          
+          <div class="hero-image-box" id="hero-particle-container" style="padding: 0; overflow: hidden; background-color: transparent; border: none; box-shadow: none; position: relative; cursor: crosshair;">
+            <canvas id="hero-particles" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none;"></canvas>
+            <img src="assets/hero.png" alt="Vince Cyriac Portrait" style="width: 100%; height: 100%; object-fit: cover; object-position: bottom; position: relative; z-index: 2; pointer-events: none;">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="brutal-border-b section-y">
+      <div class="container">
+        <div class="split-section rv-fade">
+          <div class="split-left">
+            <div class="tag">01 // About Me</div>
+            <h2 class="text-h2" style="margin-top: 16px;">THE<br>PROFILE.</h2>
+          </div>
+          <div class="split-right">
+            <p class="section-desc">
+              Hey — I'm <strong>Vince Cyriac</strong>, a full-stack developer who finds beauty at the intersection of clean code and thoughtful design. I build things for the web. My work spans front-end interfaces to back-end systems, with a deep appreciation for <span class="highlight">developer experience</span> and the small details that make software feel alive. Embracing the future, I actively leverage <span class="highlight" style="background-color: var(--lime-light);">AI and Large Language Models</span> to architect smarter, faster, and more adaptable solutions.
+            </p>
+            
+            <div class="stats-grid">
+              <div class="stat-card">
+                <div class="stat-num" id="exp-n">0+</div>
+                <div class="stat-lbl">Years Experience</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-num" id="proj-n">0+</div>
+                <div class="stat-lbl">Projects Shipped</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-num" id="code-n">0%</div>
+                <div class="stat-lbl">Code Quality & Clean Architecture</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section id="services" class="brutal-border-b section-y">
+      <div class="container rv-fade">
+        <div class="tag" style="margin-bottom: 24px;">02 // Services</div>
+        <h2 class="text-h2" style="margin-bottom: 48px;">WHAT I DO.</h2>
+        
+        <div class="services-grid">
+          <div class="service-card" style="background-color: var(--accent-light);">
+            <i class="bi bi-robot service-icon"></i>
+            <h3 class="text-h3">AI Integration & Systems</h3>
+            <p>Multimodal AI streaming (Gemini Live API), edge ONNX models, zero-trust architectures, and AI-accelerated workflows.</p>
+            <div class="service-tags">
+              <span class="tag">LLMs</span><span class="tag">Zero-Trust</span><span class="tag">Edge AI</span>
+            </div>
+          </div>
+          <div class="service-card">
+            <i class="bi bi-window service-icon"></i>
+            <h3 class="text-h3">Frontend Development</h3>
+            <p>High-performance, pixel-perfect web apps using Angular, Vue.js, TypeScript, and modern state management.</p>
+            <div class="service-tags">
+              <span class="tag">Angular</span><span class="tag">Vue</span><span class="tag">TS</span>
+            </div>
+          </div>
+          <div class="service-card">
+            <i class="bi bi-hdd-network service-icon"></i>
+            <h3 class="text-h3">Backend Systems & APIs</h3>
+            <p>Scalable Node.js architectures, RESTful API design, database schemas, and microservices.</p>
+            <div class="service-tags">
+              <span class="tag">Node</span><span class="tag">REST</span><span class="tag">SQL</span>
+            </div>
+          </div>
+          <div class="service-card">
+            <i class="bi bi-pen service-icon"></i>
+            <h3 class="text-h3">UI/UX & Design Systems</h3>
+            <p>Design systems, component libraries, responsive design, and interaction prototyping using Figma & Adobe XD.</p>
+            <div class="service-tags">
+              <span class="tag">Figma</span><span class="tag">UI/UX</span>
+            </div>
+          </div>
+          <div class="service-card">
+            <i class="bi bi-server service-icon"></i>
+            <h3 class="text-h3">DevOps, Linux & Deployments</h3>
+            <p>Linux server administration (Fedora/Ubuntu), CI/CD pipelines, Docker, CloudFront, Netlify, Vercel deployments, and production maintenance.</p>
+            <div class="service-tags">
+              <span class="tag">Linux</span><span class="tag">Docker</span><span class="tag">CI/CD</span>
+            </div>
+          </div>
+          <div class="service-card">
+            <i class="bi bi-speedometer2 service-icon"></i>
+            <h3 class="text-h3">Technical SEO & Perf Optimization</h3>
+            <p>Core Web Vitals tuning, search console indexing pipelines, structured data, and accessibility audits.</p>
+            <div class="service-tags">
+              <span class="tag">SEO</span><span class="tag">CWV</span><span class="tag">A11y</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESUME & SKILLS -->
+    <section id="resume" class="brutal-border-b section-y">
+      <div class="container rv-fade">
+        <div class="split-section">
+          <div class="split-left">
+            <div class="tag">03 // Experience</div>
+            <h2 class="text-h2" style="margin-top: 16px;">THE<br>JOURNEY.</h2>
+          </div>
+          
+          <div class="split-right">
+            <div class="timeline" style="margin-bottom: 64px;">
+              <div class="timeline-item">
+                <div class="timeline-date">2023 JUNE — PRESENT</div>
+                <div class="timeline-role">Senior Software Engineer</div>
+                <div class="timeline-org"><a href="https://litebreeze.com" target="_blank">LiteBreeze AB ↗</a></div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-date">2020 AUG — 2023 MAY</div>
+                <div class="timeline-role">Software Engineer</div>
+                <div class="timeline-org"><a href="https://innovature.ai" target="_blank">Innovature ↗</a></div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-date">2016 — 2020</div>
+                <div class="timeline-role">B.Tech CS & Eng</div>
+                <div class="timeline-org"><a href="https://icet.ac.in" target="_blank">ICET Muvattupuzha ↗</a></div>
+              </div>
+            </div>
+
+            <h3 class="text-h3" style="margin-bottom: 24px;" id="skills">CORE SKILLS</h3>
+            <div style="display: flex; flex-direction: column; gap: 24px;">
+              <div>
+                <p style="font-size: 12px; font-weight: 800; text-transform: uppercase; margin-bottom: 12px; color: var(--text-muted);">Languages & Core</p>
+                <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                  <span class="tag">TypeScript</span>
+                  <span class="tag">JavaScript (ES6+)</span>
+                  <span class="tag">Python</span>
+                  <span class="tag">HTML5</span>
+                  <span class="tag">CSS3/SCSS</span>
+                  <span class="tag">SQL</span>
+                </div>
+              </div>
+              <div>
+                <p style="font-size: 12px; font-weight: 800; text-transform: uppercase; margin-bottom: 12px; color: var(--text-muted);">Frontend & Styling</p>
+                <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                  <span class="tag">Angular</span>
+                  <span class="tag">Vue.js</span>
+                  <span class="tag">Nuxt.js</span>
+                  <span class="tag">RxJS</span>
+                  <span class="tag">Tailwind CSS</span>
+                  <span class="tag">Bootstrap</span>
+                  <span class="tag">Angular Material</span>
+                </div>
+              </div>
+              <div>
+                <p style="font-size: 12px; font-weight: 800; text-transform: uppercase; margin-bottom: 12px; color: var(--text-muted);">AI, Systems & Architecture</p>
+                <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                  <span class="tag">Gemini Live API</span>
+                  <span class="tag">ONNX Runtime</span>
+                  <span class="tag">Edge Computer Vision</span>
+                  <span class="tag">Zero-Trust / Tailscale</span>
+                  <span class="tag">System Design</span>
+                </div>
+              </div>
+              <div>
+                <p style="font-size: 12px; font-weight: 800; text-transform: uppercase; margin-bottom: 12px; color: var(--text-muted);">Backend, Data & Databases</p>
+                <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                  <span class="tag">Node.js</span>
+                  <span class="tag">Express.js</span>
+                  <span class="tag">REST APIs</span>
+                  <span class="tag">PostgreSQL</span>
+                  <span class="tag">MySQL</span>
+                  <span class="tag">Firebase</span>
+                </div>
+              </div>
+              <div>
+                <p style="font-size: 12px; font-weight: 800; text-transform: uppercase; margin-bottom: 12px; color: var(--text-muted);">DevOps, Hosting & Maintenance</p>
+                <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                  <span class="tag">Linux (Fedora/Ubuntu)</span>
+                  <span class="tag">Git / GitHub</span>
+                  <span class="tag">Vite</span>
+                  <span class="tag">AWS CloudFront</span>
+                  <span class="tag">Vercel / Netlify</span>
+                  <span class="tag">Technical SEO</span>
+                  <span class="tag">Web Performance</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects" class="brutal-border-b section-y">
+      <div class="container rv-fade">
+        <div class="tag" style="margin-bottom: 24px;">04 // Selected Works</div>
+        <h2 class="text-h2" style="margin-bottom: 48px;">PROJECTS.</h2>
+        
+        <div class="projects-grid">
+          
+          <div class="project-card" style="background-color: var(--accent-light); border: 2px solid var(--ink); box-shadow: 6px 6px 0 var(--ink);">
+            <div class="project-num">01</div>
+            <div class="project-info">
+              <h3 class="text-h3">Project Ultron - Multimodal Voice AI Assistant</h3>
+              <p>Voice-activated personal AI assistant for macOS leveraging the Gemini Live API for real-time multimodal interaction, local ONNX edge models for face detection, and a zero-trust architecture via Tailscale for secure mobile execution without public internet exposure.</p>
+              <div style="display:flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px;">
+                <span class="tag">Python</span>
+                <span class="tag">Gemini Live API</span>
+                <span class="tag">ONNX</span>
+                <span class="tag">Zero-Trust</span>
+                <span class="tag">Tailscale</span>
+                <span class="tag">macOS Automation</span>
+              </div>
+              <div style="display:flex; gap: 12px; align-items:center;">
+                <a href="#" class="btn btn-primary btn-small">View Details</a>
+                <a href="https://github.com/vincecyriac/project-ultron" target="_blank" class="btn btn-outline btn-small" style="border: 2px solid var(--ink);">GitHub ↗</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="project-card">
+            <div class="project-num">02</div>
+            <div class="project-info">
+              <h3 class="text-h3">Anakulam Tourism Web Platform</h3>
+              <p>Engineered and maintain an end-to-end travel platform featuring sub-second core web vitals, structured metadata for top search ranking, and automated lead capture workflows.</p>
+              <div style="display:flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px;">
+                <span class="tag">Full-Stack</span>
+                <span class="tag">Technical SEO</span>
+                <span class="tag">Performance Optimization</span>
+                <span class="tag">EmailJS</span>
+              </div>
+              <div style="display:flex; gap: 12px; align-items:center;">
+                <a href="https://anakulamtourism.com" target="_blank" class="btn btn-primary btn-small">View Site ↗</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="project-card">
+            <div class="project-num">03</div>
+            <div class="project-info">
+              <h3 class="text-h3">Real-Time Financial Market Data Platform</h3>
+              <p>High-throughput financial portal used by institutional traders and financial organizations to stream live stock prices, indices, and market intelligence with sub-second latency.</p>
+              <div style="display:flex; flex-wrap: wrap; gap: 8px;">
+                <span class="tag">Angular</span>
+                <span class="tag">RxJS</span>
+                <span class="tag">Real-Time Telemetry</span>
+                <span class="tag">FinTech</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="project-card">
+            <div class="project-num">04</div>
+            <div class="project-info">
+              <h3 class="text-h3">Data-Driven Talent & Recruitment Platform</h3>
+              <p>Bias-aware recruitment SaaS platform built to streamline skill-based candidate assessments and optimize enterprise hiring workflows.</p>
+              <div style="display:flex; flex-wrap: wrap; gap: 8px;">
+                <span class="tag">Vue.js</span>
+                <span class="tag">Modern Frontend Architecture</span>
+                <span class="tag">HR SaaS</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="project-card">
+            <div class="project-num">05</div>
+            <div class="project-info">
+              <h3 class="text-h3">CoviTrack — Real-Time Analytics Platform</h3>
+              <p>Interactive pandemic analytics dashboard delivering localized and global telemetry, dynamic route parameters, and low-latency health data visualization.</p>
+              <div style="display:flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px;">
+                <span class="tag">Angular</span>
+                <span class="tag">TypeScript</span>
+                <span class="tag">RESTful APIs</span>
+                <span class="tag">Data Visualization</span>
+              </div>
+              <div style="display:flex; gap: 12px; align-items:center;">
+                <a href="https://covitrack.vincecyriac.dev/India" target="_blank" class="btn btn-primary btn-small">View Dashboard ↗</a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div style="text-align: center; margin-top: 48px;">
+          <button id="show-more-projects-btn" class="btn btn-outline" style="border: 2px solid var(--ink);">
+            Show More Projects <i class="bi bi-chevron-down" style="transition: transform 0.3s;" id="more-projects-icon"></i>
+          </button>
+        </div>
+
+        <div id="more-projects-container" class="projects-grid" style="display: none; margin-top: 24px;">
+          <div class="project-card rv-fade">
+            <div class="project-num">06</div>
+            <div class="project-info">
+              <h3 class="text-h3">Employee Assessment & Performance Platform</h3>
+              <p>Integrated enterprise web application for administering employee evaluations, automated scoring, and performance reporting.</p>
+              <div style="display:flex; flex-wrap: wrap; gap: 8px;">
+                <span class="tag">Angular</span>
+                <span class="tag">REST APIs</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="project-card rv-fade">
+            <div class="project-num">07</div>
+            <div class="project-info">
+              <h3 class="text-h3">B2B Client & Inventory Management Suite</h3>
+              <p>Comprehensive business management solution for client records, inventory tracking, and automated reporting pipelines.</p>
+              <div style="display:flex; flex-wrap: wrap; gap: 8px;">
+                <span class="tag">Angular</span>
+                <span class="tag">SaaS</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="project-card rv-fade">
+            <div class="project-num">08</div>
+            <div class="project-info">
+              <h3 class="text-h3">Enterprise Accommodation Booking System</h3>
+              <p>High-conversion reservation platform featuring real-time room availability, calendar integration, and secure payment processing.</p>
+              <div style="display:flex; flex-wrap: wrap; gap: 8px;">
+                <span class="tag">Angular</span>
+                <span class="tag">Payment Gateways</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="project-card rv-fade">
+            <div class="project-num">09</div>
+            <div class="project-info">
+              <h3 class="text-h3">Activity & Experience Reservation Portal</h3>
+              <p>Interactive booking portal streamlining discovery, scheduling, and checkout for leisure and activity providers.</p>
+              <div style="display:flex; flex-wrap: wrap; gap: 8px;">
+                <span class="tag">Angular</span>
+                <span class="tag">Dynamic Scheduling</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="project-card rv-fade">
+            <div class="project-num">10</div>
+            <div class="project-info">
+              <h3 class="text-h3">Frontend Verification & Quality Suite</h3>
+              <p>Internal utility web application engineered for testing, compatibility checks, and trial verification of emerging backend services.</p>
+              <div style="display:flex; flex-wrap: wrap; gap: 8px;">
+                <span class="tag">Angular</span>
+                <span class="tag">Testing Tools</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="section-y">
+      <div class="container rv-fade">
+        <div class="split-section">
+          <div class="split-left">
+            <div class="tag">05 // Contact</div>
+            <h2 class="text-h2" style="margin-top: 16px;">LET'S<br>TALK.</h2>
+            <p style="margin-top:24px; font-weight:800;">Open to new collaborations.</p>
+            <div style="margin-top:24px; display:flex; flex-direction:column; gap:16px;">
+              <a href="mailto:vincecyriac.dev@gmail.com" class="btn btn-outline"><i class="bi bi-envelope"></i> vincecyriac.dev@gmail.com</a>
+              <a href="https://www.linkedin.com/in/vincecyriac/" target="_blank" class="btn btn-outline"><i class="bi bi-linkedin"></i> vincecyriac</a>
+            </div>
+          </div>
+          
+          <div class="split-right">
+            <form class="contact-form" id="contact-form">
+              <div class="form-group">
+                <label for="cf-name">Name</label>
+                <input id="cf-name" type="text" placeholder="John Doe" required>
+              </div>
+              <div class="form-group">
+                <label for="cf-email">Email</label>
+                <input id="cf-email" type="email" placeholder="you@domain.com" required>
+              </div>
+              <div class="form-group">
+                <label for="cf-message">Message</label>
+                <textarea id="cf-message" placeholder="Describe your mission..." required rows="4"></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary">Transmit Message <i class="bi bi-send"></i></button>
+              <div id="form-status" class="form-status"></div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-text">VINCE CYRIAC // <span id="footer-year"></span></div>
+      <div class="footer-muted">DESIGNED & BUILT WITH INTENTION — NEO-BRUTALIST EDITION</div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
