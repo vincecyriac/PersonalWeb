@@ -501,7 +501,29 @@
     </div>
   </footer>
 
+  <!-- AI CHAT WIDGET -->
+  <div id="ai-chat-widget" class="ai-chat-widget ai-chat-hidden">
+    <div class="ai-chat-header">
+      <div class="ai-chat-title"><i class="bi bi-robot"></i> VinceAI</div>
+      <button id="ai-chat-close" class="btn-icon"><i class="bi bi-x-lg"></i></button>
+    </div>
+    <div class="ai-chat-body" id="ai-chat-body">
+      <div class="ai-msg bot">
+        <div class="msg-bubble">Hello! I'm Vince's AI assistant. Ask me anything about his experience, projects, or skills!</div>
+      </div>
+    </div>
+    <div class="ai-chat-footer">
+      <input type="text" id="ai-chat-input" placeholder="Ask a question..." autocomplete="off">
+      <button id="ai-chat-send" class="btn btn-primary"><i class="bi bi-send-fill"></i></button>
+    </div>
+  </div>
+
+  <button id="ai-chat-fab" class="btn btn-primary ai-chat-fab">
+    <i class="bi bi-chat-dots-fill"></i> Ask AI
+  </button>
+
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-  <script src="js/main.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script type="module" src="js/main.js"></script>
 </body>
 </html>

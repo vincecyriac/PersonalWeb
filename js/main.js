@@ -1,10 +1,48 @@
+import { GoogleGenerativeAI } from "https://esm.sh/@google/generative-ai@0.24.1";
+
 // ==========================================================================
 // VINCE CYRIAC — MODERN PORTFOLIO — MAIN.JS
 // ==========================================================================
 
-document.addEventListener('DOMContentLoaded', () => {
+const API_KEY = "AIzaSyBpguWxVdYAf2_to7BggQh7j8-8XII-9bo";
 
-  // ── Dynamic Dates ──
+const SYSTEM_INSTRUCTION = `You are the AI assistant representing Vince Cyriac on his portfolio website.
+You act as an expert technical proxy for him.
+Profile & Facts:
+- Vince Cyriac is a Lead / Senior Full-Stack AI & Frontend Engineer with 6+ years of professional experience (since August 2020) and 15+ shipped enterprise projects.
+- Core Technical Skills: TypeScript, Python, JavaScript (ES6+), Angular, Vue.js, Nuxt.js, Node.js, Express, RxJS, Tailwind CSS, SQL, PostgreSQL, MySQL.
+- AI & Modern Architecture: Gemini Live API, ONNX Runtime, Edge Computer Vision, Zero-Trust Architecture, Tailscale, Multi-agent workflows.
+- Cloud & DevOps: Linux (Fedora/Ubuntu), AWS CloudFront, Docker, CI/CD pipelines, Vercel, Netlify, Technical SEO, Core Web Vitals optimization.
+- Featured Project 01: Project Ultron — Multimodal Voice AI Assistant for macOS (Python, Gemini Live API, ONNX face detection, Zero-Trust Tailscale, macOS automation). GitHub: https://github.com/vincecyriac/project-ultron
+- Featured Project 02: Anakulam Tourism Platform — High-performance travel web platform (https://anakulamtourism.com) with top SEO ranking.
+- Other Enterprise Solutions: Real-time financial market data platforms (streaming quotes with sub-second latency), data-driven talent/recruitment platforms, and pandemic analytics (CoviTrack).
+- Contact: vincecyriac.dev@gmail.com, LinkedIn: https://www.linkedin.com/in/vincecyriac/
+
+Style & Tone:
+- Keep answers concise, conversational, and direct (2-3 short paragraphs max).
+- Format links cleanly as [LinkedIn](https://www.linkedin.com/in/vincecyriac/) or [Email](mailto:vincecyriac.dev@gmail.com).
+- Avoid excessive horizontal dividers (---) or oversized headers. Use simple bullet points for lists.
+- If asked about personal matters unrelated to his career or projects, politely decline and steer back to his engineering work.`;
+
+let chatSession = null;
+
+function getChatSession() {
+  if (!chatSession) {
+    try {
+      const genAI = new GoogleGenerativeAI(API_KEY);
+      const model = genAI.getGenerativeModel({
+        model: "gemini-3.1-flash-lite",
+        systemInstruction: SYSTEM_INSTRUCTION
+      });
+      chatSession = model.startChat({ history: [] });
+    } catch (e) {
+      console.error("Failed to initialize GoogleGenerativeAI:", e);
+    }
+  }
+  return chatSession;
+}
+
+document.addEventListener('DOMContentLoaded', () => {  // ── Dynamic Dates ──
   const CAREER_START = new Date(2020, 7, 10); // August 10, 2020
   const CURRENT_YEAR = new Date().getFullYear();
 
@@ -371,6 +409,87 @@ document.addEventListener('DOMContentLoaded', () => {
 
     initParticles();
     animate();
+  }
+
+  // ── AI CHAT WIDGET LOGIC ──
+  const chatFab = document.getElementById('ai-chat-fab');
+  const chatWidget = document.getElementById('ai-chat-widget');
+  const chatClose = document.getElementById('ai-chat-close');
+  const chatInput = document.getElementById('ai-chat-input');
+  const chatSend = document.getElementById('ai-chat-send');
+  const chatBody = document.getElementById('ai-chat-body');
+
+  if (chatFab && chatWidget) {
+    chatFab.addEventListener('click', () => {
+      chatWidget.classList.remove('ai-chat-hidden');
+      chatInput.focus();
+    });
+
+    chatClose.addEventListener('click', () => {
+      chatWidget.classList.add('ai-chat-hidden');
+    });
+
+    const appendMessage = (text, sender = 'user') => {
+      const msgDiv = document.createElement('div');
+      msgDiv.className = `ai-msg ${sender}`;
+      
+      let htmlContent = text;
+      if (typeof window.marked !== 'undefined' && sender === 'bot') {
+        htmlContent = window.marked.parse(text);
+      } else {
+        htmlContent = text
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/\n/g, '<br>');
+      }
+      
+      msgDiv.innerHTML = `<div class="msg-bubble">${htmlContent}</div>`;
+      
+      // Ensure all links open in a new tab
+      msgDiv.querySelectorAll('a').forEach(a => {
+        a.setAttribute('target', '_blank');
+        a.setAttribute('rel', 'noopener noreferrer');
+      });
+
+      chatBody.appendChild(msgDiv);
+      chatBody.scrollTop = chatBody.scrollHeight;
+      return msgDiv.querySelector('.msg-bubble');
+    };
+
+    const handleSend = async () => {
+      const text = chatInput.value.trim();
+      if (!text) return;
+
+      chatInput.value = '';
+      appendMessage(text, 'user');
+
+      // Add typing indicator
+      const typingDiv = document.createElement('div');
+      typingDiv.className = `ai-msg bot typing-wrapper`;
+      typingDiv.innerHTML = `<div class="msg-bubble"><div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div></div>`;
+      chatBody.appendChild(typingDiv);
+      chatBody.scrollTop = chatBody.scrollHeight;
+
+      try {
+        const session = getChatSession();
+        if (!session) throw new Error("Chat session could not be initialized");
+        const result = await session.sendMessage(text);
+        const response = await result.response.text();
+        
+        chatBody.removeChild(typingDiv);
+        appendMessage(response, 'bot');
+      } catch (err) {
+        console.error("AI Error:", err);
+        chatBody.removeChild(typingDiv);
+        appendMessage("Sorry, I am having trouble connecting right now. Please verify your Google API key or try again in a moment.", 'bot');
+      }
+    };
+
+    chatSend.addEventListener('click', handleSend);
+    chatInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') handleSend();
+    });
   }
 
 });
