@@ -1,0 +1,23 @@
+{
+  "name": "vince-portfolio-functions",
+  "description": "Serverless proxy for Vince Cyriac Portfolio Gemini AI",
+  "scripts": {
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "22"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "cors": "^2.8.5",
+    "firebase-admin": "^13.0.0",
+    "firebase-functions": "^6.0.0",
+    "ws": "^8.18.0"
+  },
+  "private": true
+}

@@ -1,45 +1,33 @@
-import { GoogleGenerativeAI } from "https://esm.sh/@google/generative-ai@0.24.1";
-
 // ==========================================================================
 // VINCE CYRIAC — MODERN PORTFOLIO — MAIN.JS
 // ==========================================================================
 
-const API_KEY = "AIzaSyBpguWxVdYAf2_to7BggQh7j8-8XII-9bo";
+const isEmulator = ['5000', '5005', '8080'].includes(window.location.port);
+const IS_LOCAL_STATIC = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') && !isEmulator;
+const BASE_API_URL = IS_LOCAL_STATIC ? 'https://personalweb-2d846.web.app' : '';
 
-const SYSTEM_INSTRUCTION = `You are the AI assistant representing Vince Cyriac on his portfolio website.
-You act as an expert technical proxy for him.
-Profile & Facts:
-- Vince Cyriac is a Lead / Senior Full-Stack AI & Frontend Engineer with 6+ years of professional experience (since August 2020) and 15+ shipped enterprise projects.
-- Core Technical Skills: TypeScript, Python, JavaScript (ES6+), Angular, Vue.js, Nuxt.js, Node.js, Express, RxJS, Tailwind CSS, SQL, PostgreSQL, MySQL.
-- AI & Modern Architecture: Gemini Live API, ONNX Runtime, Edge Computer Vision, Zero-Trust Architecture, Tailscale, Multi-agent workflows.
-- Cloud & DevOps: Linux (Fedora/Ubuntu), AWS CloudFront, Docker, CI/CD pipelines, Vercel, Netlify, Technical SEO, Core Web Vitals optimization.
-- Featured Project 01: Project Ultron — Multimodal Voice AI Assistant for macOS (Python, Gemini Live API, ONNX face detection, Zero-Trust Tailscale, macOS automation). GitHub: https://github.com/vincecyriac/project-ultron
-- Featured Project 02: Anakulam Tourism Platform — High-performance travel web platform (https://anakulamtourism.com) with top SEO ranking.
-- Other Enterprise Solutions: Real-time financial market data platforms (streaming quotes with sub-second latency), data-driven talent/recruitment platforms, and pandemic analytics (CoviTrack).
-- Contact: vincecyriac.dev@gmail.com, LinkedIn: https://www.linkedin.com/in/vincecyriac/
+const conversationHistory = [];
 
-Style & Tone:
-- Keep answers concise, conversational, and direct (2-3 short paragraphs max).
-- Format links cleanly as [LinkedIn](https://www.linkedin.com/in/vincecyriac/) or [Email](mailto:vincecyriac.dev@gmail.com).
-- Avoid excessive horizontal dividers (---) or oversized headers. Use simple bullet points for lists.
-- If asked about personal matters unrelated to his career or projects, politely decline and steer back to his engineering work.`;
+async function callVinceAIApi(message) {
+  const response = await fetch(`${BASE_API_URL}/api/chat`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ message, history: conversationHistory })
+  });
 
-let chatSession = null;
-
-function getChatSession() {
-  if (!chatSession) {
-    try {
-      const genAI = new GoogleGenerativeAI(API_KEY);
-      const model = genAI.getGenerativeModel({
-        model: "gemini-3.1-flash-lite",
-        systemInstruction: SYSTEM_INSTRUCTION
-      });
-      chatSession = model.startChat({ history: [] });
-    } catch (e) {
-      console.error("Failed to initialize GoogleGenerativeAI:", e);
-    }
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({}));
+    throw new Error(errorData.error || `Server responded with ${response.status}`);
   }
-  return chatSession;
+
+  const data = await response.json();
+  // Update memory
+  conversationHistory.push(
+    { role: 'user', text: message },
+    { role: 'model', text: data.text }
+  );
+
+  return data.text;
 }
 
 document.addEventListener('DOMContentLoaded', () => {  // ── Dynamic Dates ──
@@ -167,8 +155,30 @@ document.addEventListener('DOMContentLoaded', () => {  // ── Dynamic Dates �
     mobBtn.addEventListener('click', toggleMobMenu);
   }
 
-  mobLinks.forEach(link => {
-    link.addEventListener('click', closeMobMenu);
+  // ── Precise Anchor Scrolling with Navbar Offset ──
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      const targetId = this.getAttribute('href');
+      if (!targetId || targetId === '#') return;
+      
+      const targetEl = document.querySelector(targetId);
+      if (targetEl) {
+        e.preventDefault();
+        closeMobMenu();
+        
+        const navH = navbar ? navbar.offsetHeight : 72;
+        
+        // Find inner content container or tag to align right below the navbar
+        const contentHeader = targetEl.querySelector('.tag, .split-left, .hero-text, .container') || targetEl;
+        const targetPos = contentHeader.getBoundingClientRect().top + window.pageYOffset;
+        const offset = targetPos - navH - 24;
+        
+        window.scrollTo({
+          top: Math.max(0, offset),
+          behavior: 'smooth'
+        });
+      }
+    });
   });
 
   // ── Theme Toggle ──
@@ -219,6 +229,44 @@ document.addEventListener('DOMContentLoaded', () => {  // ── Dynamic Dates �
       }
     });
   }
+
+  // ── Project Ultron Modal ──
+  const openUltronBtn = document.getElementById('open-ultron-modal');
+  const ultronModal = document.getElementById('ultron-modal');
+  const closeUltronBtn = document.getElementById('close-ultron-modal');
+  const modalCloseBtn = document.getElementById('modal-close-btn');
+
+  function openModal() {
+    if (ultronModal) {
+      ultronModal.classList.add('open');
+      ultronModal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+  }
+
+  function closeModal() {
+    if (ultronModal) {
+      ultronModal.classList.remove('open');
+      ultronModal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+  }
+
+  if (openUltronBtn) openUltronBtn.addEventListener('click', openModal);
+  if (closeUltronBtn) closeUltronBtn.addEventListener('click', closeModal);
+  if (modalCloseBtn) modalCloseBtn.addEventListener('click', closeModal);
+
+  if (ultronModal) {
+    ultronModal.addEventListener('click', (e) => {
+      if (e.target === ultronModal) closeModal();
+    });
+  }
+
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && ultronModal && ultronModal.classList.contains('open')) {
+      closeModal();
+    }
+  });
 
   // ── Contact Form (EmailJS) ──
   const form = document.getElementById('contact-form');
@@ -279,217 +327,688 @@ document.addEventListener('DOMContentLoaded', () => {  // ── Dynamic Dates �
     el.textContent = msg;
   }
 
-  // ── Brutalist Particles ──
-  const canvas = document.getElementById('hero-particles');
-  const container = document.getElementById('hero-particle-container');
-  
-  if (canvas && container) {
-    const ctx = canvas.getContext('2d');
-    let particles = [];
-    let mouse = { x: -1000, y: -1000, radius: 100 };
+  // ── 3D SPATIAL HUD & ORBITAL TELEMETRY CANVAS ──
+  const hudCanvas = document.getElementById('hero-hud-canvas');
+  const hudContainer = document.getElementById('hero-hud-container');
+  const telemetryCoords = document.getElementById('telemetry-coords');
+
+  if (hudCanvas && hudContainer) {
+    const ctx = hudCanvas.getContext('2d');
+    let width, height, centerX, centerY;
+    let mouse = { x: 0, y: 0, targetX: 0, targetY: 0, hover: false };
+    let angleX = 0, angleY = 0, rotAngle = 0;
+    
+    // Cyber lattice nodes
+    const nodes = [];
+    const NUM_NODES = 24;
 
     function resize() {
-      canvas.width = container.clientWidth;
-      canvas.height = container.clientHeight;
+      const dpr = window.devicePixelRatio || 1;
+      width = hudContainer.clientWidth + 40;
+      height = hudContainer.clientHeight + 40;
+      hudCanvas.width = width * dpr;
+      hudCanvas.height = height * dpr;
+      ctx.scale(dpr, dpr);
+      centerX = width / 2;
+      centerY = height / 2;
     }
-    
+
     window.addEventListener('resize', resize);
     resize();
 
-    container.addEventListener('mousemove', (e) => {
-      const rect = container.getBoundingClientRect();
-      mouse.x = e.clientX - rect.left;
-      mouse.y = e.clientY - rect.top;
+    // Initialize spatial nodes
+    for (let i = 0; i < NUM_NODES; i++) {
+      nodes.push({
+        x: (Math.random() - 0.5) * width * 0.9,
+        y: (Math.random() - 0.5) * height * 0.9,
+        z: Math.random() * 200 - 100,
+        vx: (Math.random() - 0.5) * 0.6,
+        vy: (Math.random() - 0.5) * 0.6,
+        vz: (Math.random() - 0.5) * 0.6,
+        size: Math.random() * 2 + 1.5,
+        alpha: Math.random() * 0.6 + 0.3
+      });
+    }
+
+    hudContainer.addEventListener('mousemove', (e) => {
+      const rect = hudContainer.getBoundingClientRect();
+      mouse.targetX = (e.clientX - rect.left) - (width / 2);
+      mouse.targetY = (e.clientY - rect.top) - (height / 2);
+      mouse.hover = true;
+      
+      if (telemetryCoords) {
+        const normX = Math.round(e.clientX - rect.left);
+        const normY = Math.round(e.clientY - rect.top);
+        telemetryCoords.textContent = `X: ${String(normX).padStart(3, '0')} Y: ${String(normY).padStart(3, '0')}`;
+      }
     });
 
-    const color = '#161710'; // Brutalist Ink color
+    hudContainer.addEventListener('mouseleave', () => {
+      mouse.targetX = 0;
+      mouse.targetY = 0;
+      mouse.hover = false;
+    });
 
-    class Particle {
-      constructor() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
-        this.size = Math.random() * 3 + 1.5; // Small dots
-        this.density = (Math.random() * 30) + 1;
-        this.vx = (Math.random() - 0.5) * 1.5;
-        this.vy = (Math.random() - 0.5) * 1.5;
-      }
-      
-      update() {
-        // Natural drift
-        this.x += this.vx;
-        this.y += this.vy;
-        
-        // Bounce off edges
-        if (this.x + this.size / 2 > canvas.width || this.x - this.size / 2 < 0) {
-          this.vx *= -1;
-        }
-        if (this.y + this.size / 2 > canvas.height || this.y - this.size / 2 < 0) {
-          this.vy *= -1;
-        }
+    function drawHUD() {
+      ctx.clearRect(0, 0, width, height);
 
-        // Mouse interaction (repel)
-        let dx = mouse.x - this.x;
-        let dy = mouse.y - this.y;
-        let distance = Math.sqrt(dx * dx + dy * dy);
-        
-        if (distance < mouse.radius) {
-          let forceDirectionX = dx / distance;
-          let forceDirectionY = dy / distance;
-          let force = (mouse.radius - distance) / mouse.radius;
-          let directionX = forceDirectionX * force * (this.density * 0.3);
-          let directionY = forceDirectionY * force * (this.density * 0.3);
-          
-          this.x -= directionX;
-          this.y -= directionY;
-        }
-      }
+      // Smooth camera tilt
+      mouse.x += (mouse.targetX - mouse.x) * 0.05;
+      mouse.y += (mouse.targetY - mouse.y) * 0.05;
+      rotAngle += 0.008;
 
-      draw() {
-        ctx.fillStyle = color;
+      angleX = (mouse.y / height) * 0.4;
+      angleY = (mouse.x / width) * 0.4;
+
+      ctx.save();
+      ctx.translate(centerX, centerY);
+
+      // ── Outer Rotating Gyroscope Ring ──
+      ctx.save();
+      ctx.rotate(rotAngle * 0.5 + angleY);
+      ctx.scale(1, 0.4 + Math.abs(angleX * 0.5));
+      ctx.strokeStyle = 'rgba(22, 23, 16, 0.35)';
+      ctx.lineWidth = 1.5;
+      ctx.setLineDash([8, 12]);
+      ctx.beginPath();
+      ctx.arc(0, 0, Math.min(width, height) * 0.44, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.restore();
+
+      // ── Middle Glowing Orbital Ring ──
+      ctx.save();
+      ctx.rotate(-rotAngle * 0.8 + angleY * 1.2);
+      ctx.scale(1, 0.5 + Math.abs(angleY * 0.4));
+      ctx.strokeStyle = 'rgba(204, 255, 0, 0.85)'; // Neon lime
+      ctx.lineWidth = 2;
+      ctx.setLineDash([20, 8, 4, 8]);
+      ctx.beginPath();
+      ctx.arc(0, 0, Math.min(width, height) * 0.36, 0, Math.PI * 2);
+      ctx.stroke();
+
+      // Target blips on ring
+      for (let b = 0; b < 3; b++) {
+        const bAngle = (b * Math.PI * 2 / 3) + rotAngle;
+        const bx = Math.cos(bAngle) * (Math.min(width, height) * 0.36);
+        const by = Math.sin(bAngle) * (Math.min(width, height) * 0.36);
+        ctx.fillStyle = '#161710';
         ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.arc(bx, by, 3.5, 0, Math.PI * 2);
         ctx.fill();
+        ctx.strokeStyle = '#ccff00';
+        ctx.stroke();
       }
-    }
+      ctx.restore();
 
-    function initParticles() {
-      particles = [];
-      const particleCount = Math.floor((canvas.width * canvas.height) / 6000); // higher density for networks
-      for (let i = 0; i < particleCount; i++) {
-        particles.push(new Particle());
-      }
-    }
+      // ── 3D Floating Lattice Nodes & Vectors ──
+      for (let i = 0; i < nodes.length; i++) {
+        const n = nodes[i];
+        n.x += n.vx;
+        n.y += n.vy;
+        n.z += n.vz;
 
-    function connect() {
-      let opacityValue = 1;
-      for (let a = 0; a < particles.length; a++) {
-        // Connect to mouse
-        if (mouse.x !== -1000) {
-          let mdx = particles[a].x - mouse.x;
-          let mdy = particles[a].y - mouse.y;
-          let mdist = Math.sqrt(mdx * mdx + mdy * mdy);
-          if (mdist < 140) {
-            ctx.strokeStyle = `rgba(22, 23, 16, ${1 - (mdist/140)})`;
-            ctx.lineWidth = 1.5;
-            ctx.beginPath();
-            ctx.moveTo(particles[a].x, particles[a].y);
-            ctx.lineTo(mouse.x, mouse.y);
-            ctx.stroke();
-          }
-        }
+        if (Math.abs(n.x) > width * 0.48) n.vx *= -1;
+        if (Math.abs(n.y) > height * 0.48) n.vy *= -1;
+        if (Math.abs(n.z) > 120) n.vz *= -1;
 
-        // Connect to other particles
-        for (let b = a; b < particles.length; b++) {
-          let dx = particles[a].x - particles[b].x;
-          let dy = particles[a].y - particles[b].y;
-          let distance = Math.sqrt(dx * dx + dy * dy);
-          
-          if (distance < 100) {
-            opacityValue = 1 - (distance / 100);
-            ctx.strokeStyle = `rgba(22, 23, 16, ${opacityValue})`;
+        // 3D perspective projection
+        const fov = 300;
+        const scale = fov / (fov + n.z + 100);
+        const projX = (n.x + mouse.x * 0.15) * scale;
+        const projY = (n.y + mouse.y * 0.15) * scale;
+
+        // Draw node
+        ctx.fillStyle = `rgba(22, 23, 16, ${n.alpha * scale})`;
+        ctx.beginPath();
+        ctx.arc(projX, projY, n.size * scale, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Connect nearby nodes
+        for (let j = i + 1; j < nodes.length; j++) {
+          const n2 = nodes[j];
+          const scale2 = fov / (fov + n2.z + 100);
+          const p2X = (n2.x + mouse.x * 0.15) * scale2;
+          const p2Y = (n2.y + mouse.y * 0.15) * scale2;
+          const dist = Math.hypot(projX - p2X, projY - p2Y);
+
+          if (dist < 75) {
+            ctx.strokeStyle = `rgba(22, 23, 16, ${(1 - dist / 75) * 0.25})`;
             ctx.lineWidth = 1;
+            ctx.setLineDash([]);
             ctx.beginPath();
-            ctx.moveTo(particles[a].x, particles[a].y);
-            ctx.lineTo(particles[b].x, particles[b].y);
+            ctx.moveTo(projX, projY);
+            ctx.lineTo(p2X, p2Y);
             ctx.stroke();
           }
         }
       }
+
+      ctx.restore();
+      requestAnimationFrame(drawHUD);
     }
 
-    function animate() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      for (let i = 0; i < particles.length; i++) {
-        particles[i].update();
-        particles[i].draw();
-      }
-      connect();
-      requestAnimationFrame(animate);
-    }
-
-    initParticles();
-    animate();
+    drawHUD();
   }
 
-  // ── AI CHAT WIDGET LOGIC ──
+
+  // ── GEMINI MULTIMODAL LIVE REAL-TIME WEBSOCKET AUDIO STREAMING ENGINE ──
+  function downsampleTo16k(buffer, inputSampleRate) {
+    if (inputSampleRate === 16000) return buffer;
+    const ratio = inputSampleRate / 16000;
+    const newLength = Math.round(buffer.length / ratio);
+    const result = new Float32Array(newLength);
+    let offsetResult = 0;
+    let offsetBuffer = 0;
+    while (offsetResult < result.length) {
+      const nextOffsetBuffer = Math.round((offsetResult + 1) * ratio);
+      let accum = 0, count = 0;
+      for (let i = offsetBuffer; i < nextOffsetBuffer && i < buffer.length; i++) {
+        accum += buffer[i];
+        count++;
+      }
+      result[offsetResult] = count > 0 ? accum / count : 0;
+      offsetResult++;
+      offsetBuffer = nextOffsetBuffer;
+    }
+    return result;
+  }
+
+  class GeminiLiveClient {
+    constructor(callbacks) {
+      this.ws = null;
+      this.audioContext = null;
+      this.inputAudioContext = null;
+      this.mediaStream = null;
+      this.scriptProcessor = null;
+      this.analyser = null;
+      this.outAnalyser = null;
+      this.scheduledTime = 0;
+      this.isConnected = false;
+      this.isSpeaking = false;
+      this.isInitialGreeting = true;
+      this.callbacks = callbacks || {};
+    }
+
+    async connect(config) {
+      this.scheduledTime = 0;
+      this.audioContext = new (window.AudioContext || window.webkitAudioContext)({ sampleRate: 24000 });
+      this.outAnalyser = this.audioContext.createAnalyser();
+      this.outAnalyser.fftSize = 64;
+
+      const wsUrl = `wss://generativelanguage.googleapis.com/ws/google.ai.generativelanguage.v1alpha.GenerativeService.BidiGenerateContent?key=${config.apiKey}`;
+      this.ws = new WebSocket(wsUrl);
+
+      this.ws.onopen = () => {
+        this.isConnected = true;
+        if (this.callbacks.onStatusChange) {
+          this.callbacks.onStatusChange('connected', 'Connecting to Ultron...');
+        }
+
+        // Send Setup Payload to Gemini Live
+        const setupMsg = {
+          setup: {
+            model: config.model || "models/gemini-2.5-flash-native-audio-latest",
+            generationConfig: {
+              responseModalities: ["AUDIO"],
+              speechConfig: {
+                voiceConfig: {
+                  prebuiltVoiceConfig: {
+                    voiceName: config.voiceName || "Puck"
+                  }
+                }
+              }
+            },
+            systemInstruction: {
+              parts: [{ text: config.systemInstruction }]
+            }
+          }
+        };
+        this.ws.send(JSON.stringify(setupMsg));
+      };
+
+      this.ws.onmessage = async (event) => {
+        let data = event.data;
+        if (data instanceof Blob) {
+          data = await data.text();
+        }
+        try {
+          const response = JSON.parse(data);
+
+          if (response.setupComplete) {
+            console.log("Ultron Live: setupComplete acknowledged.");
+            this.startMicrophone();
+
+            if (this.callbacks.onStatusChange) {
+              this.callbacks.onStatusChange('connected', 'Ultron Initializing...');
+            }
+
+            // Ultron introduces himself first when the session opens
+            const greetingMsg = {
+              clientContent: {
+                turns: [
+                  {
+                    role: "user",
+                    parts: [
+                      {
+                        text: "Introduce yourself in one or two punchy sentences as Ultron, Vince's personal AI assistant, and ask how you can help them."
+                      }
+                    ]
+                  }
+                ],
+                turnComplete: true
+              }
+            };
+            this.ws.send(JSON.stringify(greetingMsg));
+            return;
+          }
+
+          if (response.serverContent) {
+            const { modelTurn } = response.serverContent;
+            if (modelTurn && modelTurn.parts) {
+              for (const part of modelTurn.parts) {
+                if (part.text && this.callbacks.onTextChunk) {
+                  this.callbacks.onTextChunk(part.text);
+                }
+                if (part.inlineData && part.inlineData.mimeType && part.inlineData.mimeType.startsWith('audio/pcm')) {
+                  this.playAudioChunk(part.inlineData.data);
+                }
+              }
+            }
+          }
+        } catch (err) {
+          console.error("Ultron Live parsing error:", err);
+        }
+      };
+
+      this.ws.onerror = (err) => {
+        console.error("Ultron Live WS Error:", err);
+      };
+
+      this.ws.onclose = (event) => {
+        console.warn(`Ultron Live closed: code=${event.code}, reason=${event.reason || 'none'}`);
+        this.isConnected = false;
+        this.stopMicrophone();
+        
+        let reasonMsg = 'Tap to speak';
+        if (event.code === 1008 || event.code === 1003 || event.code === 1007) {
+          reasonMsg = `Auth error (${event.code})`;
+        }
+
+        if (this.callbacks.onStatusChange) {
+          this.callbacks.onStatusChange('idle', reasonMsg);
+        }
+      };
+    }
+
+    async startMicrophone() {
+      try {
+        this.mediaStream = await navigator.mediaDevices.getUserMedia({
+          audio: {
+            sampleRate: 16000,
+            channelCount: 1,
+            echoCancellation: true,
+            noiseSuppression: true,
+            autoGainControl: true
+          }
+        });
+
+        this.inputAudioContext = new (window.AudioContext || window.webkitAudioContext)();
+        const nativeSampleRate = this.inputAudioContext.sampleRate;
+        const source = this.inputAudioContext.createMediaStreamSource(this.mediaStream);
+
+        this.analyser = this.inputAudioContext.createAnalyser();
+        this.analyser.fftSize = 64;
+        source.connect(this.analyser);
+
+        // Silent sink to ensure audio processing runs without echoing to speakers
+        const silentSink = this.inputAudioContext.createGain();
+        silentSink.gain.value = 0;
+
+        this.scriptProcessor = this.inputAudioContext.createScriptProcessor(4096, 1, 1);
+        this.analyser.connect(this.scriptProcessor);
+        this.scriptProcessor.connect(silentSink);
+        silentSink.connect(this.inputAudioContext.destination);
+
+        let speechFrames = 0;
+        let silenceFrames = 0;
+        let isUserSpeaking = false;
+
+        this.scriptProcessor.onaudioprocess = (e) => {
+          if (!this.isConnected || !this.ws || this.ws.readyState !== WebSocket.OPEN) return;
+          if (this.isInitialGreeting && this.isSpeaking) return;
+
+          const rawInput = e.inputBuffer.getChannelData(0);
+
+          // Energy check for instant UI response state
+          let sum = 0;
+          for (let i = 0; i < rawInput.length; i++) sum += rawInput[i] * rawInput[i];
+          const rms = Math.sqrt(sum / rawInput.length);
+
+          if (!this.isSpeaking && !this.isInitialGreeting) {
+            if (rms > 0.025) {
+              speechFrames++;
+              silenceFrames = 0;
+              if (speechFrames > 2 && !isUserSpeaking) {
+                isUserSpeaking = true;
+                if (this.callbacks.onStatusChange) {
+                  this.callbacks.onStatusChange('listening', 'Ultron Listening...');
+                }
+              }
+            } else {
+              if (isUserSpeaking) {
+                silenceFrames++;
+                if (silenceFrames > 6) { // ~600ms pause after speaking
+                  isUserSpeaking = false;
+                  speechFrames = 0;
+                  if (this.callbacks.onStatusChange) {
+                    this.callbacks.onStatusChange('thinking', 'Ultron Thinking...');
+                  }
+                }
+              }
+            }
+          }
+
+          // Downsample to 16kHz
+          const resampled = downsampleTo16k(rawInput, nativeSampleRate);
+
+          // Convert Float32 to 16-bit PCM
+          const pcm16 = new Int16Array(resampled.length);
+          for (let i = 0; i < resampled.length; i++) {
+            const s = Math.max(-1, Math.min(1, resampled[i]));
+            pcm16[i] = s < 0 ? s * 0x8000 : s * 0x7FFF;
+          }
+
+          // Base64 encode
+          let binary = '';
+          const bytes = new Uint8Array(pcm16.buffer);
+          const len = bytes.byteLength;
+          for (let i = 0; i < len; i++) {
+            binary += String.fromCharCode(bytes[i]);
+          }
+          const base64Audio = btoa(binary);
+
+          const realTimeMsg = {
+            realtimeInput: {
+              mediaChunks: [
+                {
+                  mimeType: "audio/pcm;rate=16000",
+                  data: base64Audio
+                }
+              ]
+            }
+          };
+          this.ws.send(JSON.stringify(realTimeMsg));
+        };
+
+        if (this.callbacks.onStatusChange && !this.isInitialGreeting) {
+          this.callbacks.onStatusChange('listening', 'Ultron Listening...');
+        }
+      } catch (err) {
+        console.error("Microphone access error:", err);
+        if (this.callbacks.onStatusChange) {
+          this.callbacks.onStatusChange('error', 'Microphone Denied');
+        }
+      }
+    }
+
+    playAudioChunk(base64Data) {
+      this.isSpeaking = true;
+      const binary = atob(base64Data);
+      const bytes = new Uint8Array(binary.length);
+      for (let i = 0; i < binary.length; i++) {
+        bytes[i] = binary.charCodeAt(i);
+      }
+      const int16 = new Int16Array(bytes.buffer);
+      const float32 = new Float32Array(int16.length);
+      for (let i = 0; i < int16.length; i++) {
+        float32[i] = int16[i] / 32768.0;
+      }
+
+      if (!this.audioContext) return;
+      const audioBuffer = this.audioContext.createBuffer(1, float32.length, 24000);
+      audioBuffer.getChannelData(0).set(float32);
+
+      const source = this.audioContext.createBufferSource();
+      source.buffer = audioBuffer;
+      source.connect(this.outAnalyser);
+      this.outAnalyser.connect(this.audioContext.destination);
+
+      const currentTime = this.audioContext.currentTime;
+      if (this.scheduledTime < currentTime) {
+        this.scheduledTime = currentTime;
+      }
+      source.start(this.scheduledTime);
+      this.scheduledTime += audioBuffer.duration;
+
+      source.onended = () => {
+        if (this.audioContext && this.scheduledTime <= this.audioContext.currentTime + 0.1) {
+          this.isSpeaking = false;
+          this.isInitialGreeting = false; // Initial greeting finished
+          if (this.callbacks.onStatusChange && this.isConnected) {
+            this.callbacks.onStatusChange('listening', 'Ultron Listening...');
+          }
+        }
+      };
+
+      if (this.callbacks.onStatusChange) {
+        this.callbacks.onStatusChange('speaking', 'Ultron Speaking...');
+      }
+    }
+
+    clearAudioQueue() {
+      this.isSpeaking = false;
+      this.isInitialGreeting = false;
+      this.scheduledTime = 0;
+      if (this.audioContext) {
+        try {
+          this.audioContext.close();
+        } catch (e) {}
+        this.audioContext = new (window.AudioContext || window.webkitAudioContext)({ sampleRate: 24000 });
+        this.outAnalyser = this.audioContext.createAnalyser();
+        this.outAnalyser.fftSize = 64;
+      }
+    }
+
+    stopMicrophone() {
+      if (this.scriptProcessor) {
+        this.scriptProcessor.disconnect();
+        this.scriptProcessor = null;
+      }
+      if (this.inputAudioContext) {
+        try {
+          this.inputAudioContext.close();
+        } catch (e) {}
+        this.inputAudioContext = null;
+      }
+      if (this.mediaStream) {
+        this.mediaStream.getTracks().forEach(t => t.stop());
+        this.mediaStream = null;
+      }
+    }
+
+    disconnect() {
+      this.stopMicrophone();
+      this.clearAudioQueue();
+      if (this.ws) {
+        try {
+          this.ws.close();
+        } catch (e) {}
+        this.ws = null;
+      }
+      this.isConnected = false;
+      this.isSpeaking = false;
+    }
+  }
+
+
+  // ── VOICE-ONLY CONTROLLER ──
   const chatFab = document.getElementById('ai-chat-fab');
   const chatWidget = document.getElementById('ai-chat-widget');
   const chatClose = document.getElementById('ai-chat-close');
-  const chatInput = document.getElementById('ai-chat-input');
-  const chatSend = document.getElementById('ai-chat-send');
-  const chatBody = document.getElementById('ai-chat-body');
+  const voiceMicBtn = document.getElementById('voice-mic-trigger');
+  const voiceStatus = document.getElementById('voice-status');
+  const waveCanvas = document.getElementById('voice-waveform-canvas');
 
   if (chatFab && chatWidget) {
+    let liveClient = null;
+    let liveConfig = null;
+    let waveCtx = waveCanvas ? waveCanvas.getContext('2d') : null;
+    let wavePhase = 0;
+    let streamState = 'idle';
+
+    async function fetchLiveConfig() {
+      if (window.LOCAL_CONFIG && window.LOCAL_CONFIG.apiKey) {
+        return window.LOCAL_CONFIG;
+      }
+      if (liveConfig) return liveConfig;
+      try {
+        const res = await fetch(`${BASE_API_URL}/api/live-config`);
+        if (!res.ok) throw new Error("Could not fetch live config from server");
+        liveConfig = await res.json();
+        return liveConfig;
+      } catch (err) {
+        console.warn("Live config fetch error:", err);
+        return null;
+      }
+    }
+
+    const voiceHintBadge = document.querySelector('.voice-hint-badge');
+
+    function updateVoiceUI(state, title) {
+      streamState = state;
+      if (voiceStatus && title) voiceStatus.textContent = title;
+
+      if (voiceMicBtn) {
+        voiceMicBtn.className = 'voice-mic-button';
+        if (state === 'listening' || state === 'connected') voiceMicBtn.classList.add('listening');
+        if (state === 'speaking') voiceMicBtn.classList.add('speaking');
+        if (state === 'thinking') voiceMicBtn.classList.add('thinking');
+      }
+
+      if (voiceHintBadge) {
+        if (state === 'speaking' || state === 'thinking') {
+          voiceHintBadge.innerHTML = '<i class="bi bi-hand-index-thumb-fill"></i> Tap mic to interrupt Ultron';
+        } else if (state === 'listening') {
+          voiceHintBadge.innerHTML = '<i class="bi bi-mic-fill"></i> Ultron is listening to you...';
+        } else {
+          voiceHintBadge.innerHTML = '<i class="bi bi-chat-quote"></i> Speak naturally • Tap mic to interrupt';
+        }
+      }
+    }
+
+    async function startLiveSession() {
+      const config = await fetchLiveConfig();
+      if (!config || !config.apiKey) {
+        updateVoiceUI('error', 'API Config Missing');
+        return;
+      }
+
+      if (liveClient) {
+        liveClient.disconnect();
+      }
+
+      liveClient = new GeminiLiveClient({
+        onStatusChange: (state, title) => {
+          updateVoiceUI(state, title);
+        }
+      });
+
+      liveClient.connect(config);
+    }
+
+    function stopLiveSession() {
+      if (liveClient) {
+        liveClient.disconnect();
+        liveClient = null;
+      }
+      updateVoiceUI('idle', 'Tap to speak');
+    }
+
     chatFab.addEventListener('click', () => {
       chatWidget.classList.remove('ai-chat-hidden');
-      chatInput.focus();
+      if (!liveClient || !liveClient.isConnected) {
+        startLiveSession();
+      }
     });
 
     chatClose.addEventListener('click', () => {
+      stopLiveSession();
       chatWidget.classList.add('ai-chat-hidden');
     });
 
-    const appendMessage = (text, sender = 'user') => {
-      const msgDiv = document.createElement('div');
-      msgDiv.className = `ai-msg ${sender}`;
-      
-      let htmlContent = text;
-      if (typeof window.marked !== 'undefined' && sender === 'bot') {
-        htmlContent = window.marked.parse(text);
-      } else {
-        htmlContent = text
-          .replace(/&/g, "&amp;")
-          .replace(/</g, "&lt;")
-          .replace(/>/g, "&gt;")
-          .replace(/\n/g, '<br>');
-      }
-      
-      msgDiv.innerHTML = `<div class="msg-bubble">${htmlContent}</div>`;
-      
-      // Ensure all links open in a new tab
-      msgDiv.querySelectorAll('a').forEach(a => {
-        a.setAttribute('target', '_blank');
-        a.setAttribute('rel', 'noopener noreferrer');
+    if (voiceMicBtn) {
+      voiceMicBtn.addEventListener('click', () => {
+        if (liveClient && liveClient.isConnected) {
+          // Interrupt when AI is speaking or thinking -> immediately switch to listening
+          if (liveClient.isSpeaking || streamState === 'thinking' || streamState === 'speaking') {
+            liveClient.clearAudioQueue();
+            updateVoiceUI('listening', 'Ultron Listening...');
+          } else {
+            // Already listening: continue active listening
+            updateVoiceUI('listening', 'Ultron Listening...');
+          }
+        } else {
+          startLiveSession();
+        }
       });
+    }
 
-      chatBody.appendChild(msgDiv);
-      chatBody.scrollTop = chatBody.scrollHeight;
-      return msgDiv.querySelector('.msg-bubble');
-    };
+    // ── Real-Time FFT Waveform Visualizer ──
+    if (waveCanvas && waveCtx) {
+      function drawWaveform() {
+        const w = waveCanvas.width = 120;
+        const h = waveCanvas.height = 120;
+        waveCtx.clearRect(0, 0, w, h);
 
-    const handleSend = async () => {
-      const text = chatInput.value.trim();
-      if (!text) return;
+        const cy = h / 2;
+        wavePhase += 0.05;
 
-      chatInput.value = '';
-      appendMessage(text, 'user');
+        let amp = 8;
+        if (streamState === 'thinking') {
+          wavePhase += 0.12;
+          amp = 18 + Math.sin(wavePhase * 2) * 6;
+        } else if (liveClient) {
+          if (streamState === 'speaking' && liveClient.outAnalyser) {
+            const dataArray = new Uint8Array(32);
+            liveClient.outAnalyser.getByteFrequencyData(dataArray);
+            let sum = 0;
+            for (let i = 0; i < dataArray.length; i++) sum += dataArray[i];
+            amp = Math.max(12, (sum / dataArray.length) * 0.45);
+          } else if (streamState === 'listening' && liveClient.analyser) {
+            const dataArray = new Uint8Array(32);
+            liveClient.analyser.getByteFrequencyData(dataArray);
+            let sum = 0;
+            for (let i = 0; i < dataArray.length; i++) sum += dataArray[i];
+            amp = Math.max(10, (sum / dataArray.length) * 0.5);
+          }
+        }
 
-      // Add typing indicator
-      const typingDiv = document.createElement('div');
-      typingDiv.className = `ai-msg bot typing-wrapper`;
-      typingDiv.innerHTML = `<div class="msg-bubble"><div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div></div>`;
-      chatBody.appendChild(typingDiv);
-      chatBody.scrollTop = chatBody.scrollHeight;
+        // Wave Layer 1 (Lime Neon)
+        waveCtx.strokeStyle = 'rgba(204, 255, 0, 0.9)';
+        waveCtx.lineWidth = 2.5;
+        waveCtx.beginPath();
+        for (let x = 0; x < w; x++) {
+          const y = cy + Math.sin(x * 0.08 + wavePhase) * (amp * Math.sin(x / w * Math.PI));
+          if (x === 0) waveCtx.moveTo(x, y);
+          else waveCtx.lineTo(x, y);
+        }
+        waveCtx.stroke();
 
-      try {
-        const session = getChatSession();
-        if (!session) throw new Error("Chat session could not be initialized");
-        const result = await session.sendMessage(text);
-        const response = await result.response.text();
-        
-        chatBody.removeChild(typingDiv);
-        appendMessage(response, 'bot');
-      } catch (err) {
-        console.error("AI Error:", err);
-        chatBody.removeChild(typingDiv);
-        appendMessage("Sorry, I am having trouble connecting right now. Please verify your Google API key or try again in a moment.", 'bot');
+        // Wave Layer 2 (Cyan/Ink)
+        waveCtx.strokeStyle = (streamState === 'speaking' || streamState === 'thinking') ? 'rgba(0, 229, 255, 0.9)' : 'rgba(22, 23, 16, 0.35)';
+        waveCtx.lineWidth = 2;
+        waveCtx.beginPath();
+        for (let x = 0; x < w; x++) {
+          const y = cy + Math.cos(x * 0.09 - wavePhase * 1.3) * ((amp * 0.8) * Math.sin(x / w * Math.PI));
+          if (x === 0) waveCtx.moveTo(x, y);
+          else waveCtx.lineTo(x, y);
+        }
+        waveCtx.stroke();
+
+        requestAnimationFrame(drawWaveform);
       }
-    };
-
-    chatSend.addEventListener('click', handleSend);
-    chatInput.addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') handleSend();
-    });
+      drawWaveform();
+    }
   }
 
 });

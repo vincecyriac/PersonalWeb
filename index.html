@@ -45,12 +45,11 @@
         <a href="#about">About</a>
         <a href="#services">Services</a>
         <a href="#resume">Resume</a>
-        <a href="#skills">Skills</a>
         <a href="#projects">Work</a>
+        <a href="#contact">Contact</a>
       </div>
 
       <div class="nav-actions">
-        <a href="#contact" class="btn btn-outline btn-small hidden md:flex" style="display:none;">Let's Talk</a>
         <button class="hburg" id="mob-menu-btn" aria-label="Menu">
           <span></span><span></span><span></span>
         </button>
@@ -62,7 +61,6 @@
     <a href="#about">About</a>
     <a href="#services">Services</a>
     <a href="#resume">Resume</a>
-    <a href="#skills">Skills</a>
     <a href="#projects">Work</a>
     <a href="#contact">Contact</a>
   </div>
@@ -104,9 +102,28 @@
             </div>
           </div>
           
-          <div class="hero-image-box" id="hero-particle-container" style="padding: 0; overflow: hidden; background-color: transparent; border: none; box-shadow: none; position: relative; cursor: crosshair;">
-            <canvas id="hero-particles" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none;"></canvas>
-            <img src="assets/hero.png" alt="Vince Cyriac Portrait" style="width: 100%; height: 100%; object-fit: cover; object-position: bottom; position: relative; z-index: 2; pointer-events: none;">
+          <div class="hero-image-box" id="hero-hud-container">
+            <canvas id="hero-hud-canvas"></canvas>
+            <img src="assets/hero.png" alt="Vince Cyriac Portrait" class="hero-portrait-img">
+            
+            <div class="hero-badge hero-badge-1">
+              <span class="hero-badge-dot"></span>
+              <span>⚡ ULTRON VOICE AI</span>
+            </div>
+            
+            <div class="hero-badge hero-badge-2">
+              <i class="bi bi-shield-check"></i>
+              <span>ZERO-TRUST ARCH</span>
+            </div>
+
+            <div class="hero-badge hero-badge-3">
+              <i class="bi bi-cpu"></i>
+              <span>SPATIAL OS // SVE</span>
+            </div>
+            
+            <div class="hero-telemetry-tag" id="hero-telemetry">
+              <span>SYS: ONLINE</span> • <span id="telemetry-coords">X: 000 Y: 000</span>
+            </div>
           </div>
         </div>
       </div>
@@ -307,17 +324,18 @@
             <div class="project-num">01</div>
             <div class="project-info">
               <h3 class="text-h3">Project Ultron - Multimodal Voice AI Assistant</h3>
-              <p>Voice-activated personal AI assistant for macOS leveraging the Gemini Live API for real-time multimodal interaction, local ONNX edge models for face detection, and a zero-trust architecture via Tailscale for secure mobile execution without public internet exposure.</p>
+              <p>Autonomous personal voice AI assistant and spatial operating system for macOS. Features sub-second bidirectional voice streaming, generative 3D scene visualization with Three.js, markerless MediaPipe hand gesture interaction (pinch, zoom, orbit), on-device ONNX face recognition, and a zero-trust Tailscale mesh architecture.</p>
               <div style="display:flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px;">
                 <span class="tag">Python</span>
+                <span class="tag">Three.js 3D</span>
+                <span class="tag">MediaPipe Gestures</span>
                 <span class="tag">Gemini Live API</span>
-                <span class="tag">ONNX</span>
-                <span class="tag">Zero-Trust</span>
-                <span class="tag">Tailscale</span>
+                <span class="tag">ONNX Vision</span>
+                <span class="tag">Zero-Trust Tailscale</span>
                 <span class="tag">macOS Automation</span>
               </div>
-              <div style="display:flex; gap: 12px; align-items:center;">
-                <a href="#" class="btn btn-primary btn-small">View Details</a>
+              <div class="project-actions">
+                <button id="open-ultron-modal" class="btn btn-primary btn-small" type="button">View Details <i class="bi bi-arrow-up-right"></i></button>
                 <a href="https://github.com/vincecyriac/project-ultron" target="_blank" class="btn btn-outline btn-small" style="border: 2px solid var(--ink);">GitHub ↗</a>
               </div>
             </div>
@@ -334,7 +352,7 @@
                 <span class="tag">Performance Optimization</span>
                 <span class="tag">EmailJS</span>
               </div>
-              <div style="display:flex; gap: 12px; align-items:center;">
+              <div class="project-actions">
                 <a href="https://anakulamtourism.com" target="_blank" class="btn btn-primary btn-small">View Site ↗</a>
               </div>
             </div>
@@ -378,7 +396,7 @@
                 <span class="tag">RESTful APIs</span>
                 <span class="tag">Data Visualization</span>
               </div>
-              <div style="display:flex; gap: 12px; align-items:center;">
+              <div class="project-actions">
                 <a href="https://covitrack.vincecyriac.dev/India" target="_blank" class="btn btn-primary btn-small">View Dashboard ↗</a>
               </div>
             </div>
@@ -501,29 +519,164 @@
     </div>
   </footer>
 
-  <!-- AI CHAT WIDGET -->
-  <div id="ai-chat-widget" class="ai-chat-widget ai-chat-hidden">
-    <div class="ai-chat-header">
-      <div class="ai-chat-title"><i class="bi bi-robot"></i> VinceAI</div>
-      <button id="ai-chat-close" class="btn-icon"><i class="bi bi-x-lg"></i></button>
-    </div>
-    <div class="ai-chat-body" id="ai-chat-body">
-      <div class="ai-msg bot">
-        <div class="msg-bubble">Hello! I'm Vince's AI assistant. Ask me anything about his experience, projects, or skills!</div>
+  <!-- PROJECT ULTRON DEEP DIVE MODAL -->
+  <div id="ultron-modal" class="modal-backdrop" aria-hidden="true">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div>
+          <div class="tag" style="background-color: var(--ink); color: var(--paper); margin-bottom: 8px;">Featured Architecture Case Study</div>
+          <h2 class="text-h2" style="font-size: clamp(1.6rem, 3.5vw, 2.2rem); margin: 0;">PROJECT ULTRON</h2>
+          <p style="font-size: 13px; font-weight: 700; color: var(--ink); margin-top: 4px;">Autonomous Multimodal AI Desktop Assistant & Spatial OS</p>
+        </div>
+        <button id="close-ultron-modal" class="btn-icon" aria-label="Close modal"><i class="bi bi-x-lg"></i></button>
       </div>
-    </div>
-    <div class="ai-chat-footer">
-      <input type="text" id="ai-chat-input" placeholder="Ask a question..." autocomplete="off">
-      <button id="ai-chat-send" class="btn btn-primary"><i class="bi bi-send-fill"></i></button>
+
+      <div class="modal-body">
+        <!-- Overview & Tags -->
+        <div class="modal-section">
+          <p style="font-size: 14.5px; line-height: 1.6; margin-bottom: 16px;">
+            <strong>Project Ultron</strong> is an autonomous, multimodal AI desktop assistant and spatial operating system engineered for macOS. It marries sub-second full-duplex conversational voice streaming (Google Gemini Live) with hardware-level operating system automation, multi-monitor visual perception, on-device biometric identification (face & voice), and an interactive 3D Spatial Visualization Engine (SVE) powered by Three.js and MediaPipe hand gestures.
+          </p>
+          <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+            <span class="tag">Python 3 (Asyncio)</span>
+            <span class="tag">Google Gemini Live API</span>
+            <span class="tag">OpenCV ONNX (YuNet + SFace)</span>
+            <span class="tag">macOS Quartz CoreGraphics</span>
+            <span class="tag">Three.js 3D Engine</span>
+            <span class="tag">MediaPipe WASM Gestures</span>
+            <span class="tag">Zero-Trust Tailscale</span>
+            <span class="tag">PyAudio 16/24kHz Full-Duplex</span>
+          </div>
+        </div>
+
+        <!-- Interface & SVE Previews -->
+        <div class="modal-section">
+          <h3 class="modal-subheading"><i class="bi bi-images"></i> Interface & Spatial 3D Previews</h3>
+          <div class="modal-screenshots-grid">
+            <div class="screenshot-card">
+              <div class="screenshot-img-wrap">
+                <img src="assets/base_view.png" alt="Project Ultron Desktop Web GUI & Multimodal Hub" onerror="this.onerror=null; this.src='assets/hero.png'; this.style.opacity='0.5';">
+              </div>
+              <div class="screenshot-caption">
+                <strong>01 // Multimodal Voice Hub & OS Automation</strong>
+                <span>Real-time voice waveform streaming, screen visual tracking, and biometric recognition dashboard.</span>
+              </div>
+            </div>
+            <div class="screenshot-card">
+              <div class="screenshot-img-wrap">
+                <img src="assets/spacial_view.png" alt="Spatial Visualization Engine (SVE) 3D Workspace" onerror="this.onerror=null; this.src='assets/hero.png'; this.style.opacity='0.5';">
+              </div>
+              <div class="screenshot-caption">
+                <strong>02 // Spatial Visualization Engine (SVE)</strong>
+                <span>Interactive 3D Three.js scene graph manipulation with MediaPipe markerless hand gestures.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Architecture Flow / Diagram -->
+        <div class="modal-section">
+          <h3 class="modal-subheading"><i class="bi bi-diagram-3-fill"></i> System Architecture & Pipeline</h3>
+          <div class="code-diagram">
+┌────────────────────────────────────────────────────────────────────────┐
+│                        CLIENT INTERACTION SURFACES                     │
+│   • Desktop Web GUI (Audio / Chat / 3D Canvas / Gesture Tracking)      │
+│   • Mobile Web App (Private Tailscale HTTPS Mesh Gateway)              │
+│   • Full-Duplex Audio Engine (16kHz Mic Input ──► 24kHz Speaker Out)   │
+└───────────────────────────────────┬────────────────────────────────────┘
+                                    │ WebSocket Bi-Directional Stream
+                                    ▼
+┌────────────────────────────────────────────────────────────────────────┐
+│                    ULTRON CORE HUB (Asyncio Orchestrator)              │
+│   • Audio Stream Broker (Barge-in / Speech Interruption Detection)     │
+│   • Dual-Engine AI Router (Gemini Live WebSocket ◄─► LM Studio Local)  │
+│   • Zero-Trust Human-in-the-Loop Command Approval State Machine        │
+└──────┬────────────────────────────┬────────────────────────────┬───────┘
+       │ CoreGraphics / Quartz      │ Scene Delta Protocol       │ ONNX / MFCC
+       ▼                            ▼                            ▼
+┌──────────────────────────┐ ┌──────────────────────────┐ ┌──────────────────────────┐
+│ OS HARDWARE AUTOMATION   │ │ 3D SPATIAL ENGINE (SVE)  │ │ BIOMETRICS & PROFILES    │
+│ • Quartz Multi-Monitor   │ │ • Persistent Three.js 3D │ │ • YuNet + SFace (128D)   │
+│ • Normalized 0-1000 Map  │ │   Scene Graph Engine     │ │   Facial Vectors         │
+│ • AX Accessibility Tree  │ │ • Granular JSON Deltas   │ │ • NumPy Mel MFCC Voice   │
+│ • CGEvent Clicks / Drags │ │ • MediaPipe Hand Tracker │ │   Vector Enrolment       │
+│ • Shell & AppleScript    │ │   (Pinch, Orbit, Zoom)   │ │ • Persistent Episodic    │
+└──────────────────────────┘ └──────────────────────────┘ └──────────────────────────┘
+          </div>
+        </div>
+
+        <!-- Core Architectural Pillars -->
+        <div class="modal-section">
+          <h3 class="modal-subheading"><i class="bi bi-cpu-fill"></i> Core Architectural Pillars</h3>
+          <div class="pillars-grid">
+            <div class="pillar-card">
+              <h4>1. Dual-Engine Multimodal Hub</h4>
+              <p>Full-duplex 16kHz/24kHz streaming with real-time barge-in interruption handling via Gemini Live WebSocket API. Seamless offline failover to local LM Studio models with dynamic schema translation.</p>
+            </div>
+            <div class="pillar-card">
+              <h4>2. Multi-Monitor Spatial Vision</h4>
+              <p>Active-monitor cursor tracking using macOS Quartz CoreGraphics. Automatically translates AI-predicted 0–1000 normalized coordinates into physical screen pixels across panoramic multi-display setups.</p>
+            </div>
+            <div class="pillar-card">
+              <h4>3. Deep macOS Hardware Automation</h4>
+              <p>Direct CoreGraphics <code>CGEvent</code> mouse/keyboard control bypassing coordinate clamping, integrated with frontmost AX Accessibility tree queries, virtual Space inspection, and AppleScript triggers.</p>
+            </div>
+            <div class="pillar-card">
+              <h4>4. On-Device Biometric Profiling</h4>
+              <p>Facial recognition using OpenCV YuNet + SFace 128-dimensional embedding vectors with cosine distance matching, combined with pure NumPy Mel-filterbank voice identification.</p>
+            </div>
+            <div class="pillar-card">
+              <h4>5. 3D Spatial Visualization Engine (SVE)</h4>
+              <p>Persistent Three.js 3D workspace accepting granular delta mutations (add, update, explode, orbit, highlight) paired with local MediaPipe WASM markerless hand tracking for touchless gesture manipulation.</p>
+            </div>
+            <div class="pillar-card">
+              <h4>6. Zero-Trust Mesh & Human-in-the-Loop</h4>
+              <p>Binds strictly to localhost with encrypted remote access over a private Tailscale HTTPS gateway. Critical OS shell commands hold in an asynchronous approval state machine with 45s interactive mobile approval cards.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action CTAs -->
+        <div class="modal-footer">
+          <a href="https://github.com/vincecyriac/project-ultron" target="_blank" class="btn btn-primary">View GitHub Repository <i class="bi bi-github"></i></a>
+          <button id="modal-close-btn" class="btn btn-outline" type="button">Close Details</button>
+        </div>
+      </div>
     </div>
   </div>
 
-  <button id="ai-chat-fab" class="btn btn-primary ai-chat-fab">
-    <i class="bi bi-chat-dots-fill"></i> Ask AI
+  <!-- ULTRON AI VOICE ASSISTANT -->
+  <div id="ai-chat-widget" class="ai-chat-widget ai-voice-only ai-chat-hidden">
+    <div class="ai-chat-header">
+      <div class="ai-chat-title">
+        <i class="bi bi-cpu-fill"></i> Ultron <span class="ai-live-badge">ONLINE</span>
+      </div>
+      <button id="ai-chat-close" class="btn-icon" aria-label="Close assistant"><i class="bi bi-x-lg"></i></button>
+    </div>
+
+    <!-- Voice Visualizer Interface -->
+    <div class="ai-voice-panel" id="ai-voice-panel">
+      <div class="voice-orb-container">
+        <canvas id="voice-waveform-canvas"></canvas>
+        <button id="voice-mic-trigger" class="voice-mic-button" aria-label="Start / Stop Voice Conversation">
+          <i class="bi bi-mic-fill"></i>
+        </button>
+      </div>
+      <div class="voice-status" id="voice-status">Connecting to Ultron...</div>
+      
+      <div class="voice-hint-badge">
+        <i class="bi bi-chat-quote"></i> Speak naturally • Tap mic to interrupt
+      </div>
+    </div>
+  </div>
+
+  <button id="ai-chat-fab" class="btn btn-primary ai-chat-fab" type="button">
+    <i class="bi bi-cpu-fill"></i> Talk with Ultron
   </button>
 
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="config.local.js"></script>
   <script type="module" src="js/main.js"></script>
 </body>
 </html>
