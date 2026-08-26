@@ -1,4 +1,4 @@
-const { onRequest } = require("firebase-functions/v2/https");
+const functions = require("firebase-functions");
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 const cors = require("cors")({ origin: true });
 
@@ -80,7 +80,7 @@ Conversational Guidelines:
 - If asked about "where Vince works" or "current role", explain that he is a Senior Software Engineer at LiteBreeze AB specializing in frontend engineering.
 - Keep answers crisp, natural, and informative.`;
 
-exports.getLiveConfig = onRequest({ cors: true, maxInstances: 10, invoker: "public" }, async (req, res) => {
+exports.getLiveConfig = functions.https.onRequest((req, res) => {
   return cors(req, res, async () => {
     const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) {
@@ -96,7 +96,7 @@ exports.getLiveConfig = onRequest({ cors: true, maxInstances: 10, invoker: "publ
   });
 });
 
-exports.askVinceAI = onRequest({ cors: true, maxInstances: 10, invoker: "public" }, async (req, res) => {
+exports.askVinceAI = functions.https.onRequest((req, res) => {
   return cors(req, res, async () => {
     if (req.method !== "POST") {
       return res.status(405).json({ error: "Method Not Allowed" });

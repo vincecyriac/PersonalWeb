@@ -861,15 +861,30 @@ document.addEventListener('DOMContentLoaded', () => {  // ── Dynamic Dates �
         return window.LOCAL_CONFIG;
       }
       if (liveConfig) return liveConfig;
-      try {
-        const res = await fetch(`${BASE_API_URL}/api/live-config`);
-        if (!res.ok) throw new Error("Could not fetch live config from server");
-        liveConfig = await res.json();
-        return liveConfig;
-      } catch (err) {
-        console.warn("Live config fetch error:", err);
-        return null;
+
+      const endpoints = [
+        `${BASE_API_URL}/api/live-config`,
+        'https://personalweb-2d846.web.app/api/live-config',
+        'https://us-central1-personalweb-2d846.cloudfunctions.net/getLiveConfig'
+      ];
+
+      for (const endpoint of endpoints) {
+        if (!endpoint) continue;
+        try {
+          const res = await fetch(endpoint);
+          if (res.ok) {
+            liveConfig = await res.json();
+            if (liveConfig && liveConfig.apiKey) {
+              return liveConfig;
+            }
+          }
+        } catch (err) {
+          // try next endpoint
+        }
       }
+
+      console.warn("Live config fetch failed on all endpoints");
+      return null;
     }
 
     const voiceHintBadge = document.querySelector('.voice-hint-badge');
