@@ -230,40 +230,40 @@ document.addEventListener('DOMContentLoaded', () => {  // ── Dynamic Dates �
     });
   }
 
-  // ── Project Ultron Modal ──
-  const openUltronBtn = document.getElementById('open-ultron-modal');
-  const ultronModal = document.getElementById('ultron-modal');
-  const closeUltronBtn = document.getElementById('close-ultron-modal');
+  // ── Project FRIDAY Modal ──
+  const openFridayBtn = document.getElementById('open-friday-modal');
+  const fridayModal = document.getElementById('friday-modal');
+  const closeFridayBtn = document.getElementById('close-friday-modal');
   const modalCloseBtn = document.getElementById('modal-close-btn');
 
   function openModal() {
-    if (ultronModal) {
-      ultronModal.classList.add('open');
-      ultronModal.setAttribute('aria-hidden', 'false');
+    if (fridayModal) {
+      fridayModal.classList.add('open');
+      fridayModal.setAttribute('aria-hidden', 'false');
       document.body.style.overflow = 'hidden';
     }
   }
 
   function closeModal() {
-    if (ultronModal) {
-      ultronModal.classList.remove('open');
-      ultronModal.setAttribute('aria-hidden', 'true');
+    if (fridayModal) {
+      fridayModal.classList.remove('open');
+      fridayModal.setAttribute('aria-hidden', 'true');
       document.body.style.overflow = '';
     }
   }
 
-  if (openUltronBtn) openUltronBtn.addEventListener('click', openModal);
-  if (closeUltronBtn) closeUltronBtn.addEventListener('click', closeModal);
+  if (openFridayBtn) openFridayBtn.addEventListener('click', openModal);
+  if (closeFridayBtn) closeFridayBtn.addEventListener('click', closeModal);
   if (modalCloseBtn) modalCloseBtn.addEventListener('click', closeModal);
 
-  if (ultronModal) {
-    ultronModal.addEventListener('click', (e) => {
-      if (e.target === ultronModal) closeModal();
+  if (fridayModal) {
+    fridayModal.addEventListener('click', (e) => {
+      if (e.target === fridayModal) closeModal();
     });
   }
 
   window.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && ultronModal && ultronModal.classList.contains('open')) {
+    if (e.key === 'Escape' && fridayModal && fridayModal.classList.contains('open')) {
       closeModal();
     }
   });
@@ -541,7 +541,7 @@ document.addEventListener('DOMContentLoaded', () => {  // ── Dynamic Dates �
       this.ws.onopen = () => {
         this.isConnected = true;
         if (this.callbacks.onStatusChange) {
-          this.callbacks.onStatusChange('connected', 'Connecting to Ultron...');
+          this.callbacks.onStatusChange('connected', 'Connecting to FRIDAY...');
         }
 
         // Send Setup Payload to Gemini Live
@@ -553,7 +553,7 @@ document.addEventListener('DOMContentLoaded', () => {  // ── Dynamic Dates �
               speechConfig: {
                 voiceConfig: {
                   prebuiltVoiceConfig: {
-                    voiceName: config.voiceName || "Puck"
+                    voiceName: config.voiceName || "Aoede"
                   }
                 }
               }
@@ -575,14 +575,14 @@ document.addEventListener('DOMContentLoaded', () => {  // ── Dynamic Dates �
           const response = JSON.parse(data);
 
           if (response.setupComplete) {
-            console.log("Ultron Live: setupComplete acknowledged.");
+            console.log("FRIDAY Live: setupComplete acknowledged.");
             this.startMicrophone();
 
             if (this.callbacks.onStatusChange) {
-              this.callbacks.onStatusChange('connected', 'Ultron Initializing...');
+              this.callbacks.onStatusChange('connected', 'FRIDAY Initializing...');
             }
 
-            // Ultron introduces himself first when the session opens
+            // FRIDAY introduces herself first when the session opens
             const greetingMsg = {
               clientContent: {
                 turns: [
@@ -590,7 +590,7 @@ document.addEventListener('DOMContentLoaded', () => {  // ── Dynamic Dates �
                     role: "user",
                     parts: [
                       {
-                        text: "Introduce yourself in one or two punchy sentences as Ultron, Vince's personal AI assistant, and ask how you can help them."
+                        text: "Introduce yourself in one or two punchy sentences as FRIDAY, Vince's personal AI assistant, and ask how you can help them."
                       }
                     ]
                   }
@@ -616,16 +616,16 @@ document.addEventListener('DOMContentLoaded', () => {  // ── Dynamic Dates �
             }
           }
         } catch (err) {
-          console.error("Ultron Live parsing error:", err);
+          console.error("FRIDAY Live parsing error:", err);
         }
       };
 
       this.ws.onerror = (err) => {
-        console.error("Ultron Live WS Error:", err);
+        console.error("FRIDAY Live WS Error:", err);
       };
 
       this.ws.onclose = (event) => {
-        console.warn(`Ultron Live closed: code=${event.code}, reason=${event.reason || 'none'}`);
+        console.warn(`FRIDAY Live closed: code=${event.code}, reason=${event.reason || 'none'}`);
         this.isConnected = false;
         this.stopMicrophone();
         
@@ -691,7 +691,7 @@ document.addEventListener('DOMContentLoaded', () => {  // ── Dynamic Dates �
               if (speechFrames > 2 && !isUserSpeaking) {
                 isUserSpeaking = true;
                 if (this.callbacks.onStatusChange) {
-                  this.callbacks.onStatusChange('listening', 'Ultron Listening...');
+                  this.callbacks.onStatusChange('listening', 'FRIDAY Listening...');
                 }
               }
             } else {
@@ -701,7 +701,7 @@ document.addEventListener('DOMContentLoaded', () => {  // ── Dynamic Dates �
                   isUserSpeaking = false;
                   speechFrames = 0;
                   if (this.callbacks.onStatusChange) {
-                    this.callbacks.onStatusChange('thinking', 'Ultron Thinking...');
+                    this.callbacks.onStatusChange('thinking', 'FRIDAY Thinking...');
                   }
                 }
               }
@@ -741,7 +741,7 @@ document.addEventListener('DOMContentLoaded', () => {  // ── Dynamic Dates �
         };
 
         if (this.callbacks.onStatusChange && !this.isInitialGreeting) {
-          this.callbacks.onStatusChange('listening', 'Ultron Listening...');
+          this.callbacks.onStatusChange('listening', 'FRIDAY Listening...');
         }
       } catch (err) {
         console.error("Microphone access error:", err);
@@ -785,13 +785,13 @@ document.addEventListener('DOMContentLoaded', () => {  // ── Dynamic Dates �
           this.isSpeaking = false;
           this.isInitialGreeting = false; // Initial greeting finished
           if (this.callbacks.onStatusChange && this.isConnected) {
-            this.callbacks.onStatusChange('listening', 'Ultron Listening...');
+            this.callbacks.onStatusChange('listening', 'FRIDAY Listening...');
           }
         }
       };
 
       if (this.callbacks.onStatusChange) {
-        this.callbacks.onStatusChange('speaking', 'Ultron Speaking...');
+        this.callbacks.onStatusChange('speaking', 'FRIDAY Speaking...');
       }
     }
 
@@ -902,9 +902,9 @@ document.addEventListener('DOMContentLoaded', () => {  // ── Dynamic Dates �
 
       if (voiceHintBadge) {
         if (state === 'speaking' || state === 'thinking') {
-          voiceHintBadge.innerHTML = '<i class="bi bi-hand-index-thumb-fill"></i> Tap mic to interrupt Ultron';
+          voiceHintBadge.innerHTML = '<i class="bi bi-hand-index-thumb-fill"></i> Tap mic to interrupt FRIDAY';
         } else if (state === 'listening') {
-          voiceHintBadge.innerHTML = '<i class="bi bi-mic-fill"></i> Ultron is listening to you...';
+          voiceHintBadge.innerHTML = '<i class="bi bi-mic-fill"></i> FRIDAY is listening to you...';
         } else {
           voiceHintBadge.innerHTML = '<i class="bi bi-chat-quote"></i> Speak naturally • Tap mic to interrupt';
         }
@@ -957,10 +957,10 @@ document.addEventListener('DOMContentLoaded', () => {  // ── Dynamic Dates �
           // Interrupt when AI is speaking or thinking -> immediately switch to listening
           if (liveClient.isSpeaking || streamState === 'thinking' || streamState === 'speaking') {
             liveClient.clearAudioQueue();
-            updateVoiceUI('listening', 'Ultron Listening...');
+            updateVoiceUI('listening', 'FRIDAY Listening...');
           } else {
             // Already listening: continue active listening
-            updateVoiceUI('listening', 'Ultron Listening...');
+            updateVoiceUI('listening', 'FRIDAY Listening...');
           }
         } else {
           startLiveSession();
