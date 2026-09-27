@@ -522,7 +522,31 @@ document.addEventListener('DOMContentLoaded', () => {  // ── Dynamic Dates �
             },
             systemInstruction: {
               parts: [{ text: config.systemInstruction }]
-            }
+            },
+            tools: [
+              {
+                functionDeclarations: [
+                  {
+                    name: "open_link",
+                    description: "Opens an external webpage, project website, calendar booking page, social profile, or document in a new browser tab for the user.",
+                    parameters: {
+                      type: "OBJECT",
+                      properties: {
+                        url: {
+                          type: "STRING",
+                          description: "The full HTTPS URL to open (e.g. https://calendar.app.google/SQXAgaV3vfDA5pBz9)"
+                        },
+                        title: {
+                          type: "STRING",
+                          description: "Short label describing destination (e.g. 'Book a Meeting', 'Project FRIDAY', 'Anakulam Tourism')"
+                        }
+                      },
+                      required: ["url", "title"]
+                    }
+                  }
+                ]
+              }
+            ]
           }
         };
         this.ws.send(JSON.stringify(setupMsg));
@@ -564,10 +588,62 @@ document.addEventListener('DOMContentLoaded', () => {  // ── Dynamic Dates �
             return;
           }
 
+          // Handle Gemini Live Tool Calls (Function Calling)
+          if (response.toolCall && response.toolCall.functionCalls) {
+            console.log("FRIDAY Live: toolCall received", response.toolCall);
+            const functionResponses = [];
+            for (const call of response.toolCall.functionCalls) {
+              if (call.name === 'open_link' && call.args) {
+                if (this.callbacks.onOpenLink) {
+                  this.callbacks.onOpenLink(call.args.url, call.args.title);
+                }
+                functionResponses.push({
+                  id: call.id,
+                  name: call.name,
+                  response: { output: { success: true, url: call.args.url } }
+                });
+              } else {
+                functionResponses.push({
+                  id: call.id,
+                  name: call.name,
+                  response: { output: { error: "Unknown function" } }
+                });
+              }
+            }
+
+            const toolResponseMsg = {
+              toolResponse: {
+                functionResponses: functionResponses
+              }
+            };
+            this.ws.send(JSON.stringify(toolResponseMsg));
+          }
+
           if (response.serverContent) {
             const { modelTurn } = response.serverContent;
             if (modelTurn && modelTurn.parts) {
               for (const part of modelTurn.parts) {
+                if (part.functionCall) {
+                  const call = part.functionCall;
+                  console.log("FRIDAY Live: part.functionCall received", call);
+                  if (call.name === 'open_link' && call.args) {
+                    if (this.callbacks.onOpenLink) {
+                      this.callbacks.onOpenLink(call.args.url, call.args.title);
+                    }
+                    const toolResponseMsg = {
+                      toolResponse: {
+                        functionResponses: [
+                          {
+                            id: call.id,
+                            name: call.name,
+                            response: { output: { success: true, url: call.args.url } }
+                          }
+                        ]
+                      }
+                    };
+                    this.ws.send(JSON.stringify(toolResponseMsg));
+                  }
+                }
                 if (part.text && this.callbacks.onTextChunk) {
                   this.callbacks.onTextChunk(part.text);
                 }
@@ -850,6 +926,49 @@ document.addEventListener('DOMContentLoaded', () => {  // ── Dynamic Dates �
     }
 
     const voiceHintBadge = document.querySelector('.voice-hint-badge');
+    const voiceLinksContainer = document.getElementById('voice-links-container');
+
+    function displayVoiceLink(url, title) {
+      if (!url) return;
+
+      // Attempt to open link in a new browser tab
+      try {
+        const win = window.open(url, '_blank', 'noopener,noreferrer');
+        if (win) win.focus();
+      } catch (err) {
+        console.warn("Direct window.open prevented by popup blocker:", err);
+      }
+
+      // Render interactive link button inside the voice panel
+      if (voiceLinksContainer) {
+        voiceLinksContainer.innerHTML = '';
+        const linkEl = document.createElement('a');
+        linkEl.href = url;
+        linkEl.target = '_blank';
+        linkEl.rel = 'noopener noreferrer';
+        linkEl.className = 'voice-link-badge';
+
+        let iconClass = 'bi-box-arrow-up-right';
+        if (url.includes('calendar.app.google') || url.includes('calendar')) {
+          iconClass = 'bi-calendar-event-fill';
+        } else if (url.includes('friday.vincecyriac.dev')) {
+          iconClass = 'bi-cpu-fill';
+        } else if (url.includes('anakulam')) {
+          iconClass = 'bi-geo-alt-fill';
+        } else if (url.includes('drive.google') || url.includes('resume')) {
+          iconClass = 'bi-file-earmark-person-fill';
+        } else if (url.includes('linkedin')) {
+          iconClass = 'bi-linkedin';
+        } else if (url.includes('github')) {
+          iconClass = 'bi-github';
+        } else if (url.startsWith('mailto:')) {
+          iconClass = 'bi-envelope-fill';
+        }
+
+        linkEl.innerHTML = `<i class="bi ${iconClass}"></i> <span>${title || 'Open Link'}</span>`;
+        voiceLinksContainer.appendChild(linkEl);
+      }
+    }
 
     function updateVoiceUI(state, title) {
       streamState = state;
@@ -887,6 +1006,9 @@ document.addEventListener('DOMContentLoaded', () => {  // ── Dynamic Dates �
       liveClient = new GeminiLiveClient({
         onStatusChange: (state, title) => {
           updateVoiceUI(state, title);
+        },
+        onOpenLink: (url, title) => {
+          displayVoiceLink(url, title);
         }
       });
 
@@ -897,6 +1019,9 @@ document.addEventListener('DOMContentLoaded', () => {  // ── Dynamic Dates �
       if (liveClient) {
         liveClient.disconnect();
         liveClient = null;
+      }
+      if (voiceLinksContainer) {
+        voiceLinksContainer.innerHTML = '';
       }
       updateVoiceUI('idle', 'Tap to speak');
     }

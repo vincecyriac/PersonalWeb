@@ -1281,13 +1281,13 @@ body.weekend-active #main-content { display: none; }
 
 .ai-voice-only {
   height: auto !important;
-  max-height: 460px !important;
+  max-height: 520px !important;
 }
 
 .ai-voice-only .ai-voice-panel {
   border-bottom: none;
-  padding: 28px 20px 24px;
-  gap: 16px;
+  padding: 24px 20px 20px;
+  gap: 14px;
 }
 
 .voice-hint-badge {
@@ -1301,8 +1301,64 @@ body.weekend-active #main-content { display: none; }
   display: flex;
   align-items: center;
   gap: 6px;
-  margin-top: 6px;
+  margin-top: 4px;
   letter-spacing: 0.03em;
+}
+
+.voice-links-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  max-width: 320px;
+  margin-top: 4px;
+}
+
+.voice-link-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: var(--accent);
+  color: var(--ink);
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 800;
+  font-size: 13px;
+  text-decoration: none;
+  padding: 10px 18px;
+  border: 2px solid var(--ink);
+  border-radius: 6px;
+  box-shadow: 3.5px 3.5px 0 var(--ink);
+  transition: all 0.15s ease;
+  animation: voiceLinkPopIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  cursor: pointer;
+}
+
+.voice-link-badge:hover {
+  background-color: #00E5FF;
+  transform: translate(-2px, -2px);
+  box-shadow: 5.5px 5.5px 0 var(--ink);
+  color: var(--ink);
+}
+
+.voice-link-badge:active {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0 var(--ink);
+}
+
+.voice-link-badge i {
+  font-size: 14px;
+}
+
+@keyframes voiceLinkPopIn {
+  0% {
+    opacity: 0;
+    transform: translateY(10px) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 .ai-msg.bot .msg-bubble {
