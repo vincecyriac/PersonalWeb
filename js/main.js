@@ -230,44 +230,6 @@ document.addEventListener('DOMContentLoaded', () => {  // ── Dynamic Dates �
     });
   }
 
-  // ── Project FRIDAY Modal ──
-  const openFridayBtn = document.getElementById('open-friday-modal');
-  const fridayModal = document.getElementById('friday-modal');
-  const closeFridayBtn = document.getElementById('close-friday-modal');
-  const modalCloseBtn = document.getElementById('modal-close-btn');
-
-  function openModal() {
-    if (fridayModal) {
-      fridayModal.classList.add('open');
-      fridayModal.setAttribute('aria-hidden', 'false');
-      document.body.style.overflow = 'hidden';
-    }
-  }
-
-  function closeModal() {
-    if (fridayModal) {
-      fridayModal.classList.remove('open');
-      fridayModal.setAttribute('aria-hidden', 'true');
-      document.body.style.overflow = '';
-    }
-  }
-
-  if (openFridayBtn) openFridayBtn.addEventListener('click', openModal);
-  if (closeFridayBtn) closeFridayBtn.addEventListener('click', closeModal);
-  if (modalCloseBtn) modalCloseBtn.addEventListener('click', closeModal);
-
-  if (fridayModal) {
-    fridayModal.addEventListener('click', (e) => {
-      if (e.target === fridayModal) closeModal();
-    });
-  }
-
-  window.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && fridayModal && fridayModal.classList.contains('open')) {
-      closeModal();
-    }
-  });
-
   // ── Contact Form (EmailJS) ──
   const form = document.getElementById('contact-form');
   const statusEl = document.getElementById('form-status');
