@@ -1,234 +1,56 @@
-// ==========================================================================
-// VINCE CYRIAC — MODERN PORTFOLIO — MAIN.JS
-// ==========================================================================
+import { initScene } from './scene.js';
+import { initScrollEffects } from './scroll-effects.js';
+import { initOfflineMode } from './offline.js';
 
 const isEmulator = ['5000', '5005', '8080'].includes(window.location.port);
-const IS_LOCAL_STATIC = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') && !isEmulator;
+const IS_LOCAL_STATIC = ['localhost', '127.0.0.1'].includes(window.location.hostname) && !isEmulator;
 const BASE_API_URL = IS_LOCAL_STATIC ? 'https://personalweb-2d846.web.app' : '';
 
-const conversationHistory = [];
+document.addEventListener('DOMContentLoaded', () => {
+  const motionQuery = matchMedia('(prefers-reduced-motion: reduce)');
+  initScene(motionQuery);
+  initScrollEffects(motionQuery);
+  initOfflineMode(motionQuery);
+  const now = new Date();
+  const anniversaryPassed = now.getMonth() > 7 || (now.getMonth() === 7 && now.getDate() >= 10);
+  document.getElementById('exp-n').textContent = (now.getFullYear() - 2020 - (anniversaryPassed ? 0 : 1)) + '+';
+  document.getElementById('footer-year').textContent = now.getFullYear();
 
-async function callVinceAIApi(message) {
-  const response = await fetch(`${BASE_API_URL}/api/chat`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ message, history: conversationHistory })
-  });
-
-  if (!response.ok) {
-    const errorData = await response.json().catch(() => ({}));
-    throw new Error(errorData.error || `Server responded with ${response.status}`);
-  }
-
-  const data = await response.json();
-  // Update memory
-  conversationHistory.push(
-    { role: 'user', text: message },
-    { role: 'model', text: data.text }
-  );
-
-  return data.text;
-}
-
-document.addEventListener('DOMContentLoaded', () => {  // ── Dynamic Dates ──
-  const CAREER_START = new Date(2020, 7, 10); // August 10, 2020
-  const CURRENT_YEAR = new Date().getFullYear();
-
-  function getExperienceYears() {
-    const now = new Date();
-    let years = now.getFullYear() - CAREER_START.getFullYear();
-    const monthDiff = now.getMonth() - CAREER_START.getMonth();
-    if (monthDiff < 0 || (monthDiff === 0 && now.getDate() < CAREER_START.getDate())) {
-      years--;
-    }
-    return years;
-  }
-
-  const expYears = getExperienceYears();
-  
-  // Update texts
-  const heroExpEl = document.getElementById('hero-exp');
-  if (heroExpEl) heroExpEl.textContent = expYears + '+ YRS';
-  
-  const footerYearEl = document.getElementById('footer-year');
-  if (footerYearEl) footerYearEl.textContent = CURRENT_YEAR;
-
-  // ── Stats Counter Animation ──
-  function countUp(el, to, ms, suffix = '+') {
-    let i = 0;
-    // ensure at least 10ms step
-    let step = ms / to;
-    if (step < 10) step = 10;
-    // calculate increment
-    let inc = to / (ms / step);
-    let current = 0;
-    
-    const iv = setInterval(() => {
-      current += inc;
-      if (current >= to) {
-        current = to;
-        clearInterval(iv);
-      }
-      el.textContent = Math.floor(current) + suffix;
-    }, step);
-  }
-
-  // Trigger stats on scroll
-  const expEl = document.getElementById('exp-n');
-  const projEl = document.getElementById('proj-n');
-  const codeEl = document.getElementById('code-n');
-
-  if (expEl) {
-    const aboutObserver = new IntersectionObserver((entries) => {
-      entries.forEach((e) => {
-        if (e.isIntersecting) {
-          countUp(expEl, 6, 800, '+');
-          if (projEl) countUp(projEl, 15, 800, '+');
-          if (codeEl) countUp(codeEl, 100, 1000, '%');
-          aboutObserver.disconnect();
-        }
-      });
-    }, { threshold: 0.5 });
-    
-    aboutObserver.observe(expEl.closest('.stats-grid') || expEl);
-  }
-
-  // ── Scroll Reveal ──
-  const revealObserver = new IntersectionObserver((entries) => {
-    entries.forEach((e) => {
-      if (e.isIntersecting) {
-        e.target.classList.add('vis');
-        revealObserver.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.1 });
-
-  document.querySelectorAll('.rv-fade').forEach((el) => revealObserver.observe(el));
-
-  // Trigger hero manually on load
-  setTimeout(() => {
-    document.querySelectorAll('#hero.rv-fade, #weekend-content .hero-section.rv-fade').forEach(el => el.classList.add('vis'));
-  }, 100);
-
-  // ── Skill Bars ──
-  const skillObserver = new IntersectionObserver((entries) => {
-    entries.forEach((e) => {
-      if (e.isIntersecting) {
-        const fills = e.target.querySelectorAll('.skill-fill');
-        fills.forEach((fill, i) => {
-          setTimeout(() => {
-            fill.style.width = fill.getAttribute('data-w') + '%';
-          }, i * 50);
-        });
-        skillObserver.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.2 });
-
-  const skillGrid = document.getElementById('skgrid');
-  if (skillGrid) skillObserver.observe(skillGrid);
-
-  // ── Navbar Scroll state ──
-  const navbar = document.getElementById('navbar');
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 20) {
-      document.body.classList.add('nav-scrolled');
-    } else {
-      document.body.classList.remove('nav-scrolled');
-    }
-  }, { passive: true });
-
-  // ── Mobile Menu ──
   const mobBtn = document.getElementById('mob-menu-btn');
   const mobNav = document.getElementById('mob-nav');
-  const mobLinks = document.querySelectorAll('#mob-nav a');
-
-  function toggleMobMenu() {
-    if (mobNav) mobNav.classList.toggle('open');
+  function closeMobMenu(restoreFocus = false) {
+    mobNav.classList.remove('open');mobNav.inert = true;
+    mobBtn.setAttribute('aria-expanded', 'false');mobBtn.setAttribute('aria-label', 'Open menu');
+    if (restoreFocus) mobBtn.focus();
   }
-
-  function closeMobMenu() {
-    if (mobNav) mobNav.classList.remove('open');
-  }
-
-  if (mobBtn) {
-    mobBtn.addEventListener('click', toggleMobMenu);
-  }
-
-  // ── Precise Anchor Scrolling with Navbar Offset ──
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-      const targetId = this.getAttribute('href');
-      if (!targetId || targetId === '#') return;
-      
-      const targetEl = document.querySelector(targetId);
-      if (targetEl) {
-        e.preventDefault();
-        closeMobMenu();
-        
-        const navH = navbar ? navbar.offsetHeight : 72;
-        
-        // Find inner content container or tag to align right below the navbar
-        const contentHeader = targetEl.querySelector('.tag, .split-left, .hero-text, .container') || targetEl;
-        const targetPos = contentHeader.getBoundingClientRect().top + window.pageYOffset;
-        const offset = targetPos - navH - 24;
-        
-        window.scrollTo({
-          top: Math.max(0, offset),
-          behavior: 'smooth'
-        });
-      }
-    });
+  mobBtn.addEventListener('click', () => {
+    const open = !mobNav.classList.contains('open');
+    mobNav.classList.toggle('open', open);mobNav.inert = !open;
+    mobBtn.setAttribute('aria-expanded', String(open));mobBtn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
   });
-
-  // ── Theme Toggle ──
-  const themeToggle = document.getElementById('theme-toggle');
-  
-  if (themeToggle) {
-    // Check local storage or system preference
-    const storedTheme = localStorage.getItem('theme');
-    const systemPrefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-    
-    // We default body to 'theme-light' in HTML, but we will change it if user prefers dark
-    if (storedTheme === 'dark' || (!storedTheme && systemPrefersDark)) {
-      document.body.classList.remove('theme-light');
-      themeToggle.innerHTML = '<i class="bi bi-sun"></i>';
-    } else {
-      document.body.classList.add('theme-light');
-      themeToggle.innerHTML = '<i class="bi bi-moon"></i>';
-    }
-
-    themeToggle.addEventListener('click', () => {
-      document.body.classList.toggle('theme-light');
-      const isLight = document.body.classList.contains('theme-light');
-      themeToggle.innerHTML = isLight ? '<i class="bi bi-moon"></i>' : '<i class="bi bi-sun"></i>';
-      localStorage.setItem('theme', isLight ? 'light' : 'dark');
+  document.querySelectorAll('#mob-nav a').forEach(link => link.addEventListener('click', () => closeMobMenu()));
+  document.addEventListener('keydown', e => {if (e.key === 'Escape' && mobNav.classList.contains('open')) closeMobMenu(true);});
+  document.addEventListener('click', e => {if (!mobNav.contains(e.target) && !mobBtn.contains(e.target)) closeMobMenu();});
+  matchMedia('(min-width: 801px)').addEventListener('change', e => {if (e.matches) closeMobMenu();});
+  const navLinks = document.querySelectorAll('.nav-links a');
+  const sectionObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      navLinks.forEach(link => {
+        const active = link.hash === '#' + entry.target.id;
+        link.classList.toggle('active', active);
+        if (active) link.setAttribute('aria-current', 'location'); else link.removeAttribute('aria-current');
+      });
     });
-  }
-
-
-  // ── Projects Show More Toggle ──
-  const showMoreBtn = document.getElementById('show-more-projects-btn');
-  const moreProjectsContainer = document.getElementById('more-projects-container');
-  
-  if (showMoreBtn && moreProjectsContainer) {
-    let isExpanded = false;
-    showMoreBtn.addEventListener('click', () => {
-      isExpanded = !isExpanded;
-      if (isExpanded) {
-        moreProjectsContainer.style.display = 'flex'; // `.projects-grid` is a flex column
-        showMoreBtn.innerHTML = 'Show Less Projects <i class="bi bi-chevron-up" style="transition: transform 0.3s;" id="more-projects-icon"></i>';
-        
-        // Trigger reveal fade for new items
-        setTimeout(() => {
-          moreProjectsContainer.querySelectorAll('.rv-fade').forEach(el => el.classList.add('vis'));
-        }, 50);
-      } else {
-        moreProjectsContainer.style.display = 'none';
-        showMoreBtn.innerHTML = 'Show More Projects <i class="bi bi-chevron-down" style="transition: transform 0.3s;" id="more-projects-icon"></i>';
-      }
-    });
-  }
+  }, {rootMargin:'-15% 0px -65% 0px'});
+  document.querySelectorAll('main section[id]').forEach(section => sectionObserver.observe(section));
+  const moreButton = document.getElementById('show-more-projects-btn');
+  const archive = document.getElementById('more-projects-container');
+  moreButton.addEventListener('click', () => {
+    archive.hidden = !archive.hidden;
+    moreButton.setAttribute('aria-expanded', String(!archive.hidden));
+    moreButton.innerHTML = archive.hidden ? 'More from the archive <span>+</span>' : 'Close the archive <span>−</span>';
+  });
 
   // ── Contact Form (EmailJS) ──
   const form = document.getElementById('contact-form');
@@ -239,11 +61,15 @@ document.addEventListener('DOMContentLoaded', () => {  // ── Dynamic Dates �
   const EMAILJS_SERVICE_ID = 'service_7z12yjm';
   const EMAILJS_TEMPLATE_ID = 'template_02uikno';
 
-  if (form && typeof emailjs !== 'undefined') {
-    emailjs.init(EMAILJS_PUBLIC_KEY);
+  if (form) {
+    if (window.emailjs) window.emailjs.init(EMAILJS_PUBLIC_KEY);
 
     form.addEventListener('submit', function (e) {
       e.preventDefault();
+      if (!window.emailjs) {
+        showStatus(statusEl, 'error', 'The form service is unavailable. Please email vincecyriac.dev@gmail.com.');
+        return;
+      }
 
       const nameInput = document.getElementById('cf-name');
       const emailInput = document.getElementById('cf-email');
@@ -263,7 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {  // ── Dynamic Dates �
       submitBtn.textContent = 'Sending...';
       showStatus(statusEl, '', 'Sending message...');
 
-      emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+      window.emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
           from_name: name,
           from_email: email,
           message: message,
@@ -288,170 +114,6 @@ document.addEventListener('DOMContentLoaded', () => {  // ── Dynamic Dates �
     el.className = 'form-status ' + type;
     el.textContent = msg;
   }
-
-  // ── 3D SPATIAL HUD & ORBITAL TELEMETRY CANVAS ──
-  const hudCanvas = document.getElementById('hero-hud-canvas');
-  const hudContainer = document.getElementById('hero-hud-container');
-  const telemetryCoords = document.getElementById('telemetry-coords');
-
-  if (hudCanvas && hudContainer) {
-    const ctx = hudCanvas.getContext('2d');
-    let width, height, centerX, centerY;
-    let mouse = { x: 0, y: 0, targetX: 0, targetY: 0, hover: false };
-    let angleX = 0, angleY = 0, rotAngle = 0;
-    
-    // Cyber lattice nodes
-    const nodes = [];
-    const NUM_NODES = 24;
-
-    function resize() {
-      const dpr = window.devicePixelRatio || 1;
-      width = hudContainer.clientWidth + 40;
-      height = hudContainer.clientHeight + 40;
-      hudCanvas.width = width * dpr;
-      hudCanvas.height = height * dpr;
-      ctx.scale(dpr, dpr);
-      centerX = width / 2;
-      centerY = height / 2;
-    }
-
-    window.addEventListener('resize', resize);
-    resize();
-
-    // Initialize spatial nodes
-    for (let i = 0; i < NUM_NODES; i++) {
-      nodes.push({
-        x: (Math.random() - 0.5) * width * 0.9,
-        y: (Math.random() - 0.5) * height * 0.9,
-        z: Math.random() * 200 - 100,
-        vx: (Math.random() - 0.5) * 0.6,
-        vy: (Math.random() - 0.5) * 0.6,
-        vz: (Math.random() - 0.5) * 0.6,
-        size: Math.random() * 2 + 1.5,
-        alpha: Math.random() * 0.6 + 0.3
-      });
-    }
-
-    hudContainer.addEventListener('mousemove', (e) => {
-      const rect = hudContainer.getBoundingClientRect();
-      mouse.targetX = (e.clientX - rect.left) - (width / 2);
-      mouse.targetY = (e.clientY - rect.top) - (height / 2);
-      mouse.hover = true;
-      
-      if (telemetryCoords) {
-        const normX = Math.round(e.clientX - rect.left);
-        const normY = Math.round(e.clientY - rect.top);
-        telemetryCoords.textContent = `X: ${String(normX).padStart(3, '0')} Y: ${String(normY).padStart(3, '0')}`;
-      }
-    });
-
-    hudContainer.addEventListener('mouseleave', () => {
-      mouse.targetX = 0;
-      mouse.targetY = 0;
-      mouse.hover = false;
-    });
-
-    function drawHUD() {
-      ctx.clearRect(0, 0, width, height);
-
-      // Smooth camera tilt
-      mouse.x += (mouse.targetX - mouse.x) * 0.05;
-      mouse.y += (mouse.targetY - mouse.y) * 0.05;
-      rotAngle += 0.008;
-
-      angleX = (mouse.y / height) * 0.4;
-      angleY = (mouse.x / width) * 0.4;
-
-      ctx.save();
-      ctx.translate(centerX, centerY);
-
-      // ── Outer Rotating Gyroscope Ring ──
-      ctx.save();
-      ctx.rotate(rotAngle * 0.5 + angleY);
-      ctx.scale(1, 0.4 + Math.abs(angleX * 0.5));
-      ctx.strokeStyle = 'rgba(22, 23, 16, 0.35)';
-      ctx.lineWidth = 1.5;
-      ctx.setLineDash([8, 12]);
-      ctx.beginPath();
-      ctx.arc(0, 0, Math.min(width, height) * 0.44, 0, Math.PI * 2);
-      ctx.stroke();
-      ctx.restore();
-
-      // ── Middle Glowing Orbital Ring ──
-      ctx.save();
-      ctx.rotate(-rotAngle * 0.8 + angleY * 1.2);
-      ctx.scale(1, 0.5 + Math.abs(angleY * 0.4));
-      ctx.strokeStyle = 'rgba(204, 255, 0, 0.85)'; // Neon lime
-      ctx.lineWidth = 2;
-      ctx.setLineDash([20, 8, 4, 8]);
-      ctx.beginPath();
-      ctx.arc(0, 0, Math.min(width, height) * 0.36, 0, Math.PI * 2);
-      ctx.stroke();
-
-      // Target blips on ring
-      for (let b = 0; b < 3; b++) {
-        const bAngle = (b * Math.PI * 2 / 3) + rotAngle;
-        const bx = Math.cos(bAngle) * (Math.min(width, height) * 0.36);
-        const by = Math.sin(bAngle) * (Math.min(width, height) * 0.36);
-        ctx.fillStyle = '#161710';
-        ctx.beginPath();
-        ctx.arc(bx, by, 3.5, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.strokeStyle = '#ccff00';
-        ctx.stroke();
-      }
-      ctx.restore();
-
-      // ── 3D Floating Lattice Nodes & Vectors ──
-      for (let i = 0; i < nodes.length; i++) {
-        const n = nodes[i];
-        n.x += n.vx;
-        n.y += n.vy;
-        n.z += n.vz;
-
-        if (Math.abs(n.x) > width * 0.48) n.vx *= -1;
-        if (Math.abs(n.y) > height * 0.48) n.vy *= -1;
-        if (Math.abs(n.z) > 120) n.vz *= -1;
-
-        // 3D perspective projection
-        const fov = 300;
-        const scale = fov / (fov + n.z + 100);
-        const projX = (n.x + mouse.x * 0.15) * scale;
-        const projY = (n.y + mouse.y * 0.15) * scale;
-
-        // Draw node
-        ctx.fillStyle = `rgba(22, 23, 16, ${n.alpha * scale})`;
-        ctx.beginPath();
-        ctx.arc(projX, projY, n.size * scale, 0, Math.PI * 2);
-        ctx.fill();
-
-        // Connect nearby nodes
-        for (let j = i + 1; j < nodes.length; j++) {
-          const n2 = nodes[j];
-          const scale2 = fov / (fov + n2.z + 100);
-          const p2X = (n2.x + mouse.x * 0.15) * scale2;
-          const p2Y = (n2.y + mouse.y * 0.15) * scale2;
-          const dist = Math.hypot(projX - p2X, projY - p2Y);
-
-          if (dist < 75) {
-            ctx.strokeStyle = `rgba(22, 23, 16, ${(1 - dist / 75) * 0.25})`;
-            ctx.lineWidth = 1;
-            ctx.setLineDash([]);
-            ctx.beginPath();
-            ctx.moveTo(projX, projY);
-            ctx.lineTo(p2X, p2Y);
-            ctx.stroke();
-          }
-        }
-      }
-
-      ctx.restore();
-      requestAnimationFrame(drawHUD);
-    }
-
-    drawHUD();
-  }
-
 
   // ── GEMINI MULTIMODAL LIVE REAL-TIME WEBSOCKET AUDIO STREAMING ENGINE ──
   function downsampleTo16k(buffer, inputSampleRate) {
@@ -489,6 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {  // ── Dynamic Dates �
       this.isSpeaking = false;
       this.isInitialGreeting = true;
       this.callbacks = callbacks || {};
+      this.disposed = false;
     }
 
     async connect(config) {
@@ -690,6 +353,11 @@ document.addEventListener('DOMContentLoaded', () => {  // ── Dynamic Dates �
           }
         });
 
+        if (this.disposed) {
+          this.mediaStream.getTracks().forEach(track => track.stop());
+          this.mediaStream = null;
+          return;
+        }
         this.inputAudioContext = new (window.AudioContext || window.webkitAudioContext)();
         const nativeSampleRate = this.inputAudioContext.sampleRate;
         const source = this.inputAudioContext.createMediaStreamSource(this.mediaStream);
@@ -865,8 +533,14 @@ document.addEventListener('DOMContentLoaded', () => {  // ── Dynamic Dates �
     }
 
     disconnect() {
+      this.disposed = true;
       this.stopMicrophone();
-      this.clearAudioQueue();
+      this.isSpeaking = false;
+      this.scheduledTime = 0;
+      if (this.audioContext) {
+        this.audioContext.close().catch(() => {});
+        this.audioContext = null;
+      }
       if (this.ws) {
         try {
           this.ws.close();
@@ -890,6 +564,8 @@ document.addEventListener('DOMContentLoaded', () => {  // ── Dynamic Dates �
   if (chatFab && chatWidget) {
     let liveClient = null;
     let liveConfig = null;
+    let sessionVersion = 0;
+    let connecting = false;
     let waveCtx = waveCanvas ? waveCanvas.getContext('2d') : null;
     let wavePhase = 0;
     let streamState = 'idle';
@@ -930,6 +606,10 @@ document.addEventListener('DOMContentLoaded', () => {  // ── Dynamic Dates �
 
     function displayVoiceLink(url, title) {
       if (!url) return;
+      try {
+        const parsed = new URL(url);
+        if (!['https:', 'http:', 'mailto:'].includes(parsed.protocol)) return;
+      } catch { return; }
 
       // Attempt to open link in a new browser tab
       try {
@@ -965,7 +645,11 @@ document.addEventListener('DOMContentLoaded', () => {  // ── Dynamic Dates �
           iconClass = 'bi-envelope-fill';
         }
 
-        linkEl.innerHTML = `<i class="bi ${iconClass}"></i> <span>${title || 'Open Link'}</span>`;
+        const icon = document.createElement('i');
+        icon.className = `bi ${iconClass}`;
+        const label = document.createElement('span');
+        label.textContent = title || 'Open Link';
+        linkEl.append(icon, label);
         voiceLinksContainer.appendChild(linkEl);
       }
     }
@@ -993,7 +677,13 @@ document.addEventListener('DOMContentLoaded', () => {  // ── Dynamic Dates �
     }
 
     async function startLiveSession() {
+      if (connecting || (liveClient?.ws && liveClient.ws.readyState < WebSocket.CLOSING)) return;
+      connecting = true;
+      const version = ++sessionVersion;
+      updateVoiceUI('connecting', 'Connecting to FRIDAY…');
       const config = await fetchLiveConfig();
+      if (version !== sessionVersion) return;
+      connecting = false;
       if (!config || !config.apiKey) {
         updateVoiceUI('error', 'API Config Missing');
         return;
@@ -1005,17 +695,25 @@ document.addEventListener('DOMContentLoaded', () => {  // ── Dynamic Dates �
 
       liveClient = new GeminiLiveClient({
         onStatusChange: (state, title) => {
-          updateVoiceUI(state, title);
+          if (version === sessionVersion) updateVoiceUI(state, title);
         },
         onOpenLink: (url, title) => {
-          displayVoiceLink(url, title);
+          if (version === sessionVersion) displayVoiceLink(url, title);
         }
       });
 
-      liveClient.connect(config);
+      try {
+        await liveClient.connect(config);
+      } catch (error) {
+        liveClient.disconnect();
+        liveClient = null;
+        updateVoiceUI('error', 'Could not connect. Tap the microphone to try again.');
+      }
     }
 
     function stopLiveSession() {
+      sessionVersion++;
+      connecting = false;
       if (liveClient) {
         liveClient.disconnect();
         liveClient = null;
@@ -1026,16 +724,28 @@ document.addEventListener('DOMContentLoaded', () => {  // ── Dynamic Dates �
       updateVoiceUI('idle', 'Tap to speak');
     }
 
-    chatFab.addEventListener('click', () => {
+    function openVoicePanel() {
       chatWidget.classList.remove('ai-chat-hidden');
-      if (!liveClient || !liveClient.isConnected) {
-        startLiveSession();
-      }
-    });
-
-    chatClose.addEventListener('click', () => {
+      chatWidget.inert = false;
+      chatWidget.setAttribute('aria-hidden', 'false');
+      chatFab.setAttribute('aria-expanded', 'true');
+      chatClose.focus();
+      requestWaveform();
+    }
+    function closeVoicePanel() {
       stopLiveSession();
       chatWidget.classList.add('ai-chat-hidden');
+      chatWidget.inert = true;
+      chatWidget.setAttribute('aria-hidden', 'true');
+      chatFab.setAttribute('aria-expanded', 'false');
+      chatFab.focus();
+    }
+    chatFab.setAttribute('aria-controls', 'ai-chat-widget');
+    chatFab.setAttribute('aria-expanded', 'false');
+    chatFab.addEventListener('click', openVoicePanel);
+    chatClose.addEventListener('click', closeVoicePanel);
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && !chatWidget.classList.contains('ai-chat-hidden')) closeVoicePanel();
     });
 
     if (voiceMicBtn) {
@@ -1055,9 +765,23 @@ document.addEventListener('DOMContentLoaded', () => {  // ── Dynamic Dates �
       });
     }
 
+    let waveFrame = 0;
+    function requestWaveform() {
+      if (!waveFrame && waveCanvas && waveCtx) waveFrame = requestAnimationFrame(drawWaveform);
+    }
+    document.addEventListener('visibilitychange', () => {
+      if (!document.hidden && !chatWidget.classList.contains('ai-chat-hidden')) requestWaveform();
+    });
+    document.getElementById('motion-toggle').addEventListener('click', () => {
+      if (!chatWidget.classList.contains('ai-chat-hidden')) requestWaveform();
+    });
+    motionQuery.addEventListener('change', () => {
+      if (!chatWidget.classList.contains('ai-chat-hidden')) requestWaveform();
+    });
     // ── Real-Time FFT Waveform Visualizer ──
-    if (waveCanvas && waveCtx) {
-      function drawWaveform() {
+    function drawWaveform() {
+        waveFrame = 0;
+        if (document.hidden || chatWidget.classList.contains('ai-chat-hidden')) return;
         const w = waveCanvas.width = 120;
         const h = waveCanvas.height = 120;
         waveCtx.clearRect(0, 0, w, h);
@@ -1086,7 +810,7 @@ document.addEventListener('DOMContentLoaded', () => {  // ── Dynamic Dates �
         }
 
         // Wave Layer 1 (Lime Neon)
-        waveCtx.strokeStyle = 'rgba(204, 255, 0, 0.9)';
+        waveCtx.strokeStyle = 'rgba(180, 235, 199, 0.9)';
         waveCtx.lineWidth = 2.5;
         waveCtx.beginPath();
         for (let x = 0; x < w; x++) {
@@ -1097,7 +821,7 @@ document.addEventListener('DOMContentLoaded', () => {  // ── Dynamic Dates �
         waveCtx.stroke();
 
         // Wave Layer 2 (Cyan/Ink)
-        waveCtx.strokeStyle = (streamState === 'speaking' || streamState === 'thinking') ? 'rgba(0, 229, 255, 0.9)' : 'rgba(22, 23, 16, 0.35)';
+        waveCtx.strokeStyle = (streamState === 'speaking' || streamState === 'thinking') ? 'rgba(0, 229, 255, 0.9)' : 'rgba(180, 235, 199, 0.25)';
         waveCtx.lineWidth = 2;
         waveCtx.beginPath();
         for (let x = 0; x < w; x++) {
@@ -1107,9 +831,7 @@ document.addEventListener('DOMContentLoaded', () => {  // ── Dynamic Dates �
         }
         waveCtx.stroke();
 
-        requestAnimationFrame(drawWaveform);
-      }
-      drawWaveform();
+        if (!motionQuery.matches && !document.documentElement.classList.contains('motion-paused')) requestWaveform();
     }
   }
 

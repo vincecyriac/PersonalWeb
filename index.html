@@ -26,224 +26,150 @@
   <meta property="twitter:image" content="https://vincecyriac.dev/assets/favicon.jpg">
   
   <!-- Favicon -->
-  <link rel="icon" type="image/jpeg" href="assets/favicon.jpg">
-  <link rel="apple-touch-icon" href="assets/favicon.jpg">
+  <link rel="icon" href="assets/favicon.ico" sizes="16x16 32x32 48x48">
+  <link rel="icon" type="image/png" href="assets/favicon-32.png" sizes="32x32">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" sizes="any">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" sizes="180x180">
   
   <!-- Canonical -->
   <link rel="canonical" href="https://vincecyriac.dev/">
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <meta name="theme-color" content="#0c100f">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  
-  <nav class="navbar" id="navbar">
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <nav class="navbar" id="navbar" aria-label="Main navigation">
     <div class="container nav-container">
-      <a href="#hero" class="brand">VINCE <div class="brand-dot"></div> CYRIAC</a>
-      
-      <div class="nav-links">
-        <a href="#about">About</a>
-        <a href="#services">Services</a>
-        <a href="#resume">Resume</a>
-        <a href="#projects">Work</a>
-        <a href="#contact">Contact</a>
-      </div>
-
-      <div class="nav-actions">
-        <button class="hburg" id="mob-menu-btn" aria-label="Menu">
-          <span></span><span></span><span></span>
-        </button>
-      </div>
+      <a href="#hero" class="brand" aria-label="Vince Cyriac home"><span class="brand-mark">v<span>.</span></span> vince cyriac<span class="brand-end">/</span></a>
+      <div class="nav-links"><a href="#about">About</a><a href="#projects">Work</a><a href="#services">Expertise</a><a href="#resume">Experience</a><a href="#offline">Offline</a></div>
+      <div class="nav-actions"><a href="#contact" class="nav-contact">Let’s talk <span>↗</span></a><button class="hburg" id="mob-menu-btn" aria-label="Open menu" aria-expanded="false" aria-controls="mob-nav"><span></span><span></span></button></div>
     </div>
   </nav>
-
-  <div class="mob-nav" id="mob-nav">
-    <a href="#about">About</a>
-    <a href="#services">Services</a>
-    <a href="#resume">Resume</a>
-    <a href="#projects">Work</a>
-    <a href="#contact">Contact</a>
-  </div>
-
-  <main id="main-content">
-    
-    <!-- Marquee Banner -->
-    <div class="marquee-wrapper">
-      <div class="marquee-content">
-        <span>Software Engineer</span>
-        <span>Frontend Specialist</span>
-        <span>Digital Craftsman</span>
-        <span>Based in Kerala</span>
-        <span>Software Engineer</span>
-        <span>Frontend Specialist</span>
-        <span>Digital Craftsman</span>
-        <span>Based in Kerala</span>
-      </div>
-    </div>
-
-    <!-- HERO -->
-    <section id="hero" class="hero-wrap brutal-border-b section-y">
-      <div class="hero-bg-shapes">
-        <div class="hero-shape-1"></div>
-        <div class="hero-shape-2"></div>
-      </div>
-      
+  <div class="mob-nav" id="mob-nav" inert><a href="#about">About</a><a href="#projects">Work</a><a href="#services">Expertise</a><a href="#resume">Experience</a><a href="#offline">Offline</a><a href="#contact">Contact</a></div>
+  <main id="main-content" tabindex="-1">
+    <section id="hero" class="hero-wrap">
       <div class="container">
-        <div class="hero-content rv-fade">
+        <div class="hero-topline"><span><span class="status-dot"></span> OPEN TO COLLABORATIONS</span><span>BASED IN KERALA, INDIA <span class="small-cross">✳</span></span></div>
+        <div class="hero-content">
           <div class="hero-text">
-            <h1 class="text-h1">HELLO, I'M <br><span class="highlight">VINCE</span> CYRIAC.</h1>
-            <p class="hero-subtitle">
-              Building interfaces between humans & machines.<br>
-              Specializing in pixel-perfect, performant frontend experiences.
-            </p>
-            <div class="hero-cta">
-              <a href="https://drive.google.com/file/d/1lC7SGcMdrYPDUaRAKG8TeUbTrLu3JsUZ/view?usp=sharing" target="_blank" class="btn btn-primary">Download Resume <i class="bi bi-download"></i></a>
-              <a href="#contact" class="btn btn-outline">Initiate Contact <i class="bi bi-arrow-right"></i></a>
-            </div>
-
-            <div class="hero-social-links">
-              <a href="https://www.linkedin.com/in/vincecyriac/" target="_blank" rel="noopener noreferrer" class="hero-social-btn" aria-label="LinkedIn Profile">
-                <i class="bi bi-linkedin"></i> <span>LinkedIn</span>
-              </a>
-              <a href="https://instagram.com/vincecyriac" target="_blank" rel="noopener noreferrer" class="hero-social-btn" aria-label="Instagram Profile">
-                <i class="bi bi-instagram"></i> <span>Instagram</span>
-              </a>
-              <a href="https://github.com/vincecyriac" target="_blank" rel="noopener noreferrer" class="hero-social-btn" aria-label="GitHub Profile">
-                <i class="bi bi-github"></i> <span>GitHub</span>
-              </a>
-            </div>
+            <p class="eyebrow">FULL-STACK ENGINEER · AI EXPLORER</p>
+            <h1>Human-first.<br> AI-forward.<br> <span class="hero-outline">Built with care.</span></h1>
+            <p class="hero-subtitle">Hey, I’m <strong>Vince.</strong> I turn complex ideas into intuitive digital experiences — from thoughtful interfaces to intelligent systems.</p>
+            <div class="hero-cta"><a href="#projects" class="btn btn-primary">Explore my work <span>↗</span></a><a href="#contact" class="btn btn-text">Let’s connect <span>→</span></a></div>
+            <div class="hero-signoff"><span class="mini-avatar"><img src="assets/hero.webp" alt="" width="48" height="48"></span><span>Engineer by trade.<br> <strong>Curious by default.</strong></span><span class="signature-line"></span><span class="mono">EST. 2020</span></div>
           </div>
-          
-          <div class="hero-image-box" id="hero-hud-container">
-            <canvas id="hero-hud-canvas"></canvas>
-            <img src="assets/hero.png" alt="Vince Cyriac Portrait" class="hero-portrait-img">
-            
-            <div class="hero-badge hero-badge-1" id="hbadge-1">
-              <span class="hero-badge-dot"></span>
-              <span>⚡ MULTIMODAL AI</span>
-            </div>
-            
-            <div class="hero-badge hero-badge-2" id="hbadge-2">
-              <i class="bi bi-layers-fill"></i>
-              <span>FULL-STACK</span>
-            </div>
-
-            <div class="hero-badge hero-badge-3" id="hbadge-3">
-              <i class="bi bi-cloud-arrow-up-fill"></i>
-              <span>HOSTING & DEVOPS</span>
-            </div>
-
-            <div class="hero-badge hero-badge-4" id="hbadge-4">
-              <i class="bi bi-speedometer2"></i>
-              <span>TECHNICAL SEO</span>
-            </div>
-            
-            <div class="hero-telemetry-tag" id="hero-telemetry">
-              <span>SYS: ONLINE</span> • <span id="telemetry-coords">X: 000 Y: 000</span>
-            </div>
+          <div class="hero-scene" id="neural-scene">
+            <div class="scene-grid" aria-hidden="true"></div>
+            <div class="orb-fallback" aria-hidden="true"></div>
+            <canvas id="neural-canvas" role="img" aria-label="An interactive three-dimensional neural sphere, inspired by Vince’s work in AI and spatial interfaces"></canvas>
+            <div class="scene-label scene-label-top"><span class="status-dot"></span> IDEAS, CONNECTED.</div>
+            <div class="floating-chip chip-code" aria-hidden="true"><span class="chip-icon">&lt;/&gt;</span><span>Thoughtful code<small>CRAFT + PRECISION</small></span></div>
+            <div class="floating-chip chip-ai" aria-hidden="true"><span class="chip-icon">✳</span><span>Intelligent systems<small>HUMAN + MACHINE</small></span></div>
+            <div class="scene-caption"><span class="mono">01 — THE NEURAL CORE</span><button id="motion-toggle" aria-pressed="false" aria-label="Pause animations"><span id="motion-icon">Ⅱ</span> <span id="motion-label">Pause motion</span></button></div>
+            <span class="scene-hint">MOVE YOUR CURSOR TO EXPLORE</span>
           </div>
         </div>
+        <div class="hero-bottom"><a href="#about"><span class="scroll-icon">↓</span> A little more about me</a><div class="hero-social-links"><a href="https://github.com/vincecyriac" target="_blank" rel="noopener noreferrer">GitHub ↗</a><a href="https://www.linkedin.com/in/vincecyriac/" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a><a href="https://drive.google.com/file/d/1lC7SGcMdrYPDUaRAKG8TeUbTrLu3JsUZ/view?usp=sharing" target="_blank" rel="noopener noreferrer">Résumé ↗</a></div></div>
       </div>
     </section>
-
-    <!-- ABOUT -->
-    <section id="about" class="brutal-border-b section-y">
+    <div class="stack-strip" aria-label="Core technologies"><div class="container"><span class="mono">MY EVERYDAY TOOLKIT</span><span>TypeScript<span class="stack-dot">/</span></span><span>Angular<span class="stack-dot">/</span></span><span>Vue.js<span class="stack-dot">/</span></span><span>Node.js<span class="stack-dot">/</span></span><span>Python<span class="stack-dot">/</span></span><span>Generative AI</span></div></div>
+    <section id="about" class="section-y">
+      <div class="container about-layout">
+        <div class="portrait-card" data-tilt><div class="portrait-grid"></div><span class="portrait-coordinate mono">KERALA, INDIA / EST. 2020</span><img src="assets/hero.webp" alt="Illustrated portrait of Vince Cyriac" width="1856" height="2252" loading="lazy"><div class="portrait-caption"><span>Vince Cyriac<small>DEVELOPER. MAKER. EXPLORER.</small></span><span>↗</span></div></div>
+        <div class="about-copy"><p class="eyebrow">01 / BEHIND THE CODE</p><h2>Good software starts<br> with <span class="text-accent">curiosity.</span></h2><p>I’m a full-stack engineer from Kerala, drawn to the space where thoughtful design meets challenging engineering.</p><p>My work spans responsive interfaces, real-time platforms, and AI that feels natural to interact with. I care about the details: how a product feels, how well it performs, and how easily the next developer can build on it.</p><a href="#resume" class="inline-link">Follow my journey <span>↗</span></a><div class="stats-grid"><div><strong id="exp-n">6+</strong><span>Years building for the web</span></div><div><strong>10+</strong><span>Projects across industries</span></div><div><strong>∞</strong><span>Things left to explore</span></div></div></div>
+      </div>
+    </section>
+    <section id="projects" class="section-y projects-section">
       <div class="container">
-        <div class="split-section rv-fade">
-          <div class="split-left">
-            <div class="tag">01 // About Me</div>
-            <h2 class="text-h2" style="margin-top: 16px;">THE<br>PROFILE.</h2>
+        <div class="section-heading"><div><p class="eyebrow">02 / SELECTED WORK</p><h2>Ideas made <span class="text-accent">real.</span></h2></div><p>A few things I’ve built.<br> Each one, a new possibility.</p></div>
+        <article class="featured-project" data-tilt>
+          <div class="friday-preview"><img src="assets/base_orb_view.webp" alt="FRIDAY’s live interface with its luminous blue plasma orb" loading="lazy" width="1917" height="1017"><div class="preview-topline"><span><span class="status-dot"></span> PERSONAL AI / SPATIAL OS</span><span>FRIDAY</span></div><div class="preview-bottomline"><span>INTELLIGENCE, WITH PRESENCE.</span><span>VOICE · VISION · ACTION</span></div></div>
+          <div class="featured-info"><div class="project-kicker"><span>01 / FEATURED EXPLORATION</span><span>AI & SPATIAL COMPUTING</span></div><h3>Meet FRIDAY.<br> Beyond the chat window.</h3><p>A personal desktop intelligence system for macOS. Real-time voice, spatial interfaces, hand gestures, and autonomous agents — connected in one experience.</p><div class="service-tags"><span class="tag">Gemini Live</span><span class="tag">Three.js</span><span class="tag">MediaPipe</span><span class="tag">ONNX</span></div><a href="https://friday.vincecyriac.dev" target="_blank" rel="noopener noreferrer" class="inline-link">Explore FRIDAY <span>↗</span></a></div>
+        </article>
+        <div class="work-grid">
+          <article class="work-card"><div class="project-art landscape-art" aria-hidden="true"><span class="art-label">ANAKULAM / KERALA</span><div class="land-sun"></div><div class="mountain mountain-back"></div><div class="mountain mountain-front"></div><span class="land-title">Closer to<br> <em>the wild.</em></span><span class="art-note">TRAVEL & DISCOVERY</span></div><div class="work-info"><span class="project-kicker">02 / FULL-STACK PLATFORM</span><h3>Anakulam Tourism</h3><p>A gateway to Kerala’s wilderness, built for discovery, performance, and effortless enquiries.</p><div class="work-bottom"><span>Full-stack · SEO · Performance</span><a href="https://anakulamtourism.com" target="_blank" rel="noopener noreferrer" aria-label="Visit Anakulam Tourism">↗</a></div></div></article>
+          <article class="work-card"><div class="project-art market-art" aria-hidden="true"><div class="art-label">MARKET INTELLIGENCE / LIVE DATA</div><div class="chart-head"><span>Signal.<small>Clarity in every movement.</small></span><span class="chart-trend">↗ REAL TIME</span></div><svg viewBox="0 0 500 140" preserveAspectRatio="none"><defs><linearGradient id="chart-fill" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#a5e6c1" stop-opacity=".3"/><stop offset="1" stop-color="#a5e6c1" stop-opacity="0"/></linearGradient></defs><path d="M0 120 L25 105 L50 116 L80 82 L110 96 L145 69 L170 80 L200 54 L230 70 L260 35 L290 51 L320 30 L350 46 L380 17 L410 32 L455 4 L500 18 V140 H0Z" fill="url(#chart-fill)"/><path d="M0 120 L25 105 L50 116 L80 82 L110 96 L145 69 L170 80 L200 54 L230 70 L260 35 L290 51 L320 30 L350 46 L380 17 L410 32 L455 4 L500 18" fill="none" stroke="#a5e6c1" stroke-width="2"/></svg><span class="art-note">CONCEPT VISUALIZATION</span></div><div class="work-info"><span class="project-kicker">03 / REAL-TIME ENGINEERING</span><h3>Financial Market Platform</h3><p>Live market data and intelligence for institutional traders, with responsive real-time interfaces.</p><div class="work-bottom"><span>Angular · RxJS · FinTech</span><span class="private-label">CLIENT WORK</span></div></div></article>
+        </div>
+        <div class="project-list"><article><span class="mono">04</span><div><h3>Talent & Recruitment Platform</h3><p>Skill-based assessments and thoughtful hiring workflows.</p></div><span class="project-list-tag">Vue.js · HR SaaS</span><span class="private-label">CLIENT WORK</span></article><article><span class="mono">05</span><div><h3>CoviTrack</h3><p>Making complex global and local health data easier to explore.</p></div><span class="project-list-tag">Angular · Data visualization</span><a href="https://covitrack.vincecyriac.dev/India" target="_blank" rel="noopener noreferrer" aria-label="Visit CoviTrack">↗</a></article></div>
+        <div class="more-work"><button id="show-more-projects-btn" class="btn btn-outline" aria-expanded="false" aria-controls="more-projects-container">More from the archive <span>+</span></button></div>
+        <div id="more-projects-container" class="projects-grid" hidden>
+          <div class="project-card archive-card">
+            <div class="project-num">06</div>
+            <div class="project-info">
+              <h3 class="text-h3">Employee Assessment & Performance Platform</h3>
+              <p>Integrated enterprise web application for administering employee evaluations, automated scoring, and performance reporting.</p>
+              <div style="display:flex; flex-wrap: wrap; gap: 8px;">
+                <span class="tag">Angular</span>
+                <span class="tag">REST APIs</span>
+              </div>
+            </div>
           </div>
-          <div class="split-right">
-            <p class="section-desc">
-              Hey — I'm <strong>Vince Cyriac</strong>, a full-stack developer who finds beauty at the intersection of clean code and thoughtful design. I build things for the web. My work spans front-end interfaces to back-end systems, with a deep appreciation for <span class="highlight">developer experience</span> and the small details that make software feel alive. Embracing the future, I actively leverage <span class="highlight" style="background-color: var(--lime-light);">AI and Large Language Models</span> to architect smarter, faster, and more adaptable solutions.
-            </p>
-            
-            <div class="stats-grid">
-              <div class="stat-card">
-                <div class="stat-num" id="exp-n">0+</div>
-                <div class="stat-lbl">Years Experience</div>
+
+          <div class="project-card archive-card">
+            <div class="project-num">07</div>
+            <div class="project-info">
+              <h3 class="text-h3">B2B Client & Inventory Management Suite</h3>
+              <p>Comprehensive business management solution for client records, inventory tracking, and automated reporting pipelines.</p>
+              <div style="display:flex; flex-wrap: wrap; gap: 8px;">
+                <span class="tag">Angular</span>
+                <span class="tag">SaaS</span>
               </div>
-              <div class="stat-card">
-                <div class="stat-num" id="proj-n">0+</div>
-                <div class="stat-lbl">Projects Shipped</div>
+            </div>
+          </div>
+
+          <div class="project-card archive-card">
+            <div class="project-num">08</div>
+            <div class="project-info">
+              <h3 class="text-h3">Enterprise Accommodation Booking System</h3>
+              <p>High-conversion reservation platform featuring real-time room availability, calendar integration, and secure payment processing.</p>
+              <div style="display:flex; flex-wrap: wrap; gap: 8px;">
+                <span class="tag">Angular</span>
+                <span class="tag">Payment Gateways</span>
               </div>
-              <div class="stat-card">
-                <div class="stat-num" id="code-n">0%</div>
-                <div class="stat-lbl">Code Quality & Clean Architecture</div>
+            </div>
+          </div>
+
+          <div class="project-card archive-card">
+            <div class="project-num">09</div>
+            <div class="project-info">
+              <h3 class="text-h3">Activity & Experience Reservation Portal</h3>
+              <p>Interactive booking portal streamlining discovery, scheduling, and checkout for leisure and activity providers.</p>
+              <div style="display:flex; flex-wrap: wrap; gap: 8px;">
+                <span class="tag">Angular</span>
+                <span class="tag">Dynamic Scheduling</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="project-card archive-card">
+            <div class="project-num">10</div>
+            <div class="project-info">
+              <h3 class="text-h3">Frontend Verification & Quality Suite</h3>
+              <p>Internal utility web application engineered for testing, compatibility checks, and trial verification of emerging backend services.</p>
+              <div style="display:flex; flex-wrap: wrap; gap: 8px;">
+                <span class="tag">Angular</span>
+                <span class="tag">Testing Tools</span>
               </div>
             </div>
           </div>
         </div>
       </div>
     </section>
-
-    <!-- SERVICES -->
-    <section id="services" class="brutal-border-b section-y">
-      <div class="container rv-fade">
-        <div class="tag" style="margin-bottom: 24px;">02 // Services</div>
-        <h2 class="text-h2" style="margin-bottom: 48px;">WHAT I DO.</h2>
-        
-        <div class="services-grid">
-          <div class="service-card" style="background-color: var(--accent-light);">
-            <i class="bi bi-robot service-icon"></i>
-            <h3 class="text-h3">AI Integration & Systems</h3>
-            <p>Multimodal AI streaming (Gemini Live API), edge ONNX models, zero-trust architectures, and AI-accelerated workflows.</p>
-            <div class="service-tags">
-              <span class="tag">LLMs</span><span class="tag">Zero-Trust</span><span class="tag">Edge AI</span>
-            </div>
-          </div>
-          <div class="service-card">
-            <i class="bi bi-window service-icon"></i>
-            <h3 class="text-h3">Frontend Development</h3>
-            <p>High-performance, pixel-perfect web apps using Angular, Vue.js, TypeScript, and modern state management.</p>
-            <div class="service-tags">
-              <span class="tag">Angular</span><span class="tag">Vue</span><span class="tag">TS</span>
-            </div>
-          </div>
-          <div class="service-card">
-            <i class="bi bi-hdd-network service-icon"></i>
-            <h3 class="text-h3">Backend Systems & APIs</h3>
-            <p>Scalable Node.js architectures, RESTful API design, database schemas, and microservices.</p>
-            <div class="service-tags">
-              <span class="tag">Node</span><span class="tag">REST</span><span class="tag">SQL</span>
-            </div>
-          </div>
-          <div class="service-card">
-            <i class="bi bi-pen service-icon"></i>
-            <h3 class="text-h3">UI/UX & Design Systems</h3>
-            <p>Design systems, component libraries, responsive design, and interaction prototyping using Figma & Adobe XD.</p>
-            <div class="service-tags">
-              <span class="tag">Figma</span><span class="tag">UI/UX</span>
-            </div>
-          </div>
-          <div class="service-card">
-            <i class="bi bi-server service-icon"></i>
-            <h3 class="text-h3">DevOps, Linux & Deployments</h3>
-            <p>Linux server administration (Fedora/Ubuntu), CI/CD pipelines, Docker, CloudFront, Netlify, Vercel deployments, and production maintenance.</p>
-            <div class="service-tags">
-              <span class="tag">Linux</span><span class="tag">Docker</span><span class="tag">CI/CD</span>
-            </div>
-          </div>
-          <div class="service-card">
-            <i class="bi bi-speedometer2 service-icon"></i>
-            <h3 class="text-h3">Technical SEO & Perf Optimization</h3>
-            <p>Core Web Vitals tuning, search console indexing pipelines, structured data, and accessibility audits.</p>
-            <div class="service-tags">
-              <span class="tag">SEO</span><span class="tag">CWV</span><span class="tag">A11y</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- RESUME & SKILLS -->
+    <section id="services" class="section-y">
+      <div class="container"><div class="section-heading"><div><p class="eyebrow">03 / HOW I CAN HELP</p><h2>From the first pixel<br> to the <span class="text-accent">bigger picture.</span></h2></div><p>Design sensibility.<br> Engineering depth.</p></div>
+      <div class="services-grid">
+<article class="service-card"><div class="service-top"><span class="service-icon">✳</span><span class="mono">/01</span></div><h3>Intelligent experiences</h3><p>AI that becomes part of the product. Conversational interfaces, multimodal systems, and models running at the edge.</p><span class="service-foot mono">LLMs / GEMINI LIVE / ONNX</span></article><article class="service-card"><div class="service-top"><span class="service-icon">⌘</span><span class="mono">/02</span></div><h3>Interfaces that feel right</h3><p>Fast, accessible applications with considered interactions, clear design systems, and components built to last.</p><span class="service-foot mono">ANGULAR / VUE / TYPESCRIPT</span></article><article class="service-card"><div class="service-top"><span class="service-icon">⌁</span><span class="mono">/03</span></div><h3>Systems that hold up</h3><p>The foundations behind the experience. Scalable APIs, real-time data, dependable deployments, and performance.</p><span class="service-foot mono">NODE.JS / SQL / LINUX</span></article></div></div></section>    <!-- RESUME & SKILLS -->
     <section id="resume" class="brutal-border-b section-y">
       <div class="container rv-fade">
         <div class="split-section">
           <div class="split-left">
-            <div class="tag">03 // Experience</div>
-            <h2 class="text-h2" style="margin-top: 16px;">THE<br>JOURNEY.</h2>
+            <div class="tag">04 / THE JOURNEY</div>
+            <h2 class="text-h2" style="margin-top: 16px;">Always learning.<br>  Always building.</h2>
           </div>
           
           <div class="split-right">
@@ -251,21 +177,21 @@
               <div class="timeline-item">
                 <div class="timeline-date">2023 JUNE — PRESENT</div>
                 <div class="timeline-role">Senior Software Engineer</div>
-                <div class="timeline-org"><a href="https://litebreeze.com" target="_blank">LiteBreeze AB ↗</a></div>
+                <div class="timeline-org"><a href="https://litebreeze.com" target="_blank" rel="noopener noreferrer">LiteBreeze AB ↗</a></div>
               </div>
               <div class="timeline-item">
                 <div class="timeline-date">2020 AUG — 2023 MAY</div>
                 <div class="timeline-role">Software Engineer</div>
-                <div class="timeline-org"><a href="https://innovature.ai" target="_blank">Innovature ↗</a></div>
+                <div class="timeline-org"><a href="https://innovature.ai" target="_blank" rel="noopener noreferrer">Innovature ↗</a></div>
               </div>
               <div class="timeline-item">
                 <div class="timeline-date">2016 — 2020</div>
-                <div class="timeline-role">B.Tech CS & Eng</div>
-                <div class="timeline-org"><a href="https://icet.ac.in" target="_blank">ICET Muvattupuzha ↗</a></div>
+                <div class="timeline-role">B.Tech in Computer Science & Engineering</div>
+                <div class="timeline-org"><a href="https://icet.ac.in" target="_blank" rel="noopener noreferrer">ICET Muvattupuzha ↗</a></div>
               </div>
             </div>
 
-            <h3 class="text-h3" style="margin-bottom: 24px;" id="skills">CORE SKILLS</h3>
+            <h3 class="text-h3" style="margin-bottom: 24px;" id="skills">The tools behind the work.</h3>
             <div style="display: flex; flex-direction: column; gap: 24px;">
               <div>
                 <p style="font-size: 12px; font-weight: 800; text-transform: uppercase; margin-bottom: 12px; color: var(--text-muted);">Languages & Core</p>
@@ -329,220 +255,68 @@
       </div>
     </section>
 
-    <!-- PROJECTS -->
-    <section id="projects" class="brutal-border-b section-y">
-      <div class="container rv-fade">
-        <div class="tag" style="margin-bottom: 24px;">04 // Selected Works</div>
-        <h2 class="text-h2" style="margin-bottom: 48px;">PROJECTS.</h2>
-        
-        <div class="projects-grid">
-          
-          <div class="project-card" style="background-color: var(--accent-light); border: 2px solid var(--ink); box-shadow: 6px 6px 0 var(--ink);">
-            <div class="project-num">01</div>
-            <div class="project-info">
-              <h3 class="text-h3">Project FRIDAY - Autonomous Multimodal AI & Spatial OS</h3>
-              <p>Autonomous personal desktop intelligence system for macOS. Features full-duplex conversational voice streaming over Gemini Live, a Three.js holographic plasma orb with violet-to-blush accent bloom, an instant shimmering async widget deck, tiered background agents for native OS automation & 3D SVE scenes, markerless MediaPipe hand gestures, and a zero-trust Tailscale remote mesh.</p>
-              <div style="display:flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px;">
-                <span class="tag">Gemini Live</span>
-                <span class="tag">Tiered Background Agents</span>
-                <span class="tag">Holographic Plasma Orb</span>
-                <span class="tag">Async Widget Deck</span>
-                <span class="tag">Three.js 3D & MediaPipe</span>
-                <span class="tag">Quartz & CGEvent</span>
-                <span class="tag">ONNX Biometrics</span>
-                <span class="tag">Zero-Trust Tailscale</span>
-              </div>
-              <div class="project-actions">
-                <a href="https://friday.vincecyriac.dev" target="_blank" class="btn btn-primary btn-small">View Project Site ↗</a>
-              </div>
-            </div>
-          </div>
 
-          <div class="project-card">
-            <div class="project-num">02</div>
-            <div class="project-info">
-              <h3 class="text-h3">Anakulam Tourism Web Platform</h3>
-              <p>Engineered and maintain an end-to-end travel platform featuring sub-second core web vitals, structured metadata for top search ranking, and automated lead capture workflows.</p>
-              <div style="display:flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px;">
-                <span class="tag">Full-Stack</span>
-                <span class="tag">Technical SEO</span>
-                <span class="tag">Performance Optimization</span>
-                <span class="tag">EmailJS</span>
-              </div>
-              <div class="project-actions">
-                <a href="https://anakulamtourism.com" target="_blank" class="btn btn-primary btn-small">View Site ↗</a>
-              </div>
-            </div>
-          </div>
-
-          <div class="project-card">
-            <div class="project-num">03</div>
-            <div class="project-info">
-              <h3 class="text-h3">Real-Time Financial Market Data Platform</h3>
-              <p>High-throughput financial portal used by institutional traders and financial organizations to stream live stock prices, indices, and market intelligence with sub-second latency.</p>
-              <div style="display:flex; flex-wrap: wrap; gap: 8px;">
-                <span class="tag">Angular</span>
-                <span class="tag">RxJS</span>
-                <span class="tag">Real-Time Telemetry</span>
-                <span class="tag">FinTech</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="project-card">
-            <div class="project-num">04</div>
-            <div class="project-info">
-              <h3 class="text-h3">Data-Driven Talent & Recruitment Platform</h3>
-              <p>Bias-aware recruitment SaaS platform built to streamline skill-based candidate assessments and optimize enterprise hiring workflows.</p>
-              <div style="display:flex; flex-wrap: wrap; gap: 8px;">
-                <span class="tag">Vue.js</span>
-                <span class="tag">Modern Frontend Architecture</span>
-                <span class="tag">HR SaaS</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="project-card">
-            <div class="project-num">05</div>
-            <div class="project-info">
-              <h3 class="text-h3">CoviTrack — Real-Time Analytics Platform</h3>
-              <p>Interactive pandemic analytics dashboard delivering localized and global telemetry, dynamic route parameters, and low-latency health data visualization.</p>
-              <div style="display:flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px;">
-                <span class="tag">Angular</span>
-                <span class="tag">TypeScript</span>
-                <span class="tag">RESTful APIs</span>
-                <span class="tag">Data Visualization</span>
-              </div>
-              <div class="project-actions">
-                <a href="https://covitrack.vincecyriac.dev/India" target="_blank" class="btn btn-primary btn-small">View Dashboard ↗</a>
-              </div>
-            </div>
-          </div>
-
+    <section id="offline" class="section-y offline-section">
+      <div class="container">
+        <div class="section-heading offline-heading">
+          <div><p class="eyebrow">05 / BEYOND THE SCREEN</p><h2>Meet me in<br> <span class="offline-accent">offline mode.</span></h2></div>
+          <div class="offline-intro"><p>Away from the keyboard, I love exploring new places — especially on my bike. Two wheels, an open road, and a little room for curiosity.</p><span class="offline-note mono">LESS SCREEN TIME. MORE SCENIC ROUTES.</span></div>
         </div>
-
-        <div style="text-align: center; margin-top: 48px;">
-          <button id="show-more-projects-btn" class="btn btn-outline" style="border: 2px solid var(--ink);">
-            Show More Projects <i class="bi bi-chevron-down" style="transition: transform 0.3s;" id="more-projects-icon"></i>
-          </button>
+        <div class="ride-scene" id="ride-scene">
+          <div class="ride-topline"><span><span class="ride-status-dot"></span> LAPTOP CLOSED. HELMET ON.</span><span class="ride-coordinate">A DIFFERENT KIND OF EXPLORING ↗</span></div>
+          <svg class="ride-landscape" viewBox="0 0 1100 520" role="img" aria-labelledby="ride-title ride-desc">
+            <title id="ride-title">A motorcycle ride through a mountain landscape</title>
+            <desc id="ride-desc">An illustrated winding road, layered hills, and a rider looking toward the horizon. Use the controls below to animate the ride or change the time of day.</desc>
+            <defs>
+              <linearGradient id="ride-sky" x2="0" y2="1"><stop class="sky-top" stop-color="#192b2b"/><stop class="sky-bottom" offset="1" stop-color="#8faaa0"/></linearGradient>
+              <linearGradient id="ride-road" x2="0" y2="1"><stop stop-color="#577169"/><stop offset="1" stop-color="#253835"/></linearGradient>
+              <linearGradient id="ride-vignette" x2="0" y2="1"><stop offset=".45" stop-color="#0c1715" stop-opacity="0"/><stop offset="1" stop-color="#0c1715" stop-opacity=".55"/></linearGradient>
+            </defs>
+            <rect width="1100" height="520" fill="url(#ride-sky)"/>
+            <g class="ride-clouds" fill="none" stroke="#d8e2cc" stroke-opacity=".16" stroke-width="2"><path d="M95 117h145m-115 13h190m530-30h95m-115 12h180"/></g>
+            <circle class="ride-sun" cx="810" cy="138" r="43" fill="#e0e2b4"/>
+            <circle class="ride-sun-halo" cx="810" cy="138" r="62" fill="none" stroke="#e0e2b4" stroke-opacity=".2"/>
+            <g class="ride-ridge ridge-far"><path d="M-70 310L60 188l105 73 146-135 131 141 114-88 132 100 111-97 125 81 141-96 105 130v230H-70Z" fill="#627e74"/><path d="m165 261 146-135 131 141-124-84Z" fill="#afc1ab" opacity=".18"/></g>
+            <g class="ride-ridge ridge-near"><path d="M-70 348 98 259l178 86 145-98 161 88 196-84 180 80 212-86v290H-70Z" fill="#3b5c50"/><path d="M-70 434 110 351l181 57 167-73 188 63 190-81 334 76v180H-70Z" fill="#254638"/></g>
+            <path d="M566 283c-141 34 105 48 46 78-55 28-281 35-247 159h407C588 409 831 384 683 341c-78-22-163-28-117-58Z" fill="url(#ride-road)" stroke="#adc2a0" stroke-opacity=".28" stroke-width="2"/>
+            <path class="ride-road-line" d="M566 284c-113 37 149 40 80 80-67 39-152 65-78 175" fill="none" stroke="#e4dfae" stroke-width="3" stroke-dasharray="15 22" pathLength="600"/>
+            <g class="ride-roadside" fill="#173d2e"><path d="m170 305-30 74h18l-21 38h72l-23-38h16Zm738-17-24 64h14l-20 34h68l-23-34h14Z"/><path d="m104 363-43 100h23l-29 43h99l-30-43h22Zm881-5-42 91h22l-28 45h99l-32-45h23Z"/></g>
+            <g class="ride-bike" transform="translate(575 417)">
+              <ellipse cx="0" cy="76" rx="47" ry="10" fill="#0a1612" opacity=".55"/>
+              <g class="ride-bike-body">
+                <rect x="-10" y="28" width="20" height="53" rx="9" fill="#0b1715" stroke="#82958a" stroke-width="2"/>
+                <path d="m-22 19-10 47h13l14-39m27-8 10 47H19L5 27" fill="#172822" stroke="#758878" stroke-width="3"/>
+                <path d="M-24 21-30-8q3-17 20-20h20q17 3 20 20l-6 29Z" fill="#c3b58f" stroke="#203b30" stroke-width="3"/>
+                <path d="M-24-15-37 5l-13-11M24-15 37 5l13-11" fill="none" stroke="#c3b58f" stroke-width="10" stroke-linecap="round"/>
+                <path d="M-50-6h13M50-6H37" stroke="#0e221a" stroke-width="5" stroke-linecap="round"/>
+                <rect x="-20" y="-58" width="40" height="39" rx="17" fill="#142b24" stroke="#a2b4a0" stroke-width="2"/>
+                <path d="M-16-43h32" stroke="#c1d1b8" stroke-width="4"/>
+                <path d="M-6-53v20" stroke="#6f8979" stroke-width="3"/>
+                <path d="M-19 24h38l-5 26h-28Z" fill="#19362a" stroke="#8b9f87" stroke-width="2"/>
+                <rect class="ride-tail-light" x="-11" y="29" width="22" height="6" rx="2" fill="#ec9a72"/>
+                <rect x="-9" y="39" width="18" height="8" rx="1" fill="#c9c9aa"/>
+                <path d="M28 47v22" stroke="#8e9e91" stroke-width="5" stroke-linecap="round"/>
+              </g>
+            </g>
+            <rect width="1100" height="520" fill="url(#ride-vignette)" pointer-events="none"/>
+          </svg>
+          <div class="ride-caption"><span class="ride-caption-title">Take the long way.</span><span class="mono">CURIOSITY DOESN’T CLOCK OUT.</span></div>
         </div>
-
-        <div id="more-projects-container" class="projects-grid" style="display: none; margin-top: 24px;">
-          <div class="project-card rv-fade">
-            <div class="project-num">06</div>
-            <div class="project-info">
-              <h3 class="text-h3">Employee Assessment & Performance Platform</h3>
-              <p>Integrated enterprise web application for administering employee evaluations, automated scoring, and performance reporting.</p>
-              <div style="display:flex; flex-wrap: wrap; gap: 8px;">
-                <span class="tag">Angular</span>
-                <span class="tag">REST APIs</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="project-card rv-fade">
-            <div class="project-num">07</div>
-            <div class="project-info">
-              <h3 class="text-h3">B2B Client & Inventory Management Suite</h3>
-              <p>Comprehensive business management solution for client records, inventory tracking, and automated reporting pipelines.</p>
-              <div style="display:flex; flex-wrap: wrap; gap: 8px;">
-                <span class="tag">Angular</span>
-                <span class="tag">SaaS</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="project-card rv-fade">
-            <div class="project-num">08</div>
-            <div class="project-info">
-              <h3 class="text-h3">Enterprise Accommodation Booking System</h3>
-              <p>High-conversion reservation platform featuring real-time room availability, calendar integration, and secure payment processing.</p>
-              <div style="display:flex; flex-wrap: wrap; gap: 8px;">
-                <span class="tag">Angular</span>
-                <span class="tag">Payment Gateways</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="project-card rv-fade">
-            <div class="project-num">09</div>
-            <div class="project-info">
-              <h3 class="text-h3">Activity & Experience Reservation Portal</h3>
-              <p>Interactive booking portal streamlining discovery, scheduling, and checkout for leisure and activity providers.</p>
-              <div style="display:flex; flex-wrap: wrap; gap: 8px;">
-                <span class="tag">Angular</span>
-                <span class="tag">Dynamic Scheduling</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="project-card rv-fade">
-            <div class="project-num">10</div>
-            <div class="project-info">
-              <h3 class="text-h3">Frontend Verification & Quality Suite</h3>
-              <p>Internal utility web application engineered for testing, compatibility checks, and trial verification of emerging backend services.</p>
-              <div style="display:flex; flex-wrap: wrap; gap: 8px;">
-                <span class="tag">Angular</span>
-                <span class="tag">Testing Tools</span>
-              </div>
-            </div>
-          </div>
+        <div class="ride-toolbar">
+          <p id="ride-status" role="status">A little escape. No destination required.</p>
+          <div class="ride-controls"><button class="btn btn-outline" id="ride-light" type="button" aria-pressed="false">☀ <span>Golden hour</span></button><button class="btn ride-button" id="ride-toggle" type="button" aria-pressed="false">Take a ride <span aria-hidden="true">↗</span></button></div>
         </div>
       </div>
     </section>
 
-    <!-- CONTACT -->
-    <section id="contact" class="section-y">
-      <div class="container rv-fade">
-        <div class="split-section">
-          <div class="split-left">
-            <div class="tag">05 // Contact</div>
-            <h2 class="text-h2" style="margin-top: 16px;">LET'S<br>TALK.</h2>
-            <p style="margin-top:24px; font-weight:800;">Open to new collaborations.</p>
-            <div style="margin-top:24px; display:flex; flex-direction:column; gap:16px;">
-              <a href="mailto:vincecyriac.dev@gmail.com" class="btn btn-outline"><i class="bi bi-envelope"></i> vincecyriac.dev@gmail.com</a>
-              <a href="https://www.linkedin.com/in/vincecyriac/" target="_blank" class="btn btn-outline"><i class="bi bi-linkedin"></i> vincecyriac</a>
-            </div>
-          </div>
-          
-          <div class="split-right">
-            <form class="contact-form" id="contact-form">
-              <div class="form-group">
-                <label for="cf-name">Name</label>
-                <input id="cf-name" type="text" placeholder="John Doe" required>
-              </div>
-              <div class="form-group">
-                <label for="cf-email">Email</label>
-                <input id="cf-email" type="email" placeholder="you@domain.com" required>
-              </div>
-              <div class="form-group">
-                <label for="cf-message">Message</label>
-                <textarea id="cf-message" placeholder="Describe your mission..." required rows="4"></textarea>
-              </div>
-              <button type="submit" class="btn btn-primary">Transmit Message <i class="bi bi-send"></i></button>
-              <div id="form-status" class="form-status"></div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </section>
+    <section id="contact" class="section-y"><div class="container contact-layout"><div><p class="eyebrow"><span class="status-dot"></span> HAVE SOMETHING IN MIND?</p><h2>Let’s build<br> something<br> <span class="text-accent">worth making.</span><span class="contact-arrow">↗</span></h2><p>A product idea, a tricky problem, or just a hello.<br> I’d love to hear from you.</p><a href="mailto:vincecyriac.dev@gmail.com" class="contact-email">vincecyriac.dev@gmail.com ↗</a></div><form class="contact-form" id="contact-form"><div class="form-group"><label for="cf-name">Your name</label><input id="cf-name" name="name" autocomplete="name" placeholder="What should I call you?" required maxlength="120"></div><div class="form-group"><label for="cf-email">Email address</label><input id="cf-email" name="email" type="email" autocomplete="email" placeholder="you@example.com" required maxlength="254"></div><div class="form-group"><label for="cf-message">What are you thinking?</label><textarea id="cf-message" name="message" placeholder="Tell me a little about your idea…" required rows="4" maxlength="5000"></textarea></div><button type="submit" class="btn btn-primary">Send message <span>↗</span></button><div id="form-status" class="form-status" role="status" aria-live="polite"></div></form></div></section>
   </main>
-
-  <!-- FOOTER -->
-  <footer class="footer">
-    <div class="container">
-      <div class="footer-text">VINCE CYRIAC // <span id="footer-year"></span></div>
-      <div class="footer-muted">DESIGNED & BUILT WITH INTENTION — NEO-BRUTALIST EDITION</div>
-    </div>
-  </footer>
-
-
-
+  <footer class="footer"><div class="container"><a href="#hero" class="brand">vince cyriac<span class="text-accent">.</span></a><span>© <span id="footer-year">2026</span> · Made with curiosity & care.</span><div><a href="https://github.com/vincecyriac" target="_blank" rel="noopener noreferrer">GitHub ↗</a><a href="https://www.linkedin.com/in/vincecyriac/" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a><a href="https://instagram.com/vincecyriac" target="_blank" rel="noopener noreferrer">Instagram ↗</a></div><a href="#hero" aria-label="Back to top" class="back-top">↑</a></div></footer>
   <!-- FRIDAY AI VOICE ASSISTANT -->
-  <div id="ai-chat-widget" class="ai-chat-widget ai-voice-only ai-chat-hidden">
+  <div id="ai-chat-widget" class="ai-chat-widget ai-voice-only ai-chat-hidden" role="dialog" aria-label="FRIDAY voice assistant" aria-hidden="true" inert>
     <div class="ai-chat-header">
       <div class="ai-chat-title">
-        <i class="bi bi-cpu-fill"></i> FRIDAY <span class="ai-live-badge">ONLINE</span>
+        <i class="bi bi-cpu-fill"></i> FRIDAY <span class="ai-live-badge">VOICE AI</span>
       </div>
       <button id="ai-chat-close" class="btn-icon" aria-label="Close assistant"><i class="bi bi-x-lg"></i></button>
     </div>
@@ -551,14 +325,14 @@
     <div class="ai-voice-panel" id="ai-voice-panel">
       <div class="voice-orb-container">
         <canvas id="voice-waveform-canvas"></canvas>
-        <button id="voice-mic-trigger" class="voice-mic-button" aria-label="Start / Stop Voice Conversation">
+        <button id="voice-mic-trigger" class="voice-mic-button" aria-label="Start voice conversation or interrupt FRIDAY">
           <i class="bi bi-mic-fill"></i>
         </button>
       </div>
-      <div class="voice-status" id="voice-status">Connecting to FRIDAY...</div>
+      <div class="voice-status" id="voice-status" role="status">Meet your guide to my work.</div>
       
       <div class="voice-hint-badge">
-        <i class="bi bi-chat-quote"></i> Speak naturally • Tap mic to interrupt
+        <i class="bi bi-chat-quote"></i> Tap the microphone to start a voice conversation.
       </div>
 
       <div class="voice-links-container" id="voice-links-container"></div>
@@ -569,9 +343,9 @@
     <i class="bi bi-cpu-fill"></i> <span class="ai-fab-text">Talk with FRIDAY</span>
   </button>
 
-  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <script src="config.local.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js" defer></script>
+  <script src="config.local.js" defer></script>
   <script type="module" src="js/main.js"></script>
 </body>
 </html>
