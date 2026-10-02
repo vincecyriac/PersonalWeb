@@ -749,13 +749,6 @@ h1 {
   overflow:hidden;
 }
 
-.friday-preview>img {
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  position:absolute;
-  transform:scale(1.8);
-}
 
 .preview-topline,.preview-bottomline {
   display:flex;
@@ -1792,9 +1785,6 @@ h1 {
   .friday-preview {
     min-height:320px;
   }
-  .friday-preview>img {
-    transform:scale(1.8);
-  }
   .featured-info {
     padding:30px;
   }
@@ -2377,3 +2367,38 @@ body {
   .ride-ridge { translate: none; }
 }
 .motion-paused .ride-ridge { translate: none; }
+
+/* FRIDAY: Desktop + Sentinel project summary. */
+.friday-mode-detail { display:grid; gap:14px; margin:22px 0; }
+.friday-mode-detail>div { display:grid; grid-template-columns:70px minmax(0,1fr); gap:12px; }
+.friday-mode-detail strong { color:var(--ink); font-size:13px; font-weight:500; }
+.friday-mode-detail span { color:var(--text-muted); font-size:13px; line-height:1.8; }
+.featured-info .friday-availability { display:flex; align-items:center; gap:9px; color:#bcd7a9; font-size:12px; line-height:1.8; margin:22px 0 18px; }
+.friday-project-links { display:flex; flex-wrap:wrap; gap:14px 28px; }
+.friday-project-links .inline-link { margin-top:0; }
+@media(max-width:600px) {
+  .friday-mode-detail>div { grid-template-columns:1fr; gap:3px; }
+  .friday-mode-detail span { font-size:14px; }
+  .featured-info .friday-availability { font-size:12px; align-items:flex-start; }
+  .friday-availability .status-dot { margin-top:8px; flex-shrink:0; }
+}
+
+/* Interactive FRIDAY project preview; separate from the live voice assistant. */
+.friday-preview { min-height:540px; display:flex; flex-direction:column; background:radial-gradient(ellipse at 50% 43%,#092028,#090f12 67%); }
+.friday-preview .preview-topline { z-index:1; font-size:11px; pointer-events:none; align-items:center; }
+#friday-orb-stage { position:relative; display:block; flex:1; min-height:330px; width:100%; margin:48px 0 0; padding:0; border:0; border-radius:0; background:transparent; cursor:pointer; touch-action:pan-y; }
+#friday-orb-stage:focus-visible { outline-offset:-8px; }
+.friday-orb-fallback { position:absolute; width:180px; height:180px; top:50%; left:50%; translate:-50% -50%; border-radius:50%; background:radial-gradient(circle at 40% 35%,#00f2fe99,#123d3f 55%,#00f2fe77 72%,transparent 74%); box-shadow:0 0 80px #00f2fe18; pointer-events:none; }
+.orb-ready .friday-orb-fallback { opacity:0; }
+.friday-orb-controls { position:relative; padding:0 26px 24px; }
+.friday-orb-status { display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:12px; margin-bottom:14px; font:11px var(--font-mono); color:#a4b8bc; }
+.friday-orb-status>span { display:flex; align-items:center; gap:8px; }
+.friday-state-dot { width:6px; height:6px; border-radius:50%; background:#00f2fe; }
+#friday-orb-pause { background:transparent; border:1px solid #a4b8bc30; border-radius:5px; padding:7px 10px; color:#c4d3d6; font:12px var(--font-body); }
+#friday-orb-pause:disabled { cursor:default; opacity:.55; }
+.friday-orb-states { display:flex; justify-content:center; flex-wrap:wrap; gap:5px; }
+.friday-state-btn { padding:8px 10px; border:1px solid transparent; border-radius:5px; background:transparent; color:#a4b8bc; font:12px var(--font-body); }
+.friday-state-btn:hover,.friday-state-btn.active { border-color:#81dcd540; color:#edf0e9; background:#81dcd50c; }
+#friday-orb-hint { margin:14px 0 0; text-align:center; color:#91a5a9; font:11px/1.6 var(--font-mono); }
+@media(max-width:800px) { .friday-preview { min-height:460px; } #friday-orb-stage { min-height:290px; } }
+@media(max-width:480px) { .friday-preview { min-height:410px; } #friday-orb-stage { min-height:250px; } .friday-preview .preview-topline { font-size:10px; } .friday-orb-controls { padding:0 18px 20px; } .friday-state-btn { padding:8px; } }

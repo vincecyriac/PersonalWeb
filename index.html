@@ -39,7 +39,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css?v=friday-orb-20261002">
 </head>
 <body>
   <a class="skip-link" href="#main-content">Skip to content</a>
@@ -87,9 +87,31 @@
     <section id="projects" class="section-y projects-section">
       <div class="container">
         <div class="section-heading"><div><p class="eyebrow">02 / SELECTED WORK</p><h2>Ideas made <span class="text-accent">real.</span></h2></div><p>A few things I’ve built.<br> Each one, a new possibility.</p></div>
-        <article class="featured-project" data-tilt>
-          <div class="friday-preview"><img src="assets/base_orb_view.webp" alt="FRIDAY’s live interface with its luminous blue plasma orb" loading="lazy" width="1917" height="1017"><div class="preview-topline"><span><span class="status-dot"></span> PERSONAL AI / SPATIAL OS</span><span>FRIDAY</span></div><div class="preview-bottomline"><span>INTELLIGENCE, WITH PRESENCE.</span><span>VOICE · VISION · ACTION</span></div></div>
-          <div class="featured-info"><div class="project-kicker"><span>01 / FEATURED EXPLORATION</span><span>AI & SPATIAL COMPUTING</span></div><h3>Meet FRIDAY.<br> Beyond the chat window.</h3><p>A personal desktop intelligence system for macOS. Real-time voice, spatial interfaces, hand gestures, and autonomous agents — connected in one experience.</p><div class="service-tags"><span class="tag">Gemini Live</span><span class="tag">Three.js</span><span class="tag">MediaPipe</span><span class="tag">ONNX</span></div><a href="https://friday.vincecyriac.dev" target="_blank" rel="noopener noreferrer" class="inline-link">Explore FRIDAY <span>↗</span></a></div>
+        <article class="featured-project">
+          <div class="friday-preview">
+            <div class="preview-topline"><span><span class="status-dot"></span> DESKTOP + SENTINEL</span><span>FRIDAY</span></div>
+            <button id="friday-orb-stage" type="button" aria-label="Change FRIDAY orb state"><span class="friday-orb-fallback" aria-hidden="true"></span></button>
+            <div class="friday-orb-controls">
+              <div class="friday-orb-status"><span><i class="friday-state-dot"></i><span id="friday-orb-state" role="status">IDLE</span> / PREVIEW</span><button id="friday-orb-pause" type="button" aria-pressed="false">Pause orb</button></div>
+              <div class="friday-orb-states" role="group" aria-label="FRIDAY preview states">
+                <button class="friday-state-btn active" type="button" data-state="idle" aria-pressed="true">Idle</button>
+                <button class="friday-state-btn" type="button" data-state="listening" aria-pressed="false">Listening</button>
+                <button class="friday-state-btn" type="button" data-state="thinking" aria-pressed="false">Thinking</button>
+                <button class="friday-state-btn" type="button" data-state="speaking" aria-pressed="false">Speaking</button>
+                <button class="friday-state-btn" type="button" data-state="offline" aria-pressed="false">Offline</button>
+              </div>
+              <p id="friday-orb-hint">Move to explore · Tap the orb to change state</p>
+            </div>
+          </div>
+          <div class="featured-info">
+            <div class="project-kicker"><span>01 / FEATURED EXPLORATION</span><span>PERSONAL AI SYSTEMS</span></div>
+            <h3>Meet FRIDAY.<br> A step ahead.</h3>
+            <p>A voice-first Mac companion and an always-on Sentinel. One personal AI, from an interactive spatial workspace to thoughtful alerts wherever you are.</p>
+            <div class="friday-mode-detail"><div><strong>Desktop</strong><span>Live voice, visual widgets, editable 3D, hand gestures, and native Mac automation.</span></div><div><strong>Sentinel</strong><span>Mail, calendar, and Jira monitoring; triage, WhatsApp conversations, meeting minutes, and a browser control room.</span></div></div>
+            <div class="service-tags"><span class="tag">Gemini Live</span><span class="tag">Python</span><span class="tag">Three.js</span><span class="tag">SQLite</span><span class="tag">Go</span></div>
+            <p class="friday-availability"><span class="status-dot"></span> Private on GitHub · Public release coming soon</p>
+            <div class="friday-project-links"><a href="https://friday.vincecyriac.dev" target="_blank" rel="noopener noreferrer" class="inline-link">Explore FRIDAY <span>↗</span></a><a href="https://friday.vincecyriac.dev/docs.html" target="_blank" rel="noopener noreferrer" class="inline-link">Technical docs <span>↗</span></a></div>
+          </div>
         </article>
         <div class="work-grid">
           <article class="work-card"><div class="project-art landscape-art" aria-hidden="true"><span class="art-label">ANAKULAM / KERALA</span><div class="land-sun"></div><div class="mountain mountain-back"></div><div class="mountain mountain-front"></div><span class="land-title">Closer to<br> <em>the wild.</em></span><span class="art-note">TRAVEL & DISCOVERY</span></div><div class="work-info"><span class="project-kicker">02 / FULL-STACK PLATFORM</span><h3>Anakulam Tourism</h3><p>A gateway to Kerala’s wilderness, built for discovery, performance, and effortless enquiries.</p><div class="work-bottom"><span>Full-stack · SEO · Performance</span><a href="https://anakulamtourism.com" target="_blank" rel="noopener noreferrer" aria-label="Visit Anakulam Tourism">↗</a></div></div></article>
@@ -345,7 +367,8 @@
 
 
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js" defer></script>
-  <script src="config.local.js" defer></script>
+  <script src="config.local.js?v=friday-sentinel-20261002" defer></script>
   <script type="module" src="js/main.js"></script>
+  <script type="module" src="js/friday-preview.js"></script>
 </body>
 </html>
