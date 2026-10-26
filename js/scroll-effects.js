@@ -124,17 +124,17 @@ export function initScrollEffects(motionQuery) {
       if (!entry.isIntersecting) continue;
       reveals.unobserve(entry.target);
       if (paused() || !entry.target.animate) continue;
-      const siblings = entry.target.parentElement.children;
-      const index = Array.prototype.indexOf.call(siblings, entry.target);
+      // Content stays opaque: fading already-visible text caused a one-time wash.
+      if (entry.boundingClientRect.top < window.innerHeight - 60) continue;
       const animation = entry.target.animate([
-        { opacity: .35, translate: '0 28px' },
-        { opacity: 1, translate: '0 0' },
-      ], { duration: 700, delay: Math.min(index * 65, 180), easing: 'cubic-bezier(.2,.7,.2,1)' });
+        { translate: '0 10px' },
+        { translate: '0 0' },
+      ], { duration: 420, easing: 'cubic-bezier(.2,.7,.2,1)' });
       activeAnimations.add(animation);
       animation.finished.catch(() => {}).finally(() => activeAnimations.delete(animation));
     }
-  }, { threshold: .12 });
-  document.querySelectorAll('.section-heading, .about-copy, .portrait-card, .featured-project, .work-card, .service-card, .timeline-item, .project-list article, .contact-layout > div, .contact-form, .ride-scene').forEach(el => reveals.observe(el));
+  }, { threshold: 0, rootMargin: '0px 0px 40px 0px' });
+  document.querySelectorAll('.section-heading, .about-copy, .portrait-card, .featured-project, .work-card, .service-card, .timeline-item, .project-list article, .contact-layout > div, .contact-form').forEach(el => reveals.observe(el));
   document.addEventListener('focusin', () => activeAnimations.forEach(animation => animation.finish()));
 
   cards.forEach(card => {

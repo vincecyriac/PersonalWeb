@@ -5,7 +5,7 @@ if (stage) {
     if (!entry.isIntersecting) return;
     observer.disconnect();
     try {
-      const { initOrb } = await import('./friday-orb.js');
+      const { initOrb } = await import('./friday-orb.js?v=voice-orb-20261023');
       initOrb();
     } catch {
       stage.querySelector('canvas')?.remove();

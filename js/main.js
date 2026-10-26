@@ -1,6 +1,7 @@
 import { initScene } from './scene.js';
-import { initScrollEffects } from './scroll-effects.js';
-import { initOfflineMode } from './offline.js';
+import { initScrollEffects } from './scroll-effects.js?v=20261026';
+import { initOfflineMode } from './offline.js?v=ride-kochi-20261026';
+import { createWebsiteGuide, FRIDAY_TOOLS } from './friday-guide.js';
 
 const isEmulator = ['5000', '5005', '8080'].includes(window.location.port);
 const IS_LOCAL_STATIC = ['localhost', '127.0.0.1'].includes(window.location.hostname) && !isEmulator;
@@ -154,12 +155,34 @@ document.addEventListener('DOMContentLoaded', () => {
       this.disposed = false;
     }
 
-    async connect(config) {
-      this.scheduledTime = 0;
+    prepareAudio() {
+      // Resume inside the button gesture before fetching config or connecting.
       this.audioContext = new (window.AudioContext || window.webkitAudioContext)({ sampleRate: 24000 });
+      this.audioContext.resume().catch(() => {});
       this.outAnalyser = this.audioContext.createAnalyser();
       this.outAnalyser.fftSize = 64;
+    }
 
+    respondToTools(calls) {
+      if (this.disposed || this.ws?.readyState !== WebSocket.OPEN) return;
+      const functionResponses = calls.map(call => {
+        let output;
+        try {
+          output = call.name === 'scroll_to_section'
+            ? this.callbacks.onNavigate?.(call.args?.section)
+            : call.name === 'open_link'
+            ? this.callbacks.onOpenLink?.(call.args?.url, call.args?.title)
+            : { success: false, error: 'Unknown function' };
+        } catch {
+          output = { success: false, error: 'Action could not be completed' };
+        }
+        return { id: call.id, name: call.name, response: { output: output || { success: false, error: 'Session ended' } } };
+      });
+      this.ws.send(JSON.stringify({ toolResponse: { functionResponses } }));
+    }
+
+    async connect(config) {
+      this.scheduledTime = 0;
       const wsUrl = `wss://generativelanguage.googleapis.com/ws/google.ai.generativelanguage.v1alpha.GenerativeService.BidiGenerateContent?key=${config.apiKey}`;
       this.ws = new WebSocket(wsUrl);
 
@@ -186,30 +209,7 @@ document.addEventListener('DOMContentLoaded', () => {
             systemInstruction: {
               parts: [{ text: config.systemInstruction }]
             },
-            tools: [
-              {
-                functionDeclarations: [
-                  {
-                    name: "open_link",
-                    description: "Opens an external webpage, project website, calendar booking page, social profile, or document in a new browser tab for the user.",
-                    parameters: {
-                      type: "OBJECT",
-                      properties: {
-                        url: {
-                          type: "STRING",
-                          description: "The full HTTPS URL to open (e.g. https://calendar.app.google/SQXAgaV3vfDA5pBz9)"
-                        },
-                        title: {
-                          type: "STRING",
-                          description: "Short label describing destination (e.g. 'Book a Meeting', 'Project FRIDAY', 'Anakulam Tourism')"
-                        }
-                      },
-                      required: ["url", "title"]
-                    }
-                  }
-                ]
-              }
-            ]
+            tools: [{ functionDeclarations: FRIDAY_TOOLS }]
           }
         };
         this.ws.send(JSON.stringify(setupMsg));
@@ -221,11 +221,12 @@ document.addEventListener('DOMContentLoaded', () => {
           data = await data.text();
         }
         try {
+          if (this.disposed) return;
           const response = JSON.parse(data);
 
           if (response.setupComplete) {
             console.log("FRIDAY Live: setupComplete acknowledged.");
-            this.startMicrophone();
+            if (!await this.startMicrophone() || this.disposed) return;
 
             if (this.callbacks.onStatusChange) {
               this.callbacks.onStatusChange('connected', 'FRIDAY Initializing...');
@@ -251,62 +252,16 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
           }
 
-          // Handle Gemini Live Tool Calls (Function Calling)
-          if (response.toolCall && response.toolCall.functionCalls) {
-            console.log("FRIDAY Live: toolCall received", response.toolCall);
-            const functionResponses = [];
-            for (const call of response.toolCall.functionCalls) {
-              if (call.name === 'open_link' && call.args) {
-                if (this.callbacks.onOpenLink) {
-                  this.callbacks.onOpenLink(call.args.url, call.args.title);
-                }
-                functionResponses.push({
-                  id: call.id,
-                  name: call.name,
-                  response: { output: { success: true, url: call.args.url } }
-                });
-              } else {
-                functionResponses.push({
-                  id: call.id,
-                  name: call.name,
-                  response: { output: { error: "Unknown function" } }
-                });
-              }
-            }
-
-            const toolResponseMsg = {
-              toolResponse: {
-                functionResponses: functionResponses
-              }
-            };
-            this.ws.send(JSON.stringify(toolResponseMsg));
+          // Both Live API call formats share the same dispatcher and truthful result.
+          if (response.toolCall?.functionCalls) {
+            this.respondToTools(response.toolCall.functionCalls);
           }
 
           if (response.serverContent) {
             const { modelTurn } = response.serverContent;
             if (modelTurn && modelTurn.parts) {
               for (const part of modelTurn.parts) {
-                if (part.functionCall) {
-                  const call = part.functionCall;
-                  console.log("FRIDAY Live: part.functionCall received", call);
-                  if (call.name === 'open_link' && call.args) {
-                    if (this.callbacks.onOpenLink) {
-                      this.callbacks.onOpenLink(call.args.url, call.args.title);
-                    }
-                    const toolResponseMsg = {
-                      toolResponse: {
-                        functionResponses: [
-                          {
-                            id: call.id,
-                            name: call.name,
-                            response: { output: { success: true, url: call.args.url } }
-                          }
-                        ]
-                      }
-                    };
-                    this.ws.send(JSON.stringify(toolResponseMsg));
-                  }
-                }
+                if (part.functionCall) this.respondToTools([part.functionCall]);
                 if (part.text && this.callbacks.onTextChunk) {
                   this.callbacks.onTextChunk(part.text);
                 }
@@ -336,7 +291,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         if (this.callbacks.onStatusChange) {
-          this.callbacks.onStatusChange('idle', reasonMsg);
+          const failed = event.code !== 1000 && event.code !== 1001;
+          this.callbacks.onStatusChange(failed ? 'error' : 'idle', failed && reasonMsg === 'Tap to speak' ? 'Connection lost. Tap the orb to retry.' : reasonMsg);
         }
       };
     }
@@ -449,6 +405,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (this.callbacks.onStatusChange && !this.isInitialGreeting) {
           this.callbacks.onStatusChange('listening', 'FRIDAY Listening...');
         }
+        return true;
       } catch (err) {
         console.error("Microphone access error:", err);
         if (this.callbacks.onStatusChange) {
@@ -542,6 +499,9 @@ document.addEventListener('DOMContentLoaded', () => {
         this.audioContext = null;
       }
       if (this.ws) {
+        this.ws.onclose = null;
+        this.ws.onmessage = null;
+        this.ws.onopen = null;
         try {
           this.ws.close();
         } catch (e) {}
@@ -559,16 +519,50 @@ document.addEventListener('DOMContentLoaded', () => {
   const chatClose = document.getElementById('ai-chat-close');
   const voiceMicBtn = document.getElementById('voice-mic-trigger');
   const voiceStatus = document.getElementById('voice-status');
-  const waveCanvas = document.getElementById('voice-waveform-canvas');
 
   if (chatFab && chatWidget) {
     let liveClient = null;
     let liveConfig = null;
+    let websiteGuide = null;
+    const guideLocation = document.getElementById('voice-guide-location');
+    const expandVoice = document.getElementById('voice-expand');
+    function setGuiding(active) {
+      chatWidget.classList.toggle('is-guiding', active);
+      if (expandVoice) expandVoice.hidden = !active;
+    }
+    expandVoice?.addEventListener('click', () => { setGuiding(false); chatClose.focus(); });
     let sessionVersion = 0;
     let connecting = false;
-    let waveCtx = waveCanvas ? waveCanvas.getContext('2d') : null;
-    let wavePhase = 0;
+    let voiceOrb = null;
+    let voiceOrbLoading = null;
+    const audioBins = new Uint8Array(32);
     let streamState = 'idle';
+
+    const orbState = state => ({ connecting: 'thinking', connected: 'listening', error: 'offline' }[state] || state);
+    function readAudioLevel() {
+      const analyser = streamState === 'speaking' ? liveClient?.outAnalyser : streamState === 'listening' ? liveClient?.analyser : null;
+      if (!analyser) return 0;
+      analyser.getByteFrequencyData(audioBins);
+      return Math.min(1, audioBins.reduce((sum, value) => sum + value, 0) / audioBins.length / 128);
+    }
+    async function ensureVoiceOrb() {
+      if (voiceOrb) { voiceOrb.setActive(true); return; }
+      if (voiceOrbLoading || !voiceMicBtn) return;
+      voiceOrbLoading = import('./friday-orb.js?v=voice-orb-20261023')
+        .then(({ createFridayOrb }) => {
+          voiceOrb = createFridayOrb(voiceMicBtn, {
+            active: !chatWidget.classList.contains('ai-chat-hidden'),
+            getLevel: readAudioLevel,
+          });
+          voiceOrb.setState(orbState(streamState));
+        })
+        .catch(() => {
+          // The CSS orb remains an accessible, working voice button without WebGL.
+          voiceMicBtn.classList.remove('orb-ready');
+        })
+        .finally(() => { voiceOrbLoading = null; });
+      await voiceOrbLoading;
+    }
 
     async function fetchLiveConfig() {
       if (window.LOCAL_CONFIG && window.LOCAL_CONFIG.apiKey) {
@@ -585,7 +579,7 @@ document.addEventListener('DOMContentLoaded', () => {
       for (const endpoint of endpoints) {
         if (!endpoint) continue;
         try {
-          const res = await fetch(endpoint);
+          const res = await fetch(endpoint, { signal: AbortSignal.timeout(8000) });
           if (res.ok) {
             liveConfig = await res.json();
             if (liveConfig && liveConfig.apiKey) {
@@ -604,13 +598,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const voiceHintBadge = document.querySelector('.voice-hint-badge');
     const voiceLinksContainer = document.getElementById('voice-links-container');
 
-    function displayVoiceLink(url, title) {
-      if (!url) return;
-      try {
-        const parsed = new URL(url);
-        if (!['https:', 'http:', 'mailto:'].includes(parsed.protocol)) return;
-      } catch { return; }
+    function navigateToSection(section) {
+      const result = websiteGuide.scroll(section);
+      if (result.success) setGuiding(true);
+      if (result.success && guideLocation) {
+        guideLocation.textContent = `Showing / ${result.title}`;
+        guideLocation.hidden = false;
+      }
+      return result;
+    }
 
+    function displayVoiceLink(url, title) {
+      const destination = websiteGuide.resolveLink(url);
+      if (!destination) return { success: false, error: 'Link is not in the website directory' };
+      if (destination.section) return navigateToSection(destination.section);
+      url = destination.url;
       // Attempt to open link in a new browser tab
       try {
         const win = window.open(url, '_blank', 'noopener,noreferrer');
@@ -652,27 +654,28 @@ document.addEventListener('DOMContentLoaded', () => {
         linkEl.append(icon, label);
         voiceLinksContainer.appendChild(linkEl);
       }
+      return { success: true, url, linkDisplayed: true, message: 'Opening requested; a clickable link is available if the browser blocks the popup.' };
     }
 
     function updateVoiceUI(state, title) {
       streamState = state;
       if (voiceStatus && title) voiceStatus.textContent = title;
 
+      const visualState = orbState(state);
+      voiceOrb?.setState(visualState);
       if (voiceMicBtn) {
-        voiceMicBtn.className = 'voice-mic-button';
-        if (state === 'listening' || state === 'connected') voiceMicBtn.classList.add('listening');
-        if (state === 'speaking') voiceMicBtn.classList.add('speaking');
-        if (state === 'thinking') voiceMicBtn.classList.add('thinking');
+        voiceMicBtn.dataset.state = visualState;
+        voiceMicBtn.disabled = state === 'connecting';
+        voiceMicBtn.setAttribute('aria-label', state === 'speaking' || state === 'thinking'
+          ? 'Interrupt FRIDAY' : state === 'listening' || state === 'connected'
+          ? 'End voice conversation' : state === 'error' ? 'Retry voice conversation' : 'Start voice conversation');
       }
-
       if (voiceHintBadge) {
-        if (state === 'speaking' || state === 'thinking') {
-          voiceHintBadge.innerHTML = '<i class="bi bi-hand-index-thumb-fill"></i> Tap mic to interrupt FRIDAY';
-        } else if (state === 'listening') {
-          voiceHintBadge.innerHTML = '<i class="bi bi-mic-fill"></i> FRIDAY is listening to you...';
-        } else {
-          voiceHintBadge.innerHTML = '<i class="bi bi-chat-quote"></i> Speak naturally • Tap mic to interrupt';
-        }
+        voiceHintBadge.textContent = state === 'speaking' || state === 'thinking'
+          ? 'Tap the orb to interrupt FRIDAY.' : state === 'listening' || state === 'connected'
+          ? 'Speak naturally. Tap the orb to end the conversation.' : state === 'connecting'
+          ? 'Getting FRIDAY ready…' : state === 'error'
+          ? 'Tap the orb to try again.' : 'Tap the orb to start a voice conversation.';
       }
     }
 
@@ -681,33 +684,35 @@ document.addEventListener('DOMContentLoaded', () => {
       connecting = true;
       const version = ++sessionVersion;
       updateVoiceUI('connecting', 'Connecting to FRIDAY…');
-      const config = await fetchLiveConfig();
-      if (version !== sessionVersion) return;
-      connecting = false;
-      if (!config || !config.apiKey) {
-        updateVoiceUI('error', 'API Config Missing');
-        return;
-      }
-
-      if (liveClient) {
-        liveClient.disconnect();
-      }
-
+      websiteGuide = createWebsiteGuide();
+      if (liveClient) liveClient.disconnect();
       liveClient = new GeminiLiveClient({
         onStatusChange: (state, title) => {
-          if (version === sessionVersion) updateVoiceUI(state, title);
+          if (version !== sessionVersion) return;
+          if (state === 'error') { liveClient?.disconnect(); liveClient = null; }
+          updateVoiceUI(state, title);
         },
         onOpenLink: (url, title) => {
-          if (version === sessionVersion) displayVoiceLink(url, title);
+          if (version === sessionVersion) return displayVoiceLink(url, title);
+        },
+        onNavigate: section => {
+          if (version === sessionVersion) return navigateToSection(section);
         }
       });
 
       try {
-        await liveClient.connect(config);
+        liveClient.prepareAudio();
+        const config = await fetchLiveConfig();
+        if (version !== sessionVersion) return;
+        if (!config?.apiKey) throw new Error('Missing voice configuration');
+        await liveClient.connect({ ...config, systemInstruction: `${config.systemInstruction || ''}\n${websiteGuide.instruction}` });
+        connecting = false;
       } catch (error) {
-        liveClient.disconnect();
+        if (version !== sessionVersion) return;
+        liveClient?.disconnect();
         liveClient = null;
-        updateVoiceUI('error', 'Could not connect. Tap the microphone to try again.');
+        connecting = false;
+        updateVoiceUI('error', 'Could not connect. Tap the orb to try again.');
       }
     }
 
@@ -721,18 +726,23 @@ document.addEventListener('DOMContentLoaded', () => {
       if (voiceLinksContainer) {
         voiceLinksContainer.innerHTML = '';
       }
+      if (guideLocation) guideLocation.hidden = true;
+      setGuiding(false);
       updateVoiceUI('idle', 'Tap to speak');
     }
 
     function openVoicePanel() {
+      if (!chatWidget.classList.contains('ai-chat-hidden')) return;
       chatWidget.classList.remove('ai-chat-hidden');
       chatWidget.inert = false;
       chatWidget.setAttribute('aria-hidden', 'false');
       chatFab.setAttribute('aria-expanded', 'true');
       chatClose.focus();
-      requestWaveform();
+      ensureVoiceOrb();
+      startLiveSession();
     }
     function closeVoicePanel() {
+      voiceOrb?.setActive(false);
       stopLiveSession();
       chatWidget.classList.add('ai-chat-hidden');
       chatWidget.inert = true;
@@ -756,8 +766,7 @@ document.addEventListener('DOMContentLoaded', () => {
             liveClient.clearAudioQueue();
             updateVoiceUI('listening', 'FRIDAY Listening...');
           } else {
-            // Already listening: continue active listening
-            updateVoiceUI('listening', 'FRIDAY Listening...');
+            stopLiveSession();
           }
         } else {
           startLiveSession();
@@ -765,74 +774,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    let waveFrame = 0;
-    function requestWaveform() {
-      if (!waveFrame && waveCanvas && waveCtx) waveFrame = requestAnimationFrame(drawWaveform);
-    }
-    document.addEventListener('visibilitychange', () => {
-      if (!document.hidden && !chatWidget.classList.contains('ai-chat-hidden')) requestWaveform();
-    });
-    document.getElementById('motion-toggle').addEventListener('click', () => {
-      if (!chatWidget.classList.contains('ai-chat-hidden')) requestWaveform();
-    });
-    motionQuery.addEventListener('change', () => {
-      if (!chatWidget.classList.contains('ai-chat-hidden')) requestWaveform();
-    });
-    // ── Real-Time FFT Waveform Visualizer ──
-    function drawWaveform() {
-        waveFrame = 0;
-        if (document.hidden || chatWidget.classList.contains('ai-chat-hidden')) return;
-        const w = waveCanvas.width = 120;
-        const h = waveCanvas.height = 120;
-        waveCtx.clearRect(0, 0, w, h);
-
-        const cy = h / 2;
-        wavePhase += 0.05;
-
-        let amp = 8;
-        if (streamState === 'thinking') {
-          wavePhase += 0.12;
-          amp = 18 + Math.sin(wavePhase * 2) * 6;
-        } else if (liveClient) {
-          if (streamState === 'speaking' && liveClient.outAnalyser) {
-            const dataArray = new Uint8Array(32);
-            liveClient.outAnalyser.getByteFrequencyData(dataArray);
-            let sum = 0;
-            for (let i = 0; i < dataArray.length; i++) sum += dataArray[i];
-            amp = Math.max(12, (sum / dataArray.length) * 0.45);
-          } else if (streamState === 'listening' && liveClient.analyser) {
-            const dataArray = new Uint8Array(32);
-            liveClient.analyser.getByteFrequencyData(dataArray);
-            let sum = 0;
-            for (let i = 0; i < dataArray.length; i++) sum += dataArray[i];
-            amp = Math.max(10, (sum / dataArray.length) * 0.5);
-          }
-        }
-
-        // Wave Layer 1 (Lime Neon)
-        waveCtx.strokeStyle = 'rgba(180, 235, 199, 0.9)';
-        waveCtx.lineWidth = 2.5;
-        waveCtx.beginPath();
-        for (let x = 0; x < w; x++) {
-          const y = cy + Math.sin(x * 0.08 + wavePhase) * (amp * Math.sin(x / w * Math.PI));
-          if (x === 0) waveCtx.moveTo(x, y);
-          else waveCtx.lineTo(x, y);
-        }
-        waveCtx.stroke();
-
-        // Wave Layer 2 (Cyan/Ink)
-        waveCtx.strokeStyle = (streamState === 'speaking' || streamState === 'thinking') ? 'rgba(0, 229, 255, 0.9)' : 'rgba(180, 235, 199, 0.25)';
-        waveCtx.lineWidth = 2;
-        waveCtx.beginPath();
-        for (let x = 0; x < w; x++) {
-          const y = cy + Math.cos(x * 0.09 - wavePhase * 1.3) * ((amp * 0.8) * Math.sin(x / w * Math.PI));
-          if (x === 0) waveCtx.moveTo(x, y);
-          else waveCtx.lineTo(x, y);
-        }
-        waveCtx.stroke();
-
-        if (!motionQuery.matches && !document.documentElement.classList.contains('motion-paused')) requestWaveform();
-    }
+    updateVoiceUI('idle', 'Meet your guide to my work.');
   }
 
 });

@@ -39,7 +39,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=friday-orb-20261002">
+  <link rel="stylesheet" href="css/style.css?v=ride-kochi-20261026">
 </head>
 <body>
   <a class="skip-link" href="#main-content">Skip to content</a>
@@ -107,7 +107,7 @@
             <div class="project-kicker"><span>01 / FEATURED EXPLORATION</span><span>PERSONAL AI SYSTEMS</span></div>
             <h3>Meet FRIDAY.<br> A step ahead.</h3>
             <p>A voice-first Mac companion and an always-on Sentinel. One personal AI, from an interactive spatial workspace to thoughtful alerts wherever you are.</p>
-            <div class="friday-mode-detail"><div><strong>Desktop</strong><span>Live voice, visual widgets, editable 3D, hand gestures, and native Mac automation.</span></div><div><strong>Sentinel</strong><span>Mail, calendar, and Jira monitoring; triage, WhatsApp conversations, meeting minutes, and a browser control room.</span></div></div>
+            <div class="friday-mode-detail"><div><strong>Desktop</strong><span>Live voice, visual widgets, editable 3D, hand gestures, and native Mac automation.</span></div><div><strong>Sentinel</strong><span>Native to-dos, multi-repo code exploration, Jira bug diagnosis, synced Gemini models, and a polished browser control room.</span></div></div>
             <div class="service-tags"><span class="tag">Gemini Live</span><span class="tag">Python</span><span class="tag">Three.js</span><span class="tag">SQLite</span><span class="tag">Go</span></div>
             <p class="friday-availability"><span class="status-dot"></span> Private on GitHub · Public release coming soon</p>
             <div class="friday-project-links"><a href="https://friday.vincecyriac.dev" target="_blank" rel="noopener noreferrer" class="inline-link">Explore FRIDAY <span>↗</span></a><a href="https://friday.vincecyriac.dev/docs.html" target="_blank" rel="noopener noreferrer" class="inline-link">Technical docs <span>↗</span></a></div>
@@ -282,11 +282,13 @@
       <div class="container">
         <div class="section-heading offline-heading">
           <div><p class="eyebrow">05 / BEYOND THE SCREEN</p><h2>Meet me in<br> <span class="offline-accent">offline mode.</span></h2></div>
-          <div class="offline-intro"><p>Away from the keyboard, I love exploring new places — especially on my bike. Two wheels, an open road, and a little room for curiosity.</p><span class="offline-note mono">LESS SCREEN TIME. MORE SCENIC ROUTES.</span></div>
+          <div class="offline-intro"><p>Away from the keyboard, I love exploring new places — especially on my bike. Tea stops, forest roads, mountain views, and the coast — a few of the places I’m drawn to.</p><span class="offline-note mono">LESS SCREEN TIME. MORE SCENIC ROUTES.</span></div>
         </div>
-        <div class="ride-scene" id="ride-scene">
-          <div class="ride-topline"><span><span class="ride-status-dot"></span> LAPTOP CLOSED. HELMET ON.</span><span class="ride-coordinate">A DIFFERENT KIND OF EXPLORING ↗</span></div>
-          <svg class="ride-landscape" viewBox="0 0 1100 520" role="img" aria-labelledby="ride-title ride-desc">
+        <div class="ride-scene" id="ride-scene" aria-busy="true">
+          <div class="ride-loading" id="ride-loading" role="status"><span aria-hidden="true">↝</span><p>Finding the scenic route…</p></div>
+          <canvas id="ride-canvas" class="ride-canvas" tabindex="-1" aria-hidden="true" aria-label="Interactive motorcycle landscape. Drag or use left and right arrow keys to look around; plus and minus to zoom; Space to ride or park." aria-describedby="ride-hint"></canvas>
+          <div class="ride-topline"><span><span class="ride-status-dot"></span> LAPTOP CLOSED. HELMET ON.</span><span class="ride-coordinate" id="ride-telemetry" aria-live="off">READY WHEN YOU ARE</span></div>
+          <svg class="ride-landscape" aria-hidden="true" viewBox="0 0 1100 520" role="img" aria-labelledby="ride-title ride-desc">
             <title id="ride-title">A motorcycle ride through a mountain landscape</title>
             <desc id="ride-desc">An illustrated winding road, layered hills, and a rider looking toward the horizon. Use the controls below to animate the ride or change the time of day.</desc>
             <defs>
@@ -323,10 +325,19 @@
             <rect width="1100" height="520" fill="url(#ride-vignette)" pointer-events="none"/>
           </svg>
           <div class="ride-caption"><span class="ride-caption-title">Take the long way.</span><span class="mono">CURIOSITY DOESN’T CLOCK OUT.</span></div>
+          <div class="ride-camera-controls" id="ride-camera-controls" hidden>
+            <p id="ride-hint">Drag to explore · Arrow keys to orbit</p>
+            <div class="ride-camera-buttons">
+              <button id="ride-orbit-left" type="button" aria-label="Orbit camera left">↶</button>
+              <button id="ride-orbit-right" type="button" aria-label="Orbit camera right">↷</button>
+              <button id="ride-view" type="button" aria-pressed="false">View route</button>
+              <button id="ride-reset" type="button" aria-label="Reset camera and park at the start">Reset</button>
+            </div>
+          </div>
         </div>
         <div class="ride-toolbar">
           <p id="ride-status" role="status">A little escape. No destination required.</p>
-          <div class="ride-controls"><button class="btn btn-outline" id="ride-light" type="button" aria-pressed="false">☀ <span>Golden hour</span></button><button class="btn ride-button" id="ride-toggle" type="button" aria-pressed="false">Take a ride <span aria-hidden="true">↗</span></button></div>
+          <div class="ride-controls"><label class="ride-pace" id="ride-pace" hidden for="ride-speed">Pace <select id="ride-speed"><option value="120">Easy</option><option value="180">Touring</option><option value="270" selected>Brisk</option></select></label><button class="btn btn-outline" id="ride-light" type="button" aria-pressed="false">☀ <span>Golden hour</span></button><button class="btn ride-button" id="ride-toggle" type="button" aria-pressed="false">Take a ride <span aria-hidden="true">↗</span></button></div>
         </div>
       </div>
     </section>
@@ -340,23 +351,22 @@
       <div class="ai-chat-title">
         <i class="bi bi-cpu-fill"></i> FRIDAY <span class="ai-live-badge">VOICE AI</span>
       </div>
-      <button id="ai-chat-close" class="btn-icon" aria-label="Close assistant"><i class="bi bi-x-lg"></i></button>
+      <div class="voice-window-actions"><button id="voice-expand" class="btn-icon" type="button" aria-label="Expand assistant" hidden><i class="bi bi-arrows-angle-expand"></i></button>
+      <button id="ai-chat-close" class="btn-icon" aria-label="Close assistant"><i class="bi bi-x-lg"></i></button></div>
     </div>
 
     <!-- Voice Visualizer Interface -->
     <div class="ai-voice-panel" id="ai-voice-panel">
-      <div class="voice-orb-container">
-        <canvas id="voice-waveform-canvas"></canvas>
-        <button id="voice-mic-trigger" class="voice-mic-button" aria-label="Start voice conversation or interrupt FRIDAY">
-          <i class="bi bi-mic-fill"></i>
-        </button>
-      </div>
+      <button id="voice-mic-trigger" class="voice-orb-button" type="button" data-state="idle" aria-label="Start voice conversation" aria-describedby="voice-status voice-hint">
+        <span class="friday-orb-fallback" aria-hidden="true"></span>
+      </button>
       <div class="voice-status" id="voice-status" role="status">Meet your guide to my work.</div>
       
-      <div class="voice-hint-badge">
-        <i class="bi bi-chat-quote"></i> Tap the microphone to start a voice conversation.
+      <div class="voice-hint-badge" id="voice-hint">
+        <i class="bi bi-chat-quote"></i> Starting your voice conversation…
       </div>
 
+      <div id="voice-guide-location" class="voice-guide-location" role="status" hidden></div>
       <div class="voice-links-container" id="voice-links-container"></div>
     </div>
   </div>
@@ -368,7 +378,7 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js" defer></script>
   <script src="config.local.js?v=friday-sentinel-20261002" defer></script>
-  <script type="module" src="js/main.js"></script>
-  <script type="module" src="js/friday-preview.js"></script>
+  <script type="module" src="js/main.js?v=ride-kochi-20261026"></script>
+  <script type="module" src="js/friday-preview.js?v=voice-guide-20261023"></script>
 </body>
 </html>
