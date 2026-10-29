@@ -1,7 +1,7 @@
 import { initScene } from './scene.js';
 import { initScrollEffects } from './scroll-effects.js?v=20261026';
 import { initOfflineMode } from './offline.js?v=ride-kochi-20261026';
-import { createWebsiteGuide, FRIDAY_TOOLS } from './friday-guide.js';
+import { createWebsiteGuide, FRIDAY_TOOLS } from './friday-guide.js?v=recognition-20261029';
 
 const isEmulator = ['5000', '5005', '8080'].includes(window.location.port);
 const IS_LOCAL_STATIC = ['localhost', '127.0.0.1'].includes(window.location.hostname) && !isEmulator;

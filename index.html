@@ -39,7 +39,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=ride-kochi-20261026">
+  <link rel="stylesheet" href="css/style.css?v=trophy-20261029">
 </head>
 <body>
   <a class="skip-link" href="#main-content">Skip to content</a>
@@ -192,6 +192,18 @@
           <div class="split-left">
             <div class="tag">04 / THE JOURNEY</div>
             <h2 class="text-h2" style="margin-top: 16px;">Always learning.<br>  Always building.</h2>
+            <figure class="trophy-showcase" aria-labelledby="trophy-caption">
+              <div class="trophy-stage" id="award-trophy" aria-hidden="true">
+                <div class="trophy-halo"></div>
+                <img class="trophy-fallback" src="images/code-artisan-trophy.svg" alt="" width="280" height="460">
+                <canvas class="trophy-canvas"></canvas>
+              </div>
+              <figcaption id="trophy-caption">
+                <span class="trophy-overline">CRAFT, RECOGNIZED.</span>
+                <span>Code Artisan <span class="trophy-caption-year">/ 2026</span></span>
+              </figcaption>
+              <button class="trophy-turn" type="button" aria-label="Turn the Code Artisan trophy">Turn trophy <span aria-hidden="true">↻</span></button>
+            </figure>
           </div>
           
           <div class="split-right">
@@ -200,6 +212,18 @@
                 <div class="timeline-date">2023 JUNE — PRESENT</div>
                 <div class="timeline-role">Senior Software Engineer</div>
                 <div class="timeline-org"><a href="https://litebreeze.com" target="_blank" rel="noopener noreferrer">LiteBreeze AB ↗</a></div>
+                <div class="career-recognition" aria-labelledby="code-artisan-title">
+                  <svg class="recognition-icon" viewBox="0 0 32 40" fill="none" aria-hidden="true">
+                    <path d="m8 23-2 14 10-5 10 5-2-14" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                    <circle cx="16" cy="14" r="11" stroke="currentColor" stroke-width="1.5"/>
+                    <path d="m16 7 2 4.5 5 .5-3.7 3.3 1.1 4.7-4.4-2.5-4.4 2.5 1.1-4.7L9 12l5-.5Z" fill="currentColor"/>
+                  </svg>
+                  <div>
+                    <p class="recognition-kicker">RECOGNIZED BY LITEBREEZE</p>
+                    <h3 id="code-artisan-title">CODE ARTISAN 2026</h3>
+                    <p class="recognition-description">Recognized for clean, maintainable, and thoughtful code, technical craftsmanship, and building strong foundations for long-term product quality.</p>
+                  </div>
+                </div>
               </div>
               <div class="timeline-item">
                 <div class="timeline-date">2020 AUG — 2023 MAY</div>
@@ -378,7 +402,8 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js" defer></script>
   <script src="config.local.js?v=friday-sentinel-20261002" defer></script>
-  <script type="module" src="js/main.js?v=ride-kochi-20261026"></script>
+  <script type="module" src="js/main.js?v=recognition-20261029"></script>
   <script type="module" src="js/friday-preview.js?v=voice-guide-20261023"></script>
+  <script src="js/trophy.js?v=20261029" defer></script>
 </body>
 </html>

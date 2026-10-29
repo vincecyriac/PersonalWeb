@@ -1222,6 +1222,102 @@ h1 {
   text-decoration:underline;
 }
 
+.career-recognition {
+  display:flex;
+  align-items:flex-start;
+  gap:16px;
+  margin-top:24px;
+  padding-top:20px;
+  border-top:1px solid #ddc49830;
+}
+
+.recognition-icon {
+  width:32px;
+  height:40px;
+  flex-shrink:0;
+  color:#ddc498;
+}
+
+.recognition-kicker {
+  margin:0 0 7px;
+  color:#c4b28d;
+  font:8px/1.6 var(--font-mono);
+  letter-spacing:1.2px;
+}
+
+.career-recognition h3 {
+  margin:0;
+  color:#e8d9b9;
+  font:500 17px/1.4 var(--font-display);
+  letter-spacing:.3px;
+}
+
+.recognition-description {
+  margin:7px 0 0;
+  color:var(--text-muted);
+  font-size:12px;
+  line-height:1.7;
+}
+
+.trophy-showcase {
+  margin:26px 0 0;
+  max-width:390px;
+  text-align:center;
+}
+
+.trophy-stage {
+  position:relative;
+  height:430px;
+  isolation:isolate;
+  perspective:900px;
+}
+
+.trophy-halo {
+  position:absolute;
+  inset:15% 0 2%;
+  z-index:-1;
+  background:radial-gradient(ellipse, #9bbfba12, transparent 67%);
+}
+
+.trophy-fallback, .trophy-canvas {
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:contain;
+}
+
+.trophy-fallback {
+  transform:translateY(var(--trophy-rise, 0px)) rotateY(var(--trophy-angle, -10deg));
+  transform-origin:50% 55%;
+}
+
+.trophy-canvas { visibility:hidden; }
+.trophy-ready .trophy-canvas { visibility:visible; }
+.trophy-ready .trophy-fallback { visibility:hidden; }
+.trophy-showcase figcaption { color:#dfe8df; font:500 18px/1.7 var(--font-display); }
+.trophy-overline { display:block; margin-bottom:6px; color:var(--accent); font:8px/1.6 var(--font-mono); letter-spacing:2px; }
+.trophy-caption-year { color:var(--text-muted); font-weight:400; }
+.trophy-turn {
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  min-height:44px;
+  padding:8px 12px;
+  margin-top:6px;
+  color:var(--text-muted);
+  font:10px/1.5 var(--font-mono);
+  border:0;
+  background:transparent;
+  cursor:pointer;
+}
+.trophy-turn:hover { color:var(--accent); }
+.trophy-turn:focus-visible { outline:1px solid var(--accent); outline-offset:3px; }
+@media(max-width:800px) {
+  .trophy-showcase { margin:20px auto 0; width:100%; max-width:330px; }
+  .trophy-stage { height:350px; }
+}
+
 #skills {
   font-size:25px;
 }
